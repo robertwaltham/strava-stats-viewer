@@ -1,0 +1,539 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6290D5C12028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
+		6290D5C22028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
+		6290D5C42028FB7E004BC242 /* StravaCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* StravaCredentials.swift */; };
+		6290D5C52028FB7E004BC242 /* StravaCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* StravaCredentials.swift */; };
+		6290D5C72028FBC0004BC242 /* credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 6290D5C62028FBC0004BC242 /* credentials.json */; };
+		6290D5C82028FBC0004BC242 /* credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 6290D5C62028FBC0004BC242 /* credentials.json */; };
+		629973562026AB2400729434 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629973552026AB2400729434 /* ServiceLocator.swift */; };
+		629973572026AB2400729434 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629973552026AB2400729434 /* ServiceLocator.swift */; };
+		629973592027D1FC00729434 /* StravaUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629973582027D1FC00729434 /* StravaUser.swift */; };
+		6299735A2027D1FC00729434 /* StravaUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629973582027D1FC00729434 /* StravaUser.swift */; };
+		6299735C2027E18C00729434 /* FSInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6299735B2027E18C00729434 /* FSInteractor.swift */; };
+		6299735D2027E18C00729434 /* FSInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6299735B2027E18C00729434 /* FSInteractor.swift */; };
+		62DE1B4B202280E80094BEC7 /* Athlete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DE1B4A202280E80094BEC7 /* Athlete.swift */; };
+		62DE1B4C202280E80094BEC7 /* Athlete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DE1B4A202280E80094BEC7 /* Athlete.swift */; };
+		62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD1C200FFD44009C2803 /* AppDelegate.swift */; };
+		62F3FD1F200FFD44009C2803 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD1E200FFD44009C2803 /* ViewController.swift */; };
+		62F3FD22200FFD44009C2803 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62F3FD20200FFD44009C2803 /* Main.storyboard */; };
+		62F3FD24200FFD45009C2803 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62F3FD23200FFD45009C2803 /* Assets.xcassets */; };
+		62F3FD27200FFD45009C2803 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62F3FD25200FFD45009C2803 /* LaunchScreen.storyboard */; };
+		62F3FD32200FFD45009C2803 /* StravifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD31200FFD45009C2803 /* StravifyTests.swift */; };
+		62F3FD47201006C1009C2803 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD45201006C1009C2803 /* AuthViewController.swift */; };
+		62F3FD48201017E4009C2803 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD45201006C1009C2803 /* AuthViewController.swift */; };
+		62F3FD4D201018FB009C2803 /* StravaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD4C201018FB009C2803 /* StravaInteractor.swift */; };
+		62F3FD4E201018FB009C2803 /* StravaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD4C201018FB009C2803 /* StravaInteractor.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		62F3FD2E200FFD45009C2803 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 62F3FD11200FFD44009C2803 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 62F3FD18200FFD44009C2803;
+			remoteInfo = Stravify;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6290D5C02028F2F9004BC242 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		6290D5C32028FB7E004BC242 /* StravaCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaCredentials.swift; sourceTree = "<group>"; };
+		6290D5C62028FBC0004BC242 /* credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = credentials.json; sourceTree = "<group>"; };
+		629973552026AB2400729434 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
+		629973582027D1FC00729434 /* StravaUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaUser.swift; sourceTree = "<group>"; };
+		6299735B2027E18C00729434 /* FSInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSInteractor.swift; sourceTree = "<group>"; };
+		62DE1B4A202280E80094BEC7 /* Athlete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Athlete.swift; sourceTree = "<group>"; };
+		62F3FD19200FFD44009C2803 /* Stravify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stravify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		62F3FD1C200FFD44009C2803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		62F3FD1E200FFD44009C2803 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		62F3FD21200FFD44009C2803 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		62F3FD23200FFD45009C2803 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		62F3FD26200FFD45009C2803 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		62F3FD28200FFD45009C2803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		62F3FD2D200FFD45009C2803 /* StravifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StravifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		62F3FD31200FFD45009C2803 /* StravifyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravifyTests.swift; sourceTree = "<group>"; };
+		62F3FD33200FFD45009C2803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		62F3FD45201006C1009C2803 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		62F3FD4C201018FB009C2803 /* StravaInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaInteractor.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		62F3FD16200FFD44009C2803 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62F3FD2A200FFD45009C2803 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		626553D920193B13003E543A /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		62DE1B47202280710094BEC7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				62F3FD45201006C1009C2803 /* AuthViewController.swift */,
+				62F3FD1E200FFD44009C2803 /* ViewController.swift */,
+				62F3FD20200FFD44009C2803 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		62DE1B482022807D0094BEC7 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				62F3FD4C201018FB009C2803 /* StravaInteractor.swift */,
+				629973552026AB2400729434 /* ServiceLocator.swift */,
+				6299735B2027E18C00729434 /* FSInteractor.swift */,
+			);
+			path = Interactors;
+			sourceTree = "<group>";
+		};
+		62DE1B49202280CB0094BEC7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				62DE1B4A202280E80094BEC7 /* Athlete.swift */,
+				629973582027D1FC00729434 /* StravaUser.swift */,
+				6290D5C02028F2F9004BC242 /* Activity.swift */,
+				6290D5C32028FB7E004BC242 /* StravaCredentials.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		62F3FD10200FFD44009C2803 = {
+			isa = PBXGroup;
+			children = (
+				62F3FD1B200FFD44009C2803 /* Stravify */,
+				62F3FD30200FFD45009C2803 /* StravifyTests */,
+				62F3FD1A200FFD44009C2803 /* Products */,
+				62F3FD40201001B5009C2803 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		62F3FD1A200FFD44009C2803 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62F3FD19200FFD44009C2803 /* Stravify.app */,
+				62F3FD2D200FFD45009C2803 /* StravifyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		62F3FD1B200FFD44009C2803 /* Stravify */ = {
+			isa = PBXGroup;
+			children = (
+				626553D920193B13003E543A /* Assets */,
+				62F3FD1C200FFD44009C2803 /* AppDelegate.swift */,
+				62DE1B47202280710094BEC7 /* Views */,
+				62DE1B482022807D0094BEC7 /* Interactors */,
+				62DE1B49202280CB0094BEC7 /* Models */,
+				62F3FD23200FFD45009C2803 /* Assets.xcassets */,
+				62F3FD25200FFD45009C2803 /* LaunchScreen.storyboard */,
+				62F3FD28200FFD45009C2803 /* Info.plist */,
+				6290D5C62028FBC0004BC242 /* credentials.json */,
+			);
+			path = Stravify;
+			sourceTree = "<group>";
+		};
+		62F3FD30200FFD45009C2803 /* StravifyTests */ = {
+			isa = PBXGroup;
+			children = (
+				62F3FD31200FFD45009C2803 /* StravifyTests.swift */,
+				62F3FD33200FFD45009C2803 /* Info.plist */,
+			);
+			path = StravifyTests;
+			sourceTree = "<group>";
+		};
+		62F3FD40201001B5009C2803 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		62F3FD18200FFD44009C2803 /* Stravify */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62F3FD36200FFD45009C2803 /* Build configuration list for PBXNativeTarget "Stravify" */;
+			buildPhases = (
+				62F3FD15200FFD44009C2803 /* Sources */,
+				62F3FD16200FFD44009C2803 /* Frameworks */,
+				62F3FD17200FFD44009C2803 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Stravify;
+			productName = Stravify;
+			productReference = 62F3FD19200FFD44009C2803 /* Stravify.app */;
+			productType = "com.apple.product-type.application";
+		};
+		62F3FD2C200FFD45009C2803 /* StravifyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62F3FD39200FFD45009C2803 /* Build configuration list for PBXNativeTarget "StravifyTests" */;
+			buildPhases = (
+				62F3FD29200FFD45009C2803 /* Sources */,
+				62F3FD2A200FFD45009C2803 /* Frameworks */,
+				62F3FD2B200FFD45009C2803 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				62F3FD2F200FFD45009C2803 /* PBXTargetDependency */,
+			);
+			name = StravifyTests;
+			productName = StravifyTests;
+			productReference = 62F3FD2D200FFD45009C2803 /* StravifyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		62F3FD11200FFD44009C2803 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Robert Waltham";
+				TargetAttributes = {
+					62F3FD18200FFD44009C2803 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					62F3FD2C200FFD45009C2803 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 62F3FD18200FFD44009C2803;
+					};
+				};
+			};
+			buildConfigurationList = 62F3FD14200FFD44009C2803 /* Build configuration list for PBXProject "Stravify" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 62F3FD10200FFD44009C2803;
+			productRefGroup = 62F3FD1A200FFD44009C2803 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				62F3FD18200FFD44009C2803 /* Stravify */,
+				62F3FD2C200FFD45009C2803 /* StravifyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		62F3FD17200FFD44009C2803 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62F3FD27200FFD45009C2803 /* LaunchScreen.storyboard in Resources */,
+				62F3FD24200FFD45009C2803 /* Assets.xcassets in Resources */,
+				6290D5C72028FBC0004BC242 /* credentials.json in Resources */,
+				62F3FD22200FFD44009C2803 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62F3FD2B200FFD45009C2803 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6290D5C82028FBC0004BC242 /* credentials.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		62F3FD15200FFD44009C2803 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				629973562026AB2400729434 /* ServiceLocator.swift in Sources */,
+				6299735C2027E18C00729434 /* FSInteractor.swift in Sources */,
+				629973592027D1FC00729434 /* StravaUser.swift in Sources */,
+				6290D5C42028FB7E004BC242 /* StravaCredentials.swift in Sources */,
+				62F3FD1F200FFD44009C2803 /* ViewController.swift in Sources */,
+				62F3FD4D201018FB009C2803 /* StravaInteractor.swift in Sources */,
+				62DE1B4B202280E80094BEC7 /* Athlete.swift in Sources */,
+				6290D5C12028F2FA004BC242 /* Activity.swift in Sources */,
+				62F3FD48201017E4009C2803 /* AuthViewController.swift in Sources */,
+				62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		62F3FD29200FFD45009C2803 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62F3FD4E201018FB009C2803 /* StravaInteractor.swift in Sources */,
+				629973572026AB2400729434 /* ServiceLocator.swift in Sources */,
+				62F3FD47201006C1009C2803 /* AuthViewController.swift in Sources */,
+				6299735D2027E18C00729434 /* FSInteractor.swift in Sources */,
+				62F3FD32200FFD45009C2803 /* StravifyTests.swift in Sources */,
+				62DE1B4C202280E80094BEC7 /* Athlete.swift in Sources */,
+				6290D5C22028F2FA004BC242 /* Activity.swift in Sources */,
+				6290D5C52028FB7E004BC242 /* StravaCredentials.swift in Sources */,
+				6299735A2027D1FC00729434 /* StravaUser.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		62F3FD2F200FFD45009C2803 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 62F3FD18200FFD44009C2803 /* Stravify */;
+			targetProxy = 62F3FD2E200FFD45009C2803 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		62F3FD20200FFD44009C2803 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				62F3FD21200FFD44009C2803 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		62F3FD25200FFD45009C2803 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				62F3FD26200FFD45009C2803 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		62F3FD34200FFD45009C2803 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		62F3FD35200FFD45009C2803 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		62F3FD37200FFD45009C2803 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Stravify/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockoftext.Stravify;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		62F3FD38200FFD45009C2803 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Stravify/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockoftext.Stravify;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		62F3FD3A200FFD45009C2803 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StravifyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockoftext.StravifyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Stravify.app/Stravify";
+			};
+			name = Debug;
+		};
+		62F3FD3B200FFD45009C2803 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = StravifyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockoftext.StravifyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Stravify.app/Stravify";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		62F3FD14200FFD44009C2803 /* Build configuration list for PBXProject "Stravify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62F3FD34200FFD45009C2803 /* Debug */,
+				62F3FD35200FFD45009C2803 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62F3FD36200FFD45009C2803 /* Build configuration list for PBXNativeTarget "Stravify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62F3FD37200FFD45009C2803 /* Debug */,
+				62F3FD38200FFD45009C2803 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62F3FD39200FFD45009C2803 /* Build configuration list for PBXNativeTarget "StravifyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62F3FD3A200FFD45009C2803 /* Debug */,
+				62F3FD3B200FFD45009C2803 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 62F3FD11200FFD44009C2803 /* Project object */;
+}
