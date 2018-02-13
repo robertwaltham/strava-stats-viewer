@@ -18,41 +18,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Axk-eB-iL8">
-                                <rect key="frame" x="0.0" y="64" width="162" height="90"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QTk-5N-ODs">
-                                        <rect key="frame" x="0.0" y="0.0" width="162" height="30"/>
-                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
-                                        <state key="normal" title="Log In With Strava">
-                                            <color key="titleShadowColor" cocoaTouchSystemColor="lightTextColor"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="92G-8I-KpQ" kind="presentation" id="TKn-cJ-0Vk"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ckH-W4-oR0">
-                                        <rect key="frame" x="0.0" y="30" width="162" height="30"/>
-                                        <state key="normal" title="Load Saved Credentials"/>
-                                        <connections>
-                                            <action selector="loadSavedCredentialsWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EMP-C8-edy"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yzo-UB-e0X">
-                                        <rect key="frame" x="0.0" y="60" width="162" height="30"/>
-                                        <state key="normal" title="Load Activities"/>
-                                        <connections>
-                                            <action selector="loadActivitiesWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="19a-Fc-HcF"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="bg_1" translatesAutoresizingMaskIntoConstraints="NO" id="SSX-6h-ojb">
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="powered_by_strava" translatesAutoresizingMaskIntoConstraints="NO" id="e5G-cX-VvF">
+                                <rect key="frame" x="456" y="964" width="358" height="128"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzk-9o-7dt">
+                                <rect key="frame" x="279" y="780" width="277" height="86"/>
+                                <state key="normal" image="connect_with_strava"/>
+                                <connections>
+                                    <segue destination="92G-8I-KpQ" kind="presentation" id="hSH-fQ-bCG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="e5G-cX-VvF" secondAttribute="bottom" constant="20" id="0WH-Kk-3l6"/>
+                            <constraint firstItem="kzk-9o-7dt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="760" id="6rc-os-gg1"/>
+                            <constraint firstItem="kzk-9o-7dt" firstAttribute="centerX" secondItem="SSX-6h-ojb" secondAttribute="centerX" id="AV8-6Q-irY"/>
+                            <constraint firstItem="kzk-9o-7dt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="294" id="MO1-8q-gRx"/>
+                            <constraint firstItem="kzk-9o-7dt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Tcs-sn-kaD"/>
+                            <constraint firstItem="e5G-cX-VvF" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-20" id="ZGA-G0-PuB"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="STm-N2-LYM"/>
+                    <connections>
+                        <outlet property="background" destination="SSX-6h-ojb" id="8J4-bX-lOT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -88,10 +82,9 @@
         <!--Navigation Controller-->
         <scene sceneID="oD0-ay-Dj5">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6zu-zg-CM3" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="6zu-zg-CM3" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7kk-Pn-5YE">
-                        <rect key="frame" x="0.0" y="20" width="834" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -122,4 +115,9 @@
             <point key="canvasLocation" x="981.29496402877703" y="39.928057553956833"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bg_1" width="1054" height="1406"/>
+        <image name="connect_with_strava" width="193" height="48"/>
+        <image name="powered_by_strava" width="199" height="86"/>
+    </resources>
 </document>

@@ -19,6 +19,9 @@
 		6299735A2027D1FC00729434 /* StravaUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629973582027D1FC00729434 /* StravaUser.swift */; };
 		6299735C2027E18C00729434 /* FSInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6299735B2027E18C00729434 /* FSInteractor.swift */; };
 		6299735D2027E18C00729434 /* FSInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6299735B2027E18C00729434 /* FSInteractor.swift */; };
+		62D0211720328EC20096C707 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D0211420328EC20096C707 /* ReactiveCocoa.framework */; };
+		62D0211820328EC20096C707 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D0211520328EC20096C707 /* ReactiveSwift.framework */; };
+		62D0211920328EC20096C707 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D0211620328EC20096C707 /* Result.framework */; };
 		62DE1B4B202280E80094BEC7 /* Athlete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DE1B4A202280E80094BEC7 /* Athlete.swift */; };
 		62DE1B4C202280E80094BEC7 /* Athlete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DE1B4A202280E80094BEC7 /* Athlete.swift */; };
 		62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD1C200FFD44009C2803 /* AppDelegate.swift */; };
@@ -50,6 +53,10 @@
 		629973552026AB2400729434 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		629973582027D1FC00729434 /* StravaUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaUser.swift; sourceTree = "<group>"; };
 		6299735B2027E18C00729434 /* FSInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSInteractor.swift; sourceTree = "<group>"; };
+		62D0211220328C670096C707 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		62D0211420328EC20096C707 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
+		62D0211520328EC20096C707 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
+		62D0211620328EC20096C707 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		62DE1B4A202280E80094BEC7 /* Athlete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Athlete.swift; sourceTree = "<group>"; };
 		62F3FD19200FFD44009C2803 /* Stravify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stravify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62F3FD1C200FFD44009C2803 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +77,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62D0211920328EC20096C707 /* Result.framework in Frameworks */,
+				62D0211720328EC20096C707 /* ReactiveCocoa.framework in Frameworks */,
+				62D0211820328EC20096C707 /* ReactiveSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +134,7 @@
 		62F3FD10200FFD44009C2803 = {
 			isa = PBXGroup;
 			children = (
+				62D0211220328C670096C707 /* Cartfile */,
 				62F3FD1B200FFD44009C2803 /* Stravify */,
 				62F3FD30200FFD45009C2803 /* StravifyTests */,
 				62F3FD1A200FFD44009C2803 /* Products */,
@@ -168,6 +179,9 @@
 		62F3FD40201001B5009C2803 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				62D0211420328EC20096C707 /* ReactiveCocoa.framework */,
+				62D0211520328EC20096C707 /* ReactiveSwift.framework */,
+				62D0211620328EC20096C707 /* Result.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -182,6 +196,7 @@
 				62F3FD15200FFD44009C2803 /* Sources */,
 				62F3FD16200FFD44009C2803 /* Frameworks */,
 				62F3FD17200FFD44009C2803 /* Resources */,
+				62D0211320328CE20096C707 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -271,6 +286,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		62D0211320328CE20096C707 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Result.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ReactiveSwift.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ReactiveCocoa.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		62F3FD15200FFD44009C2803 /* Sources */ = {
@@ -448,6 +485,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Stravify/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blockoftext.Stravify;
@@ -462,6 +503,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Stravify/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blockoftext.Stravify;

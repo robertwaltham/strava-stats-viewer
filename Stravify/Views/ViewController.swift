@@ -8,12 +8,61 @@
 
 import UIKit
 
+import ReactiveSwift
+
 class ViewController: UIViewController {
+    
+    @IBOutlet var background: UIImageView?
+    
+    let scheduler: QueueScheduler
+    var imageTransition: Disposable? = nil
+    
+    static let bgimages = ["bg_1", "bg_2", "bg_3"]
+    static let transitionTime: Double = 5
+    
+    var imageIndex = 0
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        scheduler = QueueScheduler(qos: .default, name: "com.blockoftext.queue", targeting: DispatchQueue.main)
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder: NSCoder) {
+        scheduler = QueueScheduler(qos: .default, name: "com.blockoftext.queue", targeting: DispatchQueue.main)
+        super.init(coder: coder)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Welcome"
-        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // start bg transition
+        let startTime =  Date().addingTimeInterval(ViewController.transitionTime)
+        let interval = DispatchTimeInterval.seconds(Int(ViewController.transitionTime))
+        imageTransition = scheduler.schedule(after: startTime, interval: interval){ [unowned self] in
+            guard let background = self.background else {
+                print("wtf image view not found")
+                return
+            }
+            self.imageIndex = (self.imageIndex + 1) % ViewController.bgimages.count
+            let newImage = UIImage(named: ViewController.bgimages[self.imageIndex])
+            UIView.transition(with: background,
+                              duration:0.5,
+                              options: .transitionCrossDissolve,
+                              animations: { background.image = newImage },
+                              completion: nil)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let imageTransition = imageTransition {
+            imageTransition.dispose()
+        }
     }
 
     override func didReceiveMemoryWarning() {
