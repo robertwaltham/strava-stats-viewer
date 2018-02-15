@@ -16,9 +16,12 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     let activityCellIdentifier = "ActivityCell"
     
+    var activityList: [String] = []
+    
     @IBOutlet weak var profileImage: UIImageView?
     @IBOutlet weak var userNameLabel: UILabel?
     @IBOutlet weak var locationLabel: UILabel?
+    @IBOutlet weak var activityTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +37,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         }
         
         userNameLabel?.text = athlete.fullName
+        locationLabel?.text = athlete.location
         
         athlete.getProfileImage { image in
             DispatchQueue.main.async { [weak self] in
@@ -41,15 +45,62 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
             }
         }
         
-//        StravaInteractor.getActivityList()
+        try? loadTableData()
     }
     
+    // Cell -> Activity Detail
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let activityView = segue.destination as? ActivityDetailViewController, let cell = sender as? ActivityCell {
+            activityView.activityID = cell.activityID
+            
+            cell.setSelected(false, animated: false)
+        }
+    }
+    
+    func loadTableData() throws {
+        activityList = try FSInteractor.list(type: Activity.self).reversed()
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.activityTable.reloadData()
+        }
+    }
+    
+    @IBAction func loadActivities(_ sender: UIButton) {
+        try? StravaInteractor.getActivityList { [weak self] activities in
+            do {
+                for activity in activities {
+                    let activityID = activity.id.description
+                    try FSInteractor.save(activity, id: activityID)
+                }
+                try self?.loadTableData()
+            } catch {
+                print("error occurred while loading activities: \(error)")
+            }
+        }
+    }
+    
+    // UITableViewDataSource
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return activityList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: activityCellIdentifier)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: activityCellIdentifier)!
+        
+        if let activityCell = cell as? ActivityCell {
+            let activityID = activityList[indexPath.row]
+            let activity = try? FSInteractor.load(type: Activity.self, id: activityID)
+            activityCell.activityName.text = activity?.name ?? "No activity name for row: \(indexPath.row)"
+            activityCell.activityID = activityID
+        }
+        
+        return cell
     }
     
+    // UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("tapped on: \(activityList[indexPath.row])")
+    }
 }

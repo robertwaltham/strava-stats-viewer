@@ -59,7 +59,7 @@ class FSInteractor {
         print("Listing IDs from ~/\(objectDirectory)")
 
         return try FileManager.default.contentsOfDirectory(at: dirpath, includingPropertiesForKeys: []).map { url in
-            return url.lastPathComponent
+            return url.deletingPathExtension().lastPathComponent
         }
     }
     
