@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6220BFAE2036146E0034F3A7 /* ActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFAD2036146E0034F3A7 /* ActivityCell.swift */; };
 		6290D5C12028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C22028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C42028FB7E004BC242 /* StravaCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* StravaCredentials.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6220BFAD2036146E0034F3A7 /* ActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCell.swift; sourceTree = "<group>"; };
 		6290D5C02028F2F9004BC242 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		6290D5C32028FB7E004BC242 /* StravaCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaCredentials.swift; sourceTree = "<group>"; };
 		6290D5C62028FBC0004BC242 /* credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = credentials.json; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				62F3FD1E200FFD44009C2803 /* ViewController.swift */,
 				62F3FD20200FFD44009C2803 /* Main.storyboard */,
 				62F8C7DA20350C7800B06968 /* AthleteViewController.swift */,
+				6220BFAD2036146E0034F3A7 /* ActivityCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				6290D5C12028F2FA004BC242 /* Activity.swift in Sources */,
 				62F3FD48201017E4009C2803 /* AuthViewController.swift in Sources */,
 				62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */,
+				6220BFAE2036146E0034F3A7 /* ActivityCell.swift in Sources */,
 				62F8C7DB20350C7800B06968 /* AthleteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -30,6 +30,7 @@
  */
 
 import Foundation
+import UIKit
 
 class Athlete : Codable {
     
@@ -40,12 +41,25 @@ class Athlete : Codable {
     let firstname: String
     let lastname: String
     
+    var fullName: String {
+        get {
+            return firstname + " " + lastname
+        }
+    }
+    
     let profile_medium: String
     let profile: String
     
     let city: String
     let state: String
     let country: String
+    
+    var location: String {
+        get {
+            return city + " " + state + ", " + country
+        }
+    }
+    
     let sex: String
     
     let email: String
@@ -54,4 +68,17 @@ class Athlete : Codable {
     let updated_at: String
     
     let badge_type_id: Int
+    
+    // TODO: caching
+    func getProfileImage(_ done: @escaping (UIImage?) -> Void) {
+        let url = URL(string: profile)!
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                print("error getting profile image: \(error?.localizedDescription ?? "no error")")
+                done(nil)
+                return
+            }
+            done(UIImage(data: data))
+        }.resume()
+    }
 }

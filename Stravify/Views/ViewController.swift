@@ -12,7 +12,7 @@ import ReactiveSwift
 
 class ViewController: UIViewController {
     
-    @IBOutlet var background: UIImageView?
+    @IBOutlet weak var background: UIImageView?
     
     let scheduler: QueueScheduler
     var imageTransition: Disposable? = nil
@@ -85,16 +85,6 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
-    @IBAction func loadActivities(sender: UIButton) {
-        do {
-            try StravaInteractor.getActivityList()
-        } catch StravaInteractor.StravaInteratorError.notAuthenticated {
-            print("Not logged in")
-        } catch {
-            print("something bad happened")
-        }
     }
     
     @IBAction func loadSavedCredentials(sender: UIButton) {

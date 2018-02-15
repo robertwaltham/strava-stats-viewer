@@ -10,17 +10,20 @@ import Foundation
 import UIKit
 
 
-class AthleteViewController : UIViewController {
+class AthleteViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var athlete: Athlete?
     
-    @IBOutlet var profileImage: UIImageView?
-    @IBOutlet var userNameLabel: UILabel?
+    let activityCellIdentifier = "ActivityCell"
+    
+    @IBOutlet weak var profileImage: UIImageView?
+    @IBOutlet weak var userNameLabel: UILabel?
+    @IBOutlet weak var locationLabel: UILabel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if athlete != nil {
+        if athlete == nil {
             let user: StravaUser? = ServiceLocator.shared.tryGetService()
             athlete = user?.athlete
         }
@@ -30,18 +33,23 @@ class AthleteViewController : UIViewController {
             return
         }
         
-        userNameLabel?.text = athlete.firstname + " " + athlete.lastname
+        userNameLabel?.text = athlete.fullName
         
-        let url = URL(string: athlete.profile_medium)!
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
-                print("error getting profile image")
-                return
+        athlete.getProfileImage { image in
+            DispatchQueue.main.async { [weak self] in
+                self?.profileImage?.image = image
             }
-            DispatchQueue.main.async() { [weak self] in
-                self?.profileImage?.image = UIImage(data: data)
-            }
-        }.resume()
+        }
+        
+//        StravaInteractor.getActivityList()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: activityCellIdentifier)!
     }
     
 }

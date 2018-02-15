@@ -159,7 +159,7 @@ class StravaInteractor {
     }
     
     // gets last X activities by logged in user
-    static func getActivityList() throws {
+    static func getActivityList(_ done: @escaping ([Activity]) -> Void) throws {
         
         // TODO: should this be passed in?
         guard let user = ServiceLocator.shared.tryGetService() as StravaUser? else {
@@ -183,16 +183,16 @@ class StravaInteractor {
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
+                done([])
                 return
             }
             
             do {
                 let activities = try JSONDecoder().decode([Activity].self, from: data)
-                print(activities)
+                done(activities)
             } catch let err {
                 print("an error ocurred: \(err)")
-                
-//                print("\(String(data: data, encoding: .utf8) ?? "")")
+                done([])
             }
         }
         task.resume()

@@ -50,6 +50,19 @@ class FSInteractor {
         return try JSONDecoder().decode(type, from: jsonData)
     }
     
+    // List all IDs in ~/Documents/ObjectType/
+    static func list<T: Codable>(type: T.Type) throws -> [String] {
+        let documentDirectory = try docsDir()
+        let objectDirectory = String(describing: type)
+        let dirpath = documentDirectory.appendingPathComponent(objectDirectory)
+        
+        print("Listing IDs from ~/\(objectDirectory)")
+
+        return try FileManager.default.contentsOfDirectory(at: dirpath, includingPropertiesForKeys: []).map { url in
+            return url.lastPathComponent
+        }
+    }
+    
     // grabs documents dir url 
     static private func docsDir() throws -> URL {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
