@@ -10,35 +10,46 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Landing VC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Stravify" sceneMemberID="viewController">
+                <viewController title="Landing VC" id="BYZ-38-t0r" customClass="ViewController" customModule="Stravify" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="bg_1" translatesAutoresizingMaskIntoConstraints="NO" id="SSX-6h-ojb">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg_1" translatesAutoresizingMaskIntoConstraints="NO" id="SSX-6h-ojb">
                                 <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="powered_by_strava" translatesAutoresizingMaskIntoConstraints="NO" id="e5G-cX-VvF">
                                 <rect key="frame" x="456" y="964" width="358" height="128"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzk-9o-7dt">
-                                <rect key="frame" x="279" y="780" width="277" height="86"/>
-                                <state key="normal" image="connect_with_strava"/>
-                                <connections>
-                                    <segue destination="92G-8I-KpQ" kind="presentation" id="hSH-fQ-bCG"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="OrA-vJ-ELK">
+                                <rect key="frame" x="321" y="620" width="193" height="78"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzk-9o-7dt">
+                                        <rect key="frame" x="0.0" y="0.0" width="193" height="48"/>
+                                        <state key="normal" image="connect_with_strava"/>
+                                        <connections>
+                                            <segue destination="92G-8I-KpQ" kind="presentation" id="hSH-fQ-bCG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVv-H5-hL6">
+                                        <rect key="frame" x="0.0" y="48" width="193" height="30"/>
+                                        <state key="normal" title="Use Saved Credentials"/>
+                                        <connections>
+                                            <action selector="loadSavedCredentialsWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bLP-Fv-ejc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="e5G-cX-VvF" secondAttribute="bottom" constant="20" id="0WH-Kk-3l6"/>
-                            <constraint firstItem="kzk-9o-7dt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="760" id="6rc-os-gg1"/>
-                            <constraint firstItem="kzk-9o-7dt" firstAttribute="centerX" secondItem="SSX-6h-ojb" secondAttribute="centerX" id="AV8-6Q-irY"/>
-                            <constraint firstItem="kzk-9o-7dt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="294" id="MO1-8q-gRx"/>
-                            <constraint firstItem="kzk-9o-7dt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Tcs-sn-kaD"/>
+                            <constraint firstItem="OrA-vJ-ELK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8YF-Td-97M"/>
+                            <constraint firstItem="OrA-vJ-ELK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="600" id="HLp-4L-w9r"/>
                             <constraint firstItem="e5G-cX-VvF" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-20" id="ZGA-G0-PuB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -46,6 +57,7 @@
                     <navigationItem key="navigationItem" id="STm-N2-LYM"/>
                     <connections>
                         <outlet property="background" destination="SSX-6h-ojb" id="8J4-bX-lOT"/>
+                        <segue destination="nPV-MG-Wnk" kind="showDetail" identifier="LandingToNav" id="xh4-N5-Drt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -55,7 +67,7 @@
         <!--AuthView-->
         <scene sceneID="L5f-lw-mdp">
             <objects>
-                <viewController id="Yua-KB-PGR" userLabel="AuthView" customClass="AuthViewController" customModule="Stravify" sceneMemberID="viewController">
+                <viewController title="Auth VC" id="Yua-KB-PGR" userLabel="AuthView" customClass="AuthViewController" customModule="Stravify" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0VJ-ik-tZH" customClass="UIWebView">
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -79,10 +91,10 @@
             </objects>
             <point key="canvasLocation" x="1690" y="40"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Landing Nav-->
         <scene sceneID="oD0-ay-Dj5">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="6zu-zg-CM3" sceneMemberID="viewController">
+                <navigationController title="Landing Nav" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="6zu-zg-CM3" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7kk-Pn-5YE">
                         <autoresizingMask key="autoresizingMask"/>
@@ -96,10 +108,10 @@
             </objects>
             <point key="canvasLocation" x="-542" y="40"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Auth Nav-->
         <scene sceneID="S6h-Mg-jbp">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="92G-8I-KpQ" sceneMemberID="viewController">
+                <navigationController title="Auth Nav" automaticallyAdjustsScrollViewInsets="NO" id="92G-8I-KpQ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="v7Q-wG-kdu">
                         <rect key="frame" x="0.0" y="20" width="834" height="44"/>
@@ -113,6 +125,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Q3-Yp-t86" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="981.29496402877703" y="39.928057553956833"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="92S-YK-gf1">
+            <objects>
+                <viewController title="Profile" id="JwM-2e-Yd6" customClass="AthleteViewController" customModule="Stravify" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wGt-tv-1B8">
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="66l-3a-XfY">
+                                <rect key="frame" x="39" y="190" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xta-h4-17g">
+                                <rect key="frame" x="311" y="190" width="404" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Gok-uw-cMs"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" id="NtA-qR-ndw"/>
+                    <connections>
+                        <outlet property="profileImage" destination="66l-3a-XfY" id="Jh1-jl-rBV"/>
+                        <outlet property="userNameLabel" destination="xta-h4-17g" id="kcv-dB-48u"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RJm-Zy-kHQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1155.3956834532376" y="723.56115107913672"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="AQg-K4-gHV">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="nPV-MG-Wnk" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Cno-FP-DCh">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="JwM-2e-Yd6" kind="relationship" relationship="viewControllers" id="g0C-kW-c4j"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ktb-r6-GRg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="413" y="724"/>
         </scene>
     </scenes>
     <resources>

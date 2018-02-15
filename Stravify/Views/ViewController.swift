@@ -35,6 +35,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Welcome"
+        
+        NotificationCenter.default.addObserver(forName: .didLogIn, object: nil, queue: OperationQueue.main) { note in
+            
+            guard let user = note.object as? StravaUser else {
+                print("invalid object sent as user notification")
+                return
+            }
+            // register active user
+            // TODO: refactor authentication into an interactor
+            ServiceLocator.shared.registerService(service: user)
+            try! FSInteractor.save(user, id: "user")
+            print("logged in as: \(user.athlete.firstname)")
+            
+            DispatchQueue.main.async { [unowned self] in
+                self.performSegue(withIdentifier: "LandingToNav", sender: self)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +105,7 @@ class ViewController: UIViewController {
                 let user = try FSInteractor.load(type: StravaUser.self, id: "user")
                 ServiceLocator.shared.registerService(service: user)
                 print("logged in as: \(user.athlete.firstname)")
+                performSegue(withIdentifier: "LandingToNav", sender: self)
             } catch {
                 print("no user found: \(error.localizedDescription)")
             }

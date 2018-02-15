@@ -34,6 +34,8 @@
 		62F3FD48201017E4009C2803 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD45201006C1009C2803 /* AuthViewController.swift */; };
 		62F3FD4D201018FB009C2803 /* StravaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD4C201018FB009C2803 /* StravaInteractor.swift */; };
 		62F3FD4E201018FB009C2803 /* StravaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD4C201018FB009C2803 /* StravaInteractor.swift */; };
+		62F8C7DB20350C7800B06968 /* AthleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F8C7DA20350C7800B06968 /* AthleteViewController.swift */; };
+		62F8C7DC20350C7800B06968 /* AthleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F8C7DA20350C7800B06968 /* AthleteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,7 @@
 		62F3FD33200FFD45009C2803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		62F3FD45201006C1009C2803 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		62F3FD4C201018FB009C2803 /* StravaInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaInteractor.swift; sourceTree = "<group>"; };
+		62F8C7DA20350C7800B06968 /* AthleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +109,7 @@
 				62F3FD45201006C1009C2803 /* AuthViewController.swift */,
 				62F3FD1E200FFD44009C2803 /* ViewController.swift */,
 				62F3FD20200FFD44009C2803 /* Main.storyboard */,
+				62F8C7DA20350C7800B06968 /* AthleteViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -324,6 +328,7 @@
 				6290D5C12028F2FA004BC242 /* Activity.swift in Sources */,
 				62F3FD48201017E4009C2803 /* AuthViewController.swift in Sources */,
 				62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */,
+				62F8C7DB20350C7800B06968 /* AthleteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +342,7 @@
 				6299735D2027E18C00729434 /* FSInteractor.swift in Sources */,
 				62F3FD32200FFD45009C2803 /* StravifyTests.swift in Sources */,
 				62DE1B4C202280E80094BEC7 /* Athlete.swift in Sources */,
+				62F8C7DC20350C7800B06968 /* AthleteViewController.swift in Sources */,
 				6290D5C22028F2FA004BC242 /* Activity.swift in Sources */,
 				6290D5C52028FB7E004BC242 /* StravaCredentials.swift in Sources */,
 				6299735A2027D1FC00729434 /* StravaUser.swift in Sources */,

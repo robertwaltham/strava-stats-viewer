@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 
-class AuthViewController: UIViewController, UIWebViewDelegate{
-    
+extension Notification.Name {
+    static let didLogIn = Notification.Name("didLogIn")
+}
+
+class AuthViewController: UIViewController, UIWebViewDelegate {
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,12 +46,9 @@ class AuthViewController: UIViewController, UIWebViewDelegate{
             StravaInteractor.getAuthenitcationTokenFromCode(redirectURL: url, done: {
                 [weak presentingViewController] (user) in
                 
-                // register active user
-                // TODO: refactor authentication into an interactor
-                ServiceLocator.shared.registerService(service: user)
-                try! FSInteractor.save(user, id: "user")
-                
-                presentingViewController?.dismiss(animated: true, completion: nil)
+                presentingViewController?.dismiss(animated: true) {
+                    NotificationCenter.default.post(name: .didLogIn, object: user)
+                }
             })
             return false 
         }
