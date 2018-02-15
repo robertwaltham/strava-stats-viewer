@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        do {
+            let credentials = try BundleInteractor.loadCredentialsFromBundle()
+            ServiceLocator.shared.registerService(service: credentials)
+            
+            GMSServices.provideAPIKey(credentials.GMAPS_API)
+        } catch {
+            print("failed to load credentials.json from bundle")
+        }
         return true
     }
 

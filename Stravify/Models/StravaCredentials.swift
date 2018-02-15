@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct StravaCredentials : Codable {
+struct APICredentials : Codable {
     let CLIENT_SECRET: String
     let ACCESS_TOKEN: String
     let CLIENT_ID: String
+    let GMAPS_API: String // google maps API key
 }

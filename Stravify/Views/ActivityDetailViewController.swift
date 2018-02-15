@@ -8,11 +8,13 @@
 
 import Foundation
 import UIKit
+import GoogleMaps
 
 class ActivityDetailViewController: UIViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var mapView: GMSMapView!
     
     var activityID: String?
     private var activity: Activity?
@@ -34,5 +36,13 @@ class ActivityDetailViewController: UIViewController {
         
         nameLabel.text = activity.name
         distanceLabel.text = "\(activity.distance)"
+        
+        let path = activity.map.path
+        let bounds = GMSCoordinateBounds(path: path)
+        let update = GMSCameraUpdate.fit(bounds, withPadding: 10)
+        mapView.moveCamera(update)
+        
+        let polyline = GMSPolyline(path: path)
+        polyline.map = mapView
     }
 }

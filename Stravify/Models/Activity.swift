@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreLocation
+import GoogleMaps
 
 /*
  
@@ -92,11 +94,33 @@ struct Activity: Codable, CustomDebugStringConvertible {
     let start_date_local: String
     let timezone: String
     let utc_offset: Float
+    
     let start_latlng: [Float]
+    var startLocation: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2DMake(CLLocationDegrees(start_latlng[0]), CLLocationDegrees(start_latlng[1]))
+        }
+    }
+    
     let end_latlng: [Float]
+    var endLocation: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2DMake(CLLocationDegrees(end_latlng[0]), CLLocationDegrees(end_latlng[1]))
+        }
+    }
+    
     let location_city: String?
     let location_state: String?
     let location_country: String?
+    var locationString: String {
+        get {
+            let city = location_city ?? ""
+            let state = location_state ?? ""
+            let country = location_country ?? ""
+            return (city + " " + state + " " + country).trimmingCharacters(in: CharacterSet.whitespaces)
+        }
+    }
+    
     let start_latitude: Float
     let start_longitude: Float
     let achievement_count: Int
@@ -135,6 +159,12 @@ struct Map: Codable {
     let id: String
     let summary_polyline: String
     let resource_state: Int
+    
+    var path: GMSPath {
+        get {
+            return GMSPath(fromEncodedPath: summary_polyline)!
+        }
+    }
 }
 
 struct AthleteStub: Codable {

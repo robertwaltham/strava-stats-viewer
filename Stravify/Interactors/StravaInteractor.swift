@@ -34,16 +34,6 @@ class StravaInteractor {
     static let API_BASE_PATH = "/api/v3/"
     static let API_ACTIVITY_LIST_PATH = "athlete/activities"
     
-    private static func loadCredentialsFromBundle() throws -> StravaCredentials {
-        guard let credentialsPath = Bundle.init(for: self).url(forResource: "credentials", withExtension: "json") else {
-            print("credentials not found")
-            throw StravaInteratorError.invalidCredentials
-        }
-        
-        let jsonData = try Data(contentsOf: credentialsPath)
-        return try JSONDecoder().decode(StravaCredentials.self, from: jsonData)
-    }
-    
     /*
      Example:
          https://www.strava.com/oauth/authorize?
@@ -69,7 +59,7 @@ class StravaInteractor {
         components.host = AUTH_HOST
         components.path = AUTH_LOGIN_PATH
         
-        let credentials = try loadCredentialsFromBundle()
+        let credentials: APICredentials = ServiceLocator.shared.getService()
         
         var queryItems: [URLQueryItem] = []
         queryItems.append(URLQueryItem(name: "client_id", value: credentials.CLIENT_ID))
@@ -120,8 +110,8 @@ class StravaInteractor {
         exchangeComponents.host = AUTH_HOST
         exchangeComponents.path = AUTH_EXCHANGE_PATH
         
-        let credentials = try! loadCredentialsFromBundle()
-        
+        let credentials: APICredentials = ServiceLocator.shared.getService()
+
         var queryItems: [URLQueryItem] = []
         queryItems.append(URLQueryItem(name: "client_id", value: credentials.CLIENT_ID))
         queryItems.append(URLQueryItem(name: "client_secret", value: credentials.CLIENT_SECRET))
@@ -159,7 +149,7 @@ class StravaInteractor {
     }
     
     // gets last X activities by logged in user
-    static func getActivityList(_ done: @escaping ([Activity]) -> Void) throws {
+    static func getActivityList(_ done: @escaping ([Activity]) -> Void)  throws {
         
         // TODO: should this be passed in?
         guard let user = ServiceLocator.shared.tryGetService() as StravaUser? else {
