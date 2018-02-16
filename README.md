@@ -1,6 +1,10 @@
 # strava-stats-viewer
 iOS strava data viewer
 
+** HeatMaps **
+
+<p align="center"><img width="90%" vspace="20" src="https://raw.githubusercontent.com/robertwaltham/strava-stats-viewer/master/Screenshots/heatmap_1.png"></p>
+
 Building:
 
 1) Add file "credentials.json" to the Stravify target with the credentials for your Strava application
