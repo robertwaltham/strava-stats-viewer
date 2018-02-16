@@ -1,9 +1,9 @@
 # strava-stats-viewer
 iOS strava data viewer
 
-** HeatMaps **
+**HeatMaps**
 
-<p align="center"><img width="90%" vspace="20" src="https://raw.githubusercontent.com/robertwaltham/strava-stats-viewer/master/Screenshots/heatmap_1.png"></p>
+<p align="center"><img width="50%" vspace="20" src="https://raw.githubusercontent.com/robertwaltham/strava-stats-viewer/master/Screenshots/heatmap_1.png"></p>
 
 Building:
 
