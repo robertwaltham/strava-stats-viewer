@@ -81,8 +81,8 @@ import GoogleMaps
 struct Activity: Codable, CustomDebugStringConvertible {
     let id: Int
     let resource_state: Int
-    let external_id: String
-    let upload_id: Int
+    let external_id: String?
+    let upload_id: Int?
     let athlete: AthleteStub
     let name: String
     let distance: Float
@@ -95,17 +95,23 @@ struct Activity: Codable, CustomDebugStringConvertible {
     let timezone: String
     let utc_offset: Float
     
-    let start_latlng: [Float]
+    let start_latlng: [Float]?
     var startLocation: CLLocationCoordinate2D {
         get {
-            return CLLocationCoordinate2DMake(CLLocationDegrees(start_latlng[0]), CLLocationDegrees(start_latlng[1]))
+            if start_latlng == nil {
+                return CLLocationCoordinate2D()
+            }
+            return CLLocationCoordinate2DMake(CLLocationDegrees(start_latlng![0]), CLLocationDegrees(start_latlng![1]))
         }
     }
     
-    let end_latlng: [Float]
+    let end_latlng: [Float]?
     var endLocation: CLLocationCoordinate2D {
         get {
-            return CLLocationCoordinate2DMake(CLLocationDegrees(end_latlng[0]), CLLocationDegrees(end_latlng[1]))
+            if end_latlng == nil {
+                return CLLocationCoordinate2D()
+            }
+            return CLLocationCoordinate2DMake(CLLocationDegrees(end_latlng![0]), CLLocationDegrees(end_latlng![1]))
         }
     }
     
@@ -121,8 +127,8 @@ struct Activity: Codable, CustomDebugStringConvertible {
         }
     }
     
-    let start_latitude: Float
-    let start_longitude: Float
+    let start_latitude: Float?
+    let start_longitude: Float?
     let achievement_count: Int
     let kudos_count: Int
     let comment_count: Int
@@ -132,23 +138,22 @@ struct Activity: Codable, CustomDebugStringConvertible {
     let trainer: Bool
     let commute: Bool
     let manual: Bool
-//    let private: Bool
     let flagged: Bool
-    let gear_id: String
-    let from_accepted_tag: Bool
-    let average_speed: Float
-    let max_speed: Float
-    let average_cadence: Float
-    let average_temp: Float
+    let gear_id: String?
+    let from_accepted_tag: Bool?
+    let average_speed: Float?
+    let max_speed: Float?
+    let average_cadence: Float?
+    let average_temp: Float?
     let has_heartrate: Bool
-    let average_heartrate: Float
-    let max_heartrate: Float
-    let elev_high: Float
-    let elev_low: Float
+    let average_heartrate: Float?
+    let max_heartrate: Float?
+    let elev_high: Float?
+    let elev_low: Float?
     let pr_count: Int
     let total_photo_count: Int
     let has_kudoed: Bool
-    let workout_type: Int
+    let workout_type: Int?
     
     var debugDescription: String {
         return "<Activity id:\(id) name:\(name) >"
@@ -157,12 +162,15 @@ struct Activity: Codable, CustomDebugStringConvertible {
 
 struct Map: Codable {
     let id: String
-    let summary_polyline: String
+    let summary_polyline: String?
     let resource_state: Int
     
     var path: GMSPath {
         get {
-            return GMSPath(fromEncodedPath: summary_polyline)!
+            if summary_polyline == nil {
+                return GMSPath()
+            }
+            return GMSPath(fromEncodedPath: summary_polyline!)!
         }
     }
 }

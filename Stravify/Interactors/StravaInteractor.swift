@@ -162,7 +162,7 @@ class StravaInteractor {
         requestComponents.path = API_BASE_PATH + API_ACTIVITY_LIST_PATH
         
         var queryItems: [URLQueryItem] = []
-        queryItems.append(URLQueryItem(name: "per_page", value: "10"))
+        queryItems.append(URLQueryItem(name: "per_page", value: "200"))
         requestComponents.queryItems = queryItems
 
         var request = URLRequest(url: requestComponents.url!)
@@ -180,7 +180,7 @@ class StravaInteractor {
                 let activities = try JSONDecoder().decode([Activity].self, from: data)
                 done(activities)
             } catch let err {
-                print("an error ocurred: \(err)")
+                print("an error ocurred: \(err) \n\(String(data: data, encoding: .utf8)!)")
                 done([])
             }
         }
