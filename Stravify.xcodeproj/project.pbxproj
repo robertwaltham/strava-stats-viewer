@@ -28,6 +28,7 @@
 		6220BFD2203632F70034F3A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFD1203632F70034F3A7 /* UIKit.framework */; };
 		6220BFD4203633EB0034F3A7 /* BundleInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD3203633EB0034F3A7 /* BundleInteractor.swift */; };
 		6220BFD6203637B50034F3A7 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6220BFD5203637B50034F3A7 /* GoogleMaps.bundle */; };
+		6220BFD8203649790034F3A7 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD7203649790034F3A7 /* Stream.swift */; };
 		6290D5C12028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C22028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C42028FB7E004BC242 /* APICredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* APICredentials.swift */; };
@@ -91,6 +92,7 @@
 		6220BFD1203632F70034F3A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6220BFD3203633EB0034F3A7 /* BundleInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleInteractor.swift; sourceTree = "<group>"; };
 		6220BFD5203637B50034F3A7 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
+		6220BFD7203649790034F3A7 /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		6290D5C02028F2F9004BC242 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		6290D5C32028FB7E004BC242 /* APICredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredentials.swift; sourceTree = "<group>"; };
 		6290D5C62028FBC0004BC242 /* credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = credentials.json; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				629973582027D1FC00729434 /* StravaUser.swift */,
 				6290D5C02028F2F9004BC242 /* Activity.swift */,
 				6290D5C32028FB7E004BC242 /* APICredentials.swift */,
+				6220BFD7203649790034F3A7 /* Stream.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				6299735C2027E18C00729434 /* FSInteractor.swift in Sources */,
 				629973592027D1FC00729434 /* StravaUser.swift in Sources */,
 				6290D5C42028FB7E004BC242 /* APICredentials.swift in Sources */,
+				6220BFD8203649790034F3A7 /* Stream.swift in Sources */,
 				62F3FD1F200FFD44009C2803 /* ViewController.swift in Sources */,
 				62F3FD4D201018FB009C2803 /* StravaInteractor.swift in Sources */,
 				62DE1B4B202280E80094BEC7 /* Athlete.swift in Sources */,

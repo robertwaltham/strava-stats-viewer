@@ -31,8 +31,12 @@ class StravaInteractor {
     
     static let AUTH_HEADER_NAME = "Authorization"
     
+    // TODO: clean up and refactor
     static let API_BASE_PATH = "/api/v3/"
+    
     static let API_ACTIVITY_LIST_PATH = "athlete/activities"
+    static let API_ACTIVITY_PATH = "activities/"
+    static let API_STREAM_PATH = "streams/"
     
     /*
      Example:
@@ -151,11 +155,6 @@ class StravaInteractor {
     // gets last X activities by logged in user
     static func getActivityList(_ done: @escaping ([Activity]) -> Void)  throws {
         
-        // TODO: should this be passed in?
-        guard let user = ServiceLocator.shared.tryGetService() as StravaUser? else {
-            throw StravaInteratorError.notAuthenticated
-        }
-        
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
         requestComponents.scheme = AUTH_SCHEME
@@ -168,8 +167,8 @@ class StravaInteractor {
 
         var request = URLRequest(url: requestComponents.url!)
         request.httpMethod = "GET"
-        request.addValue(user.token_type + " " + user.access_token, forHTTPHeaderField: AUTH_HEADER_NAME)
-        
+        try addAuthField(request: &request)
+
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
@@ -186,5 +185,48 @@ class StravaInteractor {
             }
         }
         task.resume()
+    }
+    
+    static func getStream(activity: Activity, type: StreamType, resolution: StreamResolution, done: @escaping ([Stream]) -> Void ) throws {
+
+        // build request
+        var requestComponents = URLComponents(string: "")! // this shouldn't fail
+        requestComponents.scheme = AUTH_SCHEME
+        requestComponents.host = AUTH_HOST
+        requestComponents.path =
+            API_BASE_PATH + API_ACTIVITY_PATH + activity.id.description + "/" + API_STREAM_PATH + type.rawValue
+        
+        var queryItems: [URLQueryItem] = []
+        queryItems.append(URLQueryItem(name: "resolution", value: resolution.rawValue))
+        requestComponents.queryItems = queryItems
+        
+        var request = URLRequest(url: requestComponents.url!)
+        request.httpMethod = "GET"
+        try addAuthField(request: &request)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                done([])
+                return
+            }
+            do {
+                let streams = try JSONDecoder().decode([Stream].self, from: data)
+                done(streams)
+            } catch let err {
+                print("an error ocurred: \(err)")
+                done([])
+            }
+        }
+        task.resume()
+    }
+    
+    private static func addAuthField(request: inout URLRequest) throws {
+        // TODO: should this be passed in?
+        guard let user = ServiceLocator.shared.tryGetService() as StravaUser? else {
+            throw StravaInteratorError.notAuthenticated
+        }
+        
+        request.addValue(user.token_type + " " + user.access_token, forHTTPHeaderField: AUTH_HEADER_NAME)
     }
 }
