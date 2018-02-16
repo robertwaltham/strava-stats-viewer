@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		6220BFAE2036146E0034F3A7 /* ActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFAD2036146E0034F3A7 /* ActivityCell.swift */; };
 		6220BFB02036263B0034F3A7 /* ActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFAF2036263B0034F3A7 /* ActivityDetailViewController.swift */; };
-		6220BFB32036327F0034F3A7 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFB12036327E0034F3A7 /* GoogleMapsCore.framework */; };
-		6220BFB42036327F0034F3A7 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFB22036327F0034F3A7 /* GoogleMaps.framework */; };
-		6220BFB62036328C0034F3A7 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFB52036328B0034F3A7 /* GoogleMapsBase.framework */; };
 		6220BFB8203632A40034F3A7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFB7203632A40034F3A7 /* Accelerate.framework */; };
 		6220BFBF203632B70034F3A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFB9203632B60034F3A7 /* CoreGraphics.framework */; };
 		6220BFC0203632B70034F3A7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFBA203632B60034F3A7 /* CoreLocation.framework */; };
@@ -27,7 +24,6 @@
 		6220BFD0203632F20034F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFCF203632F20034F3A7 /* SystemConfiguration.framework */; };
 		6220BFD2203632F70034F3A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFD1203632F70034F3A7 /* UIKit.framework */; };
 		6220BFD4203633EB0034F3A7 /* BundleInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD3203633EB0034F3A7 /* BundleInteractor.swift */; };
-		6220BFD6203637B50034F3A7 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6220BFD5203637B50034F3A7 /* GoogleMaps.bundle */; };
 		6220BFD8203649790034F3A7 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD7203649790034F3A7 /* Stream.swift */; };
 		6220BFDA20365A980034F3A7 /* HeatMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD920365A980034F3A7 /* HeatMapViewController.swift */; };
 		6290D5C12028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
@@ -59,6 +55,7 @@
 		62F3FD4E201018FB009C2803 /* StravaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3FD4C201018FB009C2803 /* StravaInteractor.swift */; };
 		62F8C7DB20350C7800B06968 /* AthleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F8C7DA20350C7800B06968 /* AthleteViewController.swift */; };
 		62F8C7DC20350C7800B06968 /* AthleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F8C7DA20350C7800B06968 /* AthleteViewController.swift */; };
+		F43F8AE6722609ABD7136485 /* libPods-Stravify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B67FBA84C0C01F74D2D6C7 /* libPods-Stravify.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,9 +71,6 @@
 /* Begin PBXFileReference section */
 		6220BFAD2036146E0034F3A7 /* ActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCell.swift; sourceTree = "<group>"; };
 		6220BFAF2036263B0034F3A7 /* ActivityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailViewController.swift; sourceTree = "<group>"; };
-		6220BFB12036327E0034F3A7 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
-		6220BFB22036327F0034F3A7 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
-		6220BFB52036328B0034F3A7 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		6220BFB7203632A40034F3A7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		6220BFB9203632B60034F3A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6220BFBA203632B60034F3A7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -101,6 +95,7 @@
 		629973552026AB2400729434 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		629973582027D1FC00729434 /* StravaUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaUser.swift; sourceTree = "<group>"; };
 		6299735B2027E18C00729434 /* FSInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSInteractor.swift; sourceTree = "<group>"; };
+		62AE072620366A170095EE49 /* Stravify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stravify-Bridging-Header.h"; sourceTree = "<group>"; };
 		62D0211220328C670096C707 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		62D0211420328EC20096C707 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		62D0211520328EC20096C707 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
@@ -119,6 +114,9 @@
 		62F3FD45201006C1009C2803 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		62F3FD4C201018FB009C2803 /* StravaInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaInteractor.swift; sourceTree = "<group>"; };
 		62F8C7DA20350C7800B06968 /* AthleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleteViewController.swift; sourceTree = "<group>"; };
+		A7B67FBA84C0C01F74D2D6C7 /* libPods-Stravify.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Stravify.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACCCBE215F1080DE874F41D0 /* Pods-Stravify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stravify.release.xcconfig"; path = "Pods/Target Support Files/Pods-Stravify/Pods-Stravify.release.xcconfig"; sourceTree = "<group>"; };
+		BD668CDEB3DD22517543540A /* Pods-Stravify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stravify.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Stravify/Pods-Stravify.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,9 +141,7 @@
 				62D0211920328EC20096C707 /* Result.framework in Frameworks */,
 				62D0211720328EC20096C707 /* ReactiveCocoa.framework in Frameworks */,
 				62D0211820328EC20096C707 /* ReactiveSwift.framework in Frameworks */,
-				6220BFB62036328C0034F3A7 /* GoogleMapsBase.framework in Frameworks */,
-				6220BFB42036327F0034F3A7 /* GoogleMaps.framework in Frameworks */,
-				6220BFB32036327F0034F3A7 /* GoogleMapsCore.framework in Frameworks */,
+				F43F8AE6722609ABD7136485 /* libPods-Stravify.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +207,7 @@
 				62F3FD30200FFD45009C2803 /* StravifyTests */,
 				62F3FD1A200FFD44009C2803 /* Products */,
 				62F3FD40201001B5009C2803 /* Frameworks */,
+				CF035E7C6F6ABBE639A742DA /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,6 +233,7 @@
 				62F3FD28200FFD45009C2803 /* Info.plist */,
 				6290D5C62028FBC0004BC242 /* credentials.json */,
 				6220BFD5203637B50034F3A7 /* GoogleMaps.bundle */,
+				62AE072620366A170095EE49 /* Stravify-Bridging-Header.h */,
 			);
 			path = Stravify;
 			sourceTree = "<group>";
@@ -266,14 +264,21 @@
 				6220BFBB203632B60034F3A7 /* CoreTelephony.framework */,
 				6220BFBC203632B70034F3A7 /* CoreText.framework */,
 				6220BFB7203632A40034F3A7 /* Accelerate.framework */,
-				6220BFB52036328B0034F3A7 /* GoogleMapsBase.framework */,
-				6220BFB22036327F0034F3A7 /* GoogleMaps.framework */,
-				6220BFB12036327E0034F3A7 /* GoogleMapsCore.framework */,
 				62D0211420328EC20096C707 /* ReactiveCocoa.framework */,
 				62D0211520328EC20096C707 /* ReactiveSwift.framework */,
 				62D0211620328EC20096C707 /* Result.framework */,
+				A7B67FBA84C0C01F74D2D6C7 /* libPods-Stravify.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CF035E7C6F6ABBE639A742DA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BD668CDEB3DD22517543540A /* Pods-Stravify.debug.xcconfig */,
+				ACCCBE215F1080DE874F41D0 /* Pods-Stravify.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,10 +288,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 62F3FD36200FFD45009C2803 /* Build configuration list for PBXNativeTarget "Stravify" */;
 			buildPhases = (
+				BDAAC491B6CCCCB28003A250 /* [CP] Check Pods Manifest.lock */,
 				62F3FD15200FFD44009C2803 /* Sources */,
 				62F3FD16200FFD44009C2803 /* Frameworks */,
 				62F3FD17200FFD44009C2803 /* Resources */,
 				62D0211320328CE20096C707 /* ShellScript */,
+				4A44E3076AF3837CCA0FA8DA /* [CP] Embed Pods Frameworks */,
+				37A803BB511ABEB4F63709B4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -327,6 +335,7 @@
 				TargetAttributes = {
 					62F3FD18200FFD44009C2803 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					62F3FD2C200FFD45009C2803 = {
@@ -364,7 +373,6 @@
 				62F3FD24200FFD45009C2803 /* Assets.xcassets in Resources */,
 				6290D5C72028FBC0004BC242 /* credentials.json in Resources */,
 				62F3FD22200FFD44009C2803 /* Main.storyboard in Resources */,
-				6220BFD6203637B50034F3A7 /* GoogleMaps.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +387,39 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		37A803BB511ABEB4F63709B4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Stravify/Pods-Stravify-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Stravify/Pods-Stravify-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A44E3076AF3837CCA0FA8DA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Stravify/Pods-Stravify-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		62D0211320328CE20096C707 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -397,6 +438,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		BDAAC491B6CCCCB28003A250 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Stravify-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -580,8 +639,10 @@
 		};
 		62F3FD37200FFD45009C2803 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD668CDEB3DD22517543540A /* Pods-Stravify.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -592,6 +653,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blockoftext.Stravify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Stravify/Stravify-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -599,8 +662,10 @@
 		};
 		62F3FD38200FFD45009C2803 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACCCBE215F1080DE874F41D0 /* Pods-Stravify.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -611,6 +676,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blockoftext.Stravify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Stravify/Stravify-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

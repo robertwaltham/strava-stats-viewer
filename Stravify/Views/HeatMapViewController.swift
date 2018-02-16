@@ -49,7 +49,6 @@ class HeatMapViewController: UIViewController {
                             return
                         }
                         
-                        self.locations.append(contentsOf: latlng.locationList)
                     }
                 }
                 
