@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 enum StreamType : String, Codable {
     case time               //     integer seconds
@@ -41,6 +42,12 @@ class Stream : Codable, CustomDebugStringConvertible {
     let resolution: StreamResolution
     let data: [Double]
     let location_data: [[Double]]
+    
+    var locationList: [CLLocationCoordinate2D] {
+        get {
+            return location_data.map { CLLocationCoordinate2DMake(CLLocationDegrees($0[0]), CLLocationDegrees($0[1]))}
+        }
+    }
     
     enum CodingKeys: String, CodingKey {
         case type
