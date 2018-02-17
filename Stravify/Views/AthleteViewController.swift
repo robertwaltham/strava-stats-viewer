@@ -46,6 +46,13 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         }
         
         try? loadTableData()
+        
+        // load zones
+        if athlete.zones == nil {
+            try? StravaInteractor.getZones() { zones in
+                athlete.zones = zones
+            }
+        }
     }
     
     // Cell -> Activity Detail

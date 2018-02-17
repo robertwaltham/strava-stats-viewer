@@ -35,6 +35,7 @@ class StravaInteractor {
     static let API_BASE_PATH = "/api/v3/"
     
     static let API_ACTIVITY_LIST_PATH = "athlete/activities"
+    static let API_ATHLETE_ZONES = "athlete/zones"
     static let API_ACTIVITY_PATH = "activities/"
     static let API_STREAM_PATH = "streams/"
     
@@ -153,7 +154,7 @@ class StravaInteractor {
     }
     
     // gets last X activities by logged in user
-    static func getActivityList(_ done: @escaping ([Activity]) -> Void)  throws {
+    static func getActivityList(_ count: Int = 10, _ done: @escaping ([Activity]) -> Void)  throws {
         
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
@@ -162,7 +163,7 @@ class StravaInteractor {
         requestComponents.path = API_BASE_PATH + API_ACTIVITY_LIST_PATH
         
         var queryItems: [URLQueryItem] = []
-        queryItems.append(URLQueryItem(name: "per_page", value: "200"))
+        queryItems.append(URLQueryItem(name: "per_page", value: "\(count)"))
         requestComponents.queryItems = queryItems
 
         var request = URLRequest(url: requestComponents.url!)
@@ -216,6 +217,35 @@ class StravaInteractor {
             } catch let err {
                 print("an error ocurred: \(err)")
                 done([])
+            }
+        }
+        task.resume()
+    }
+    
+    static func getZones(_ done: @escaping (Athlete.Zones?) -> Void) throws {
+        // build request
+        var requestComponents = URLComponents(string: "")! // this shouldn't fail
+        requestComponents.scheme = AUTH_SCHEME
+        requestComponents.host = AUTH_HOST
+        requestComponents.path = API_BASE_PATH + API_ATHLETE_ZONES
+        
+        var request = URLRequest(url: requestComponents.url!)
+        request.httpMethod = "GET"
+        try addAuthField(request: &request)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                print(error?.localizedDescription ?? "No data")
+                done(nil)
+                return
+            }
+            
+            do {
+                let zones = try JSONDecoder().decode([String: Athlete.Zones].self, from: data)
+                done(zones["heart_rate"])
+            } catch let err {
+                print("an error ocurred: \(err)")
+                done(nil)
             }
         }
         task.resume()

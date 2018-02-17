@@ -22,7 +22,7 @@ class HeatMapViewController: UIViewController {
     private var heatMapLayer: GMUHeatmapTileLayer!
     
     private var gradientColors = [UIColor.green, UIColor.yellow, UIColor.red]
-    private var gradientStartPoints = [0.001, 0.01, 0.1] as [NSNumber]
+    private var gradientStartPoints = [0.000001, 0.02, 0.2] as [NSNumber]
 
     
     override func viewDidLoad() {
@@ -31,8 +31,8 @@ class HeatMapViewController: UIViewController {
         heatMapLayer.gradient = GMUGradient(colors: gradientColors,
                                             startPoints: gradientStartPoints,
                                             colorMapSize: 256)
-        heatMapLayer.opacity = 1
-        heatMapLayer.radius = 20
+        heatMapLayer.opacity = 0.95
+        heatMapLayer.radius = 15
 
     }
     
@@ -44,14 +44,14 @@ class HeatMapViewController: UIViewController {
         bounds = GMSCoordinateBounds()
         
         queue.async {
-            try? StravaInteractor.getActivityList { [unowned self] activities in
+            try? StravaInteractor.getActivityList(200) { [unowned self] activities in
                 let group = DispatchGroup()
                 
                 for activity in activities {
                     group.enter()
                     
                     // load saved stream
-                    let savedStream = try? FSInteractor.load(type: Stream.self, id: "\(activity.id)_latlng_low")
+                    let savedStream = try? FSInteractor.load(type: Stream.self, id: Stream.idForSaving(activity, .latlng, .low))
                     if let stream = savedStream {
                         for coordinate in stream.locationList {
                             self.bounds = self.bounds.includingCoordinate(coordinate)
@@ -75,7 +75,7 @@ class HeatMapViewController: UIViewController {
                                 self.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
                             }
                             
-                            try? FSInteractor.save(latlng, id: "\(activity.id)_latlng_low")
+                            try? FSInteractor.save(latlng, id: Stream.idForSaving(activity, .latlng, .low))
                         }
                     }
                 }

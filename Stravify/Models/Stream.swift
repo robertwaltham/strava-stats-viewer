@@ -88,7 +88,9 @@ class Stream : Codable, CustomDebugStringConvertible {
         }
     }
     
-    
+    static func idForSaving(_ activity: Activity, _ type: StreamType, _ resolution: StreamResolution) -> String {
+        return "\(activity.id)_\(type.rawValue)_\(resolution.rawValue)"
+    }
 }
 
 

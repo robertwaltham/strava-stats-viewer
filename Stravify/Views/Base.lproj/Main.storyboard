@@ -243,42 +243,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="5w2-Md-oO3">
-                                <rect key="frame" x="0.0" y="64" width="414" height="40.666666666666657"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xsf-7B-2Fi" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xfe-n6-2Dm">
+                                <rect key="frame" x="25" y="74" width="364" height="23"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJu-RH-REE">
-                                        <rect key="frame" x="0.0" y="0.0" width="45" height="20.333333333333332"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7xe-i2-1V1">
-                                        <rect key="frame" x="0.0" y="20.333333333333329" width="67" height="20.333333333333329"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SdJ-xf-aIL">
+                                        <rect key="frame" x="0.0" y="0.0" width="324" height="24"/>
+                                        <segments>
+                                            <segment title="None"/>
+                                            <segment title="Heart Rate"/>
+                                            <segment title="Speed"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dWq-UI-sgM">
+                                        <rect key="frame" x="344" y="0.0" width="20" height="23"/>
+                                    </activityIndicatorView>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xsf-7B-2Fi" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="105" width="414" height="582"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="5w2-Md-oO3" firstAttribute="leading" secondItem="Dmq-nt-MqK" secondAttribute="leading" id="3d1-hv-h8I"/>
-                            <constraint firstItem="5w2-Md-oO3" firstAttribute="width" secondItem="zq6-Ti-XS5" secondAttribute="width" id="MKD-5U-vwK"/>
-                            <constraint firstItem="5w2-Md-oO3" firstAttribute="top" secondItem="zq6-Ti-XS5" secondAttribute="top" id="wCb-LQ-Jlp"/>
+                            <constraint firstItem="xfe-n6-2Dm" firstAttribute="leading" secondItem="Xsf-7B-2Fi" secondAttribute="leading" constant="25" id="8aE-7E-JpP"/>
+                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="height" secondItem="zq6-Ti-XS5" secondAttribute="height" id="B31-cs-eyR"/>
+                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="leading" secondItem="Dmq-nt-MqK" secondAttribute="leading" id="UA4-iK-f3N"/>
+                            <constraint firstItem="zq6-Ti-XS5" firstAttribute="bottom" secondItem="xfe-n6-2Dm" secondAttribute="bottom" constant="590" id="cMd-Vx-RLT"/>
+                            <constraint firstItem="zq6-Ti-XS5" firstAttribute="top" secondItem="xfe-n6-2Dm" secondAttribute="top" constant="-10" id="fEv-Yl-tgr"/>
+                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="top" secondItem="zq6-Ti-XS5" secondAttribute="top" id="kKQ-t0-TiR"/>
+                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="width" secondItem="zq6-Ti-XS5" secondAttribute="width" id="kxU-ub-n3p"/>
+                            <constraint firstItem="xfe-n6-2Dm" firstAttribute="width" secondItem="zq6-Ti-XS5" secondAttribute="width" constant="-50" id="qU4-kS-iRf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zq6-Ti-XS5"/>
                     </view>
                     <navigationItem key="navigationItem" id="Zyz-jQ-fQI"/>
                     <connections>
-                        <outlet property="distanceLabel" destination="7xe-i2-1V1" id="M8O-0R-twP"/>
+                        <outlet property="activityIndicator" destination="dWq-UI-sgM" id="UbW-aC-4Hh"/>
                         <outlet property="mapView" destination="Xsf-7B-2Fi" id="CxE-VD-bKK"/>
-                        <outlet property="nameLabel" destination="PJu-RH-REE" id="Eb1-AA-Crj"/>
+                        <outlet property="viewSelector" destination="SdJ-xf-aIL" id="k9q-Ns-Vdn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mao-NJ-TWb" userLabel="First Responder" sceneMemberID="firstResponder"/>

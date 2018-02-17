@@ -69,6 +69,19 @@ class Athlete : Codable {
     
     let badge_type_id: Int
     
+    // this will be loaded from the api seperately 
+    var zones: Zones?
+    
+    var computedZones: [Int] {
+        get {
+            if let zones = zones {
+                return zones.zones.map { $0["min"] ?? 0 }
+            } else {
+                return []
+            }
+        }
+    }
+    
     // TODO: caching
     func getProfileImage(_ done: @escaping (UIImage?) -> Void) {
         let url = URL(string: profile)!
@@ -80,5 +93,10 @@ class Athlete : Codable {
             }
             done(UIImage(data: data))
         }.resume()
+    }
+    
+    class Zones : Codable {
+        let custom_zones: Int
+        let zones: [[String: Int]]
     }
 }
