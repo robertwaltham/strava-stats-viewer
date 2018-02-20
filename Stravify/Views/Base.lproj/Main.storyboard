@@ -234,36 +234,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xsf-7B-2Fi" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <rect key="frame" x="0.0" y="7.6666666666666856" width="414" height="736"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xfe-n6-2Dm">
-                                <rect key="frame" x="25" y="74" width="364" height="23"/>
-                                <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SdJ-xf-aIL">
-                                        <rect key="frame" x="0.0" y="0.0" width="324" height="24"/>
-                                        <segments>
-                                            <segment title="None"/>
-                                            <segment title="Heart Rate"/>
-                                            <segment title="Speed"/>
-                                        </segments>
-                                    </segmentedControl>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dWq-UI-sgM">
-                                        <rect key="frame" x="344" y="0.0" width="20" height="23"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                            </stackView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SdJ-xf-aIL">
+                                <rect key="frame" x="87" y="79" width="239" height="29"/>
+                                <segments>
+                                    <segment title="None"/>
+                                    <segment title="Heart Rate"/>
+                                    <segment title="Speed"/>
+                                </segments>
+                            </segmentedControl>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dWq-UI-sgM">
+                                <rect key="frame" x="379" y="79" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xfe-n6-2Dm" firstAttribute="leading" secondItem="Xsf-7B-2Fi" secondAttribute="leading" constant="25" id="8aE-7E-JpP"/>
-                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="height" secondItem="zq6-Ti-XS5" secondAttribute="height" id="B31-cs-eyR"/>
-                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="leading" secondItem="Dmq-nt-MqK" secondAttribute="leading" id="UA4-iK-f3N"/>
-                            <constraint firstItem="zq6-Ti-XS5" firstAttribute="bottom" secondItem="xfe-n6-2Dm" secondAttribute="bottom" constant="590" id="cMd-Vx-RLT"/>
-                            <constraint firstItem="zq6-Ti-XS5" firstAttribute="top" secondItem="xfe-n6-2Dm" secondAttribute="top" constant="-10" id="fEv-Yl-tgr"/>
-                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="top" secondItem="zq6-Ti-XS5" secondAttribute="top" id="kKQ-t0-TiR"/>
-                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="width" secondItem="zq6-Ti-XS5" secondAttribute="width" id="kxU-ub-n3p"/>
-                            <constraint firstItem="xfe-n6-2Dm" firstAttribute="width" secondItem="zq6-Ti-XS5" secondAttribute="width" constant="-50" id="qU4-kS-iRf"/>
+                            <constraint firstItem="SdJ-xf-aIL" firstAttribute="centerX" secondItem="zq6-Ti-XS5" secondAttribute="centerX" id="CkP-r2-pzL"/>
+                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="height" secondItem="Dmq-nt-MqK" secondAttribute="height" id="Eyd-yK-AOR"/>
+                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="centerX" secondItem="zq6-Ti-XS5" secondAttribute="centerX" id="QIB-xl-CDm"/>
+                            <constraint firstItem="dWq-UI-sgM" firstAttribute="top" secondItem="zq6-Ti-XS5" secondAttribute="top" constant="15" id="VTu-kU-31R"/>
+                            <constraint firstItem="SdJ-xf-aIL" firstAttribute="top" secondItem="zq6-Ti-XS5" secondAttribute="top" constant="15" id="lcb-Yh-Amx"/>
+                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="width" secondItem="Dmq-nt-MqK" secondAttribute="width" id="mEs-uR-czm"/>
+                            <constraint firstItem="zq6-Ti-XS5" firstAttribute="trailing" secondItem="dWq-UI-sgM" secondAttribute="trailing" constant="15" id="mJO-Et-bBI"/>
+                            <constraint firstItem="Xsf-7B-2Fi" firstAttribute="centerY" secondItem="zq6-Ti-XS5" secondAttribute="centerY" id="oOq-Ww-DGE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zq6-Ti-XS5"/>
                     </view>
