@@ -180,17 +180,31 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQt-OL-3Fj">
-                                                    <rect key="frame" x="15" y="11" width="384" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E63-XA-06e" customClass="PolyLineView" customModule="Stravify" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="-1" width="414" height="44"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQt-OL-3Fj">
+                                                    <rect key="frame" x="15.333333333333343" y="-0.33333333333333215" width="384" height="43.666666666666657"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dQt-OL-3Fj" firstAttribute="height" secondItem="kxA-c4-haD" secondAttribute="height" id="Bo7-ub-Swd"/>
+                                                <constraint firstItem="E63-XA-06e" firstAttribute="centerY" secondItem="kxA-c4-haD" secondAttribute="centerY" id="Q1M-me-ofr"/>
+                                                <constraint firstItem="E63-XA-06e" firstAttribute="height" secondItem="kxA-c4-haD" secondAttribute="height" id="Tqy-I0-xrs"/>
+                                                <constraint firstItem="E63-XA-06e" firstAttribute="centerX" secondItem="kxA-c4-haD" secondAttribute="centerX" id="gMX-ai-ghC"/>
+                                                <constraint firstItem="E63-XA-06e" firstAttribute="width" secondItem="kxA-c4-haD" secondAttribute="width" id="obd-c0-3CA"/>
+                                                <constraint firstItem="dQt-OL-3Fj" firstAttribute="centerY" secondItem="kxA-c4-haD" secondAttribute="centerY" id="oiD-9U-dO7"/>
+                                                <constraint firstItem="dQt-OL-3Fj" firstAttribute="width" secondItem="kxA-c4-haD" secondAttribute="width" constant="-30" id="qsI-Qb-PWN"/>
+                                                <constraint firstItem="dQt-OL-3Fj" firstAttribute="centerX" secondItem="kxA-c4-haD" secondAttribute="centerX" id="rhf-0f-lzd"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="activityName" destination="dQt-OL-3Fj" id="cvG-6d-FR6"/>
+                                            <outlet property="polyLine" destination="E63-XA-06e" id="3Kp-je-TrA"/>
                                             <segue destination="x4Q-TT-hXR" kind="show" id="rJC-wU-g6I"/>
                                         </connections>
                                     </tableViewCell>

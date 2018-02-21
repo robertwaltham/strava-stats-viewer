@@ -100,9 +100,14 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
             let activity = try? FSInteractor.load(type: Activity.self, id: activityID)
             activityCell.activityName.text = activity?.name ?? "No activity name for row: \(indexPath.row)"
             activityCell.activityID = activityID
+            activityCell.polyLine.polyline = GMSPolyline(path: activity?.map.path)
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
     }
     
     // UITableViewDelegate
