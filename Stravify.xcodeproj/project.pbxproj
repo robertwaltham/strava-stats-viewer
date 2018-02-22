@@ -27,6 +27,7 @@
 		6220BFD8203649790034F3A7 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD7203649790034F3A7 /* Stream.swift */; };
 		6220BFDA20365A980034F3A7 /* HeatMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD920365A980034F3A7 /* HeatMapViewController.swift */; };
 		624CFF86203BDEE900B39C9E /* PolyLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CFF85203BDEE900B39C9E /* PolyLineView.swift */; };
+		624CFF89203E3AB800B39C9E /* GMSPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CFF88203E3AB800B39C9E /* GMSPath+Extensions.swift */; };
 		6290D5C12028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C22028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C42028FB7E004BC242 /* APICredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* APICredentials.swift */; };
@@ -91,6 +92,7 @@
 		6220BFD7203649790034F3A7 /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		6220BFD920365A980034F3A7 /* HeatMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapViewController.swift; sourceTree = "<group>"; };
 		624CFF85203BDEE900B39C9E /* PolyLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyLineView.swift; sourceTree = "<group>"; };
+		624CFF88203E3AB800B39C9E /* GMSPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSPath+Extensions.swift"; sourceTree = "<group>"; };
 		6290D5C02028F2F9004BC242 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		6290D5C32028FB7E004BC242 /* APICredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredentials.swift; sourceTree = "<group>"; };
 		6290D5C62028FBC0004BC242 /* credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = credentials.json; sourceTree = "<group>"; };
@@ -157,6 +159,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		624CFF87203E3A8000B39C9E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				624CFF88203E3AB800B39C9E /* GMSPath+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		626553D920193B13003E543A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +236,7 @@
 		62F3FD1B200FFD44009C2803 /* Stravify */ = {
 			isa = PBXGroup;
 			children = (
+				624CFF87203E3A8000B39C9E /* Extensions */,
 				626553D920193B13003E543A /* Assets */,
 				62F3FD1C200FFD44009C2803 /* AppDelegate.swift */,
 				62DE1B47202280710094BEC7 /* Views */,
@@ -477,6 +488,7 @@
 				62F3FD4D201018FB009C2803 /* StravaInteractor.swift in Sources */,
 				624CFF86203BDEE900B39C9E /* PolyLineView.swift in Sources */,
 				62DE1B4B202280E80094BEC7 /* Athlete.swift in Sources */,
+				624CFF89203E3AB800B39C9E /* GMSPath+Extensions.swift in Sources */,
 				6290D5C12028F2FA004BC242 /* Activity.swift in Sources */,
 				62F3FD48201017E4009C2803 /* AuthViewController.swift in Sources */,
 				62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */,

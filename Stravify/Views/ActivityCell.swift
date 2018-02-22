@@ -13,5 +13,6 @@ class ActivityCell: UITableViewCell {
     
     var activityID: String? 
     @IBOutlet weak var activityName: UILabel!
-    @IBOutlet weak var polyLine: PolyLineView!
+    @IBOutlet weak var previewImage: UIImageView!
+    
 }
