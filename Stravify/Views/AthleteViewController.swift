@@ -100,15 +100,14 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
             let activity = try? FSInteractor.load(type: Activity.self, id: activityID)
             activityCell.activityName.text = activity?.name ?? "No activity name for row: \(indexPath.row)"
             activityCell.activityID = activityID
-            activityCell.previewImage.image = activity?.map.path.imageRepresentation(boundingSize: 100)
-        
+            activityCell.previewImage.image = activity?.map.path.imageRepresentation(boundingSize: 400)
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 400
     }
     
     // UITableViewDelegate

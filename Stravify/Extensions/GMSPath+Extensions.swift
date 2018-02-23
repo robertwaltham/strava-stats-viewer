@@ -12,9 +12,10 @@ import GoogleMaps
 extension GMSPath {
     
     func imageRepresentation(boundingSize: Double) -> UIImage {
-        
+
         // compute bounds
         var (maxLat, maxLong, minLat, minLong) = (-Double.greatestFiniteMagnitude, -Double.greatestFiniteMagnitude, Double.greatestFiniteMagnitude, Double.greatestFiniteMagnitude)
+        
         for i in 0..<count() {
             let coord = coordinate(at: i)
             
@@ -26,24 +27,23 @@ extension GMSPath {
 
         // scale coords
         var scaledCoords: [CGPoint] = []
-        let (widthDegrees, heightDegrees) = (maxLat - minLat, maxLong - minLong)
-        let aspecRatio = widthDegrees / heightDegrees
+        let (heightDegrees, widthDegrees) = (maxLat - minLat, maxLong - minLong)
+        let aspecRatio = (heightDegrees * 2) / widthDegrees
         
         let imageWidth: Double, imageHeight: Double
-        if aspecRatio > 0 {
-            imageWidth = boundingSize
-            imageHeight = boundingSize / aspecRatio
-        } else {
+        if aspecRatio > 1 {
             imageHeight = boundingSize
             imageWidth = boundingSize / aspecRatio
+        } else {
+            imageWidth = boundingSize
+            imageHeight = boundingSize * aspecRatio
         }
         
         let (widthRatio, heightRatio) = (imageWidth / widthDegrees, imageHeight / heightDegrees)
         for i in 0..<count() {
             let coord = coordinate(at: i)
-            
-            let result = CGPoint(x: (coord.longitude - minLong) * heightRatio,
-                                 y: imageHeight - ((coord.latitude - minLat) * widthRatio))
+            let result = CGPoint(x: (coord.longitude - minLong) * widthRatio,
+                                 y: imageHeight - ((coord.latitude - minLat) * heightRatio))
             scaledCoords.append(result)
         }
         
@@ -54,7 +54,7 @@ extension GMSPath {
             for coord in scaledCoords.suffix(from: 1) {
                 ctx.cgContext.addLine(to: coord)
             }
-            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.gray.cgColor)
             ctx.cgContext.setLineWidth(2)
             
             ctx.cgContext.drawPath(using: .stroke)
