@@ -92,6 +92,15 @@ struct Activity: Codable, CustomDebugStringConvertible {
     let type: String
     let start_date: String
     let start_date_local: String
+    
+    var startDate: Date {
+        get {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+            return formatter.date(from: start_date)!
+        }
+    }
+    
     let timezone: String
     let utc_offset: Float
     

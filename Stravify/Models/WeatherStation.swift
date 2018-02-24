@@ -29,4 +29,10 @@ struct WeatherStation : Codable {
     let DLYLastYear: Int?
     let MLYFirstYear: Int?
     let MLYLastYear: Int?
+    
+    var location: CLLocation {
+        get {
+            return CLLocation(latitude: LatitudeDegrees, longitude: LongitudeDegrees)
+        }
+    }
 }

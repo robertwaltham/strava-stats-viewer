@@ -52,6 +52,8 @@ class ActivityDetailViewController: UIViewController {
             return
         }
         
+        try? WeatherInteractor.weather(activity: activity)
+        
         self.navigationItem.title = activity.name
         
         // set up camera

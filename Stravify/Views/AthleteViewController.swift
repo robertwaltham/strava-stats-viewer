@@ -97,10 +97,13 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         
         if let activityCell = cell as? ActivityCell {
             let activityID = activityList[indexPath.row]
-            let activity = try? FSInteractor.load(type: Activity.self, id: activityID)
-            activityCell.activityName.text = activity?.name ?? "No activity name for row: \(indexPath.row)"
+            guard let activity = try? FSInteractor.load(type: Activity.self, id: activityID) else {
+                return cell
+            }
+            activityCell.activityName.text = activity.name 
             activityCell.activityID = activityID
-            activityCell.previewImage.image = activity?.map.path.imageRepresentation(boundingSize: 400)
+            activityCell.previewImage.image = activity.map.path.imageRepresentation(boundingSize: 400)
+            
         }
         
         return cell
