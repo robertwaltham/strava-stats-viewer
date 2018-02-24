@@ -22,6 +22,7 @@ class WeatherInteractor {
         case monthly = "3"
     }
 
+    // loads all stations from bundle file
     static func readStationInventory() throws -> [WeatherStation] {
         guard let filePath = Bundle.main.path(forResource: "StationInventory", ofType: "json") else {
             print("No station csv found, wtf?")
@@ -35,6 +36,7 @@ class WeatherInteractor {
         return try JSONDecoder().decode([WeatherStation].self, from: csvData)
     }
     
+    // filters bundle stations to stations active 2015-present
     static func filterStationInventory(stations: [WeatherStation]) -> [WeatherStation] {
         let minYear = 2015 // TODO: formalize this constant
         return stations.filter { station in
@@ -69,8 +71,9 @@ class WeatherInteractor {
         return first!
     }
     
+    // see ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/Readme.txt
     //http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=1706&Year=${year}&Month=${month}&Day=14&timeframe=1&submit= Download+Data
-    static func weather(activity: Activity) throws {
+    static func weather(activity: Activity, done: @escaping (HourlyWeather?) -> Void) throws {
         let station = try WeatherInteractor.weatherStation(activity: activity)
         
         let date = activity.startDate
@@ -79,7 +82,7 @@ class WeatherInteractor {
         let day = Calendar.current.component(.day, from: date)
 
         // build request
-        var requestComponents = URLComponents(string: "")! // this shouldn't fail
+        var requestComponents = URLComponents(string: "")!
         requestComponents.scheme = "http"
         requestComponents.host = "climate.weather.gc.ca"
         requestComponents.path = "/climate_data/bulk_data_e.html"
@@ -103,9 +106,37 @@ class WeatherInteractor {
                 print(error?.localizedDescription ?? "No data")
                 return
             }
-            let string = String(data: data, encoding: .utf8)
-            print(string ?? "no string")
+            guard let parsedString = String(data: data, encoding: .utf8) else {
+                print("no string data found for weather request")
+                return
+            }
+            let weatherRecords = parseWeather(string: parsedString, stationID: station.StationID)
+            
+            let matched = weatherRecords.first { record in
+                let cal = Calendar.current
+                return cal.component(.hour, from: activity.startDate) == cal.component(.hour, from: record.date)
+            }
+            done(matched) 
         }
         task.resume()
+    }
+    
+    static private func parseWeather(string: String, stationID: Int) -> [HourlyWeather] {
+        var result: [HourlyWeather] = []
+        let weatherRows = string.split(separator: "\n").suffix(from: 17) // 17 lines of information
+        for substring in weatherRows {
+            let elements = substring.split(separator: ",").map { split in
+                return String(split).replacingOccurrences(of: "\"", with: "")
+            }
+        
+            // some rows will not have all the data
+            guard elements.count == HourlyWeatherCSVKeys.weather.rawValue + 1 else {
+                continue
+            }
+            
+            let weather = HourlyWeather(csvRow: elements, stationID: stationID)
+            result.append(weather)
+        }
+        return result
     }
 }
