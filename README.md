@@ -3,7 +3,15 @@ iOS strava data viewer
 
 **HeatMaps**
 
+Generates a heat map of your recent activities 
+
 <p align="center"><img width="50%" vspace="20" src="https://raw.githubusercontent.com/robertwaltham/strava-stats-viewer/master/Screenshots/heatmap_1.png"></p>
+
+**Weather**
+
+Downloads historical weather data from the [Environment Canada](http://climate.weather.gc.ca/historical_data/search_historic_data_e.html) and displays the conditions of the closest weather station to the activity start. (NOTE: only works for Canadian cities) 
+
+<p align="center"><img width="50%" vspace="20" src="https://raw.githubusercontent.com/robertwaltham/strava-stats-viewer/master/Screenshots/weather_1.png"></p>
 
 Building:
 
