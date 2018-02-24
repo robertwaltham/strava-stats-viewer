@@ -93,7 +93,7 @@ struct Activity: Codable, CustomDebugStringConvertible {
     let start_date: String
     let start_date_local: String
     
-    var startDate: Date {
+    var startDate: Date { // Local time (including DST!)
         get {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"

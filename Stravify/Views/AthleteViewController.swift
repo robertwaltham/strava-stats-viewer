@@ -103,6 +103,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
             activityCell.activityName.text = activity.name 
             activityCell.activityID = activityID
             activityCell.previewImage.image = activity.map.path.imageRepresentation(boundingSize: 400)
+            activityCell.loadWeather(activity: activity)
             
         }
         

@@ -71,10 +71,47 @@ class WeatherInteractor {
         return first!
     }
     
-    // see ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/Readme.txt
-    //http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=1706&Year=${year}&Month=${month}&Day=14&timeframe=1&submit= Download+Data
+    // ID_Year_Month; api doesn't care about date so it's ignored
+    private static func idForSaving(date: Date, station: WeatherStation) -> String {
+        let components = Calendar.current.dateComponents([.year, .month], from: date)
+        return "\(station.StationID)_\(components.year!)_\(components.month!)"
+    }
+    
+    // load weather from cache or api 
     static func weather(activity: Activity, done: @escaping (HourlyWeather?) -> Void) throws {
         let station = try WeatherInteractor.weatherStation(activity: activity)
+        let key = idForSaving(date: activity.startDate, station: station)
+
+        let cachedWeather = try? FSInteractor.load(type: [HourlyWeather].self, id: key)
+        
+        if let cachedWeather = cachedWeather {
+            // find the first where the date matches
+            // TODO: handle DST
+            let matched = cachedWeather.first { record in
+                let cal = Calendar.current
+                return cal.component(.hour, from: activity.startDate) == cal.component(.hour, from: record.date)
+            }
+            
+            done(matched)
+        } else {
+            try loadWeather(activity: activity, station: station) { loadedWeather in
+                // save to disk
+                try? FSInteractor.save(loadedWeather, id: key)
+                
+                // match
+                let matched = loadedWeather.first { record in
+                    let cal = Calendar.current
+                    return cal.component(.hour, from: activity.startDate) == cal.component(.hour, from: record.date)
+                }
+                
+                done(matched)
+            }
+        }
+    }
+    
+    // see ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/Readme.txt
+    //http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=1706&Year=${year}&Month=${month}&Day=14&timeframe=1&submit= Download+Data
+    private static func loadWeather(activity: Activity, station: WeatherStation, done: @escaping ([HourlyWeather]) -> Void) throws {
         
         let date = activity.startDate
         let year = Calendar.current.component(.year, from: date)
@@ -111,16 +148,12 @@ class WeatherInteractor {
                 return
             }
             let weatherRecords = parseWeather(string: parsedString, stationID: station.StationID)
-            
-            let matched = weatherRecords.first { record in
-                let cal = Calendar.current
-                return cal.component(.hour, from: activity.startDate) == cal.component(.hour, from: record.date)
-            }
-            done(matched) 
+            done(weatherRecords)
         }
         task.resume()
     }
     
+    // parse returned CSV rows
     static private func parseWeather(string: String, stationID: Int) -> [HourlyWeather] {
         var result: [HourlyWeather] = []
         let weatherRows = string.split(separator: "\n").suffix(from: 17) // 17 lines of information

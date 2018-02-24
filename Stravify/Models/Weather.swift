@@ -59,7 +59,7 @@ enum HourlyWeatherCSVKeys: Int, RawRepresentable {
 
 struct HourlyWeather : Codable {
     let stationID: Int // weather station id
-    let date: Date
+    let date: Date // Local time (without DST!)
     let dataQuality: String
     let temp: Double // °C
     let tempFlag: HourlyWeatherFlag
