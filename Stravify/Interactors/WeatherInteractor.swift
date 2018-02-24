@@ -62,6 +62,8 @@ class WeatherInteractor {
                 return false
             }
             return hourlyFirst <= activityYear && hourlyLast >= activityYear
+            // uncomment this to guarantee a vancouver weather station that has conditions listed
+            // return station.TCID == "YVR"
         }
         
         guard first != nil else {
@@ -77,6 +79,14 @@ class WeatherInteractor {
         return "\(station.StationID)_\(components.year!)_\(components.month!)"
     }
     
+    private static func match(a: Date, b: Date) -> Bool {
+        let cal = Calendar.current
+        let compA = cal.dateComponents([.day, .hour], from: a)
+        let compB = cal.dateComponents([.day, .hour], from: b)
+        
+        return compA.day == compB.day && compA.hour == compB.hour
+    }
+    
     // load weather from cache or api 
     static func weather(activity: Activity, done: @escaping (HourlyWeather?) -> Void) throws {
         let station = try WeatherInteractor.weatherStation(activity: activity)
@@ -88,8 +98,7 @@ class WeatherInteractor {
             // find the first where the date matches
             // TODO: handle DST
             let matched = cachedWeather.first { record in
-                let cal = Calendar.current
-                return cal.component(.hour, from: activity.startDate) == cal.component(.hour, from: record.date)
+                return match(a: activity.startDate, b: record.date)
             }
             
             done(matched)
@@ -100,8 +109,7 @@ class WeatherInteractor {
                 
                 // match
                 let matched = loadedWeather.first { record in
-                    let cal = Calendar.current
-                    return cal.component(.hour, from: activity.startDate) == cal.component(.hour, from: record.date)
+                    return match(a: activity.startDate, b: record.date)
                 }
                 
                 done(matched)

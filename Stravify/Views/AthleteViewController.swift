@@ -73,7 +73,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     }
     
     @IBAction func loadActivities(_ sender: UIButton) {
-        try? StravaInteractor.getActivityList { [weak self] activities in
+        try? StravaInteractor.getActivityList(20) { [weak self] activities in
             do {
                 for activity in activities {
                     let activityID = activity.id.description
@@ -102,7 +102,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
             }
             activityCell.activityName.text = activity.name 
             activityCell.activityID = activityID
-            activityCell.previewImage.image = activity.map.path.imageRepresentation(boundingSize: 400)
+            activityCell.previewImage.image = activity.map.path.imageRepresentation(boundingSize: 200)
             activityCell.loadWeather(activity: activity)
             
         }
@@ -111,7 +111,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 400
+        return 200
     }
     
     // UITableViewDelegate

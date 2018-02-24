@@ -19,10 +19,16 @@ class ActivityCell: UITableViewCell {
     func loadWeather(activity: Activity) {
         weatherLabel.text = ""
         try? WeatherInteractor.weather(activity: activity) { [weak self] hourlyWeather in
-            if let hourlyWeather = hourlyWeather {
-                self?.weatherLabel.text = "\(hourlyWeather.temp) ºC - \(hourlyWeather.weather)"
-            } else {
-                self?.weatherLabel.text = ""
+            DispatchQueue.main.async {
+                if let hourlyWeather = hourlyWeather {
+                    if hourlyWeather.weather == "NA" {
+                        self?.weatherLabel.text = "\(hourlyWeather.temp) ºC"
+                    } else {
+                        self?.weatherLabel.text = "\(hourlyWeather.temp) ºC - \(hourlyWeather.weather)"
+                    }
+                } else {
+                    self?.weatherLabel.text = ""
+                }
             }
         }
     }
