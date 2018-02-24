@@ -14,7 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         do {
@@ -25,6 +24,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print("failed to load credentials.json from bundle")
         }
+        
+        // load filtered weather stations
+        let cachedStations = try? FSInteractor.load(type: [WeatherStation].self, id: "filtered_stations")
+        if let cachedStations = cachedStations {
+            ServiceLocator.shared.registerService(service: cachedStations)
+        } else {
+            do {
+                let stations = try WeatherInteractor.readStationInventory()
+                let filteredStations = WeatherInteractor.filterStationInventory(stations: stations)
+                try FSInteractor.save(filteredStations, id: "filtered_stations")
+                ServiceLocator.shared.registerService(service: filteredStations)
+            } catch {
+                print(error)
+            }
+        }
+
         return true
     }
 

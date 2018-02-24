@@ -22,7 +22,7 @@ class FSInteractor {
     static func save<T : Codable>(_ object: T, id: String) throws {
         let fm = FileManager.default
         let documentDirectory = try docsDir()
-        let objectDirectory = String(describing: type(of: object))
+        let objectDirectory = FSInteractor.dir(for: type(of: object))
         let dirpath = documentDirectory.appendingPathComponent(objectDirectory)
         if !fm.fileExists(atPath: dirpath.absoluteString) {
             try fm.createDirectory(at: dirpath, withIntermediateDirectories: true)
@@ -39,7 +39,7 @@ class FSInteractor {
     // Loads a codable object from a JSON file in ~/Documents/ObjectType/id.json
     static func load<T : Codable>(type: T.Type, id: String) throws -> T {
         let documentDirectory = try docsDir()
-        let objectDirectory = String(describing: type)
+        let objectDirectory = FSInteractor.dir(for: type)
         let dirpath = documentDirectory.appendingPathComponent(objectDirectory)
         let objPath = dirpath.appendingPathComponent(id).appendingPathExtension("json")
 
@@ -53,7 +53,7 @@ class FSInteractor {
     // List all IDs in ~/Documents/ObjectType/
     static func list<T: Codable>(type: T.Type) throws -> [String] {
         let documentDirectory = try docsDir()
-        let objectDirectory = String(describing: type)
+        let objectDirectory = FSInteractor.dir(for: type)
         let dirpath = documentDirectory.appendingPathComponent(objectDirectory)
         
         print("Listing IDs from ~/\(objectDirectory)")
@@ -72,5 +72,10 @@ class FSInteractor {
         return documentDirectory
     }
     
-    
+    // ex: Array<WeatherStation> -> ArrayWeatherStation
+    private static func dir(for type: Any) -> String {
+        return String(describing: type)
+            .replacingOccurrences(of: ">", with: "")
+            .replacingOccurrences(of: "<", with: "")
+    }
 }

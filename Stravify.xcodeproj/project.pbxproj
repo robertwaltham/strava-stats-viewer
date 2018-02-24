@@ -28,6 +28,9 @@
 		6220BFDA20365A980034F3A7 /* HeatMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD920365A980034F3A7 /* HeatMapViewController.swift */; };
 		624CFF86203BDEE900B39C9E /* PolyLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CFF85203BDEE900B39C9E /* PolyLineView.swift */; };
 		624CFF89203E3AB800B39C9E /* GMSPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CFF88203E3AB800B39C9E /* GMSPath+Extensions.swift */; };
+		6270AFA820411A1900D8B771 /* WeatherInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6270AFA720411A1900D8B771 /* WeatherInteractor.swift */; };
+		6270AFAA20411A7100D8B771 /* WeatherStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6270AFA920411A7100D8B771 /* WeatherStation.swift */; };
+		6270AFAC204123D300D8B771 /* StationInventory.json in Resources */ = {isa = PBXBuildFile; fileRef = 6270AFAB204123D300D8B771 /* StationInventory.json */; };
 		6290D5C12028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C22028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C42028FB7E004BC242 /* APICredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* APICredentials.swift */; };
@@ -93,6 +96,9 @@
 		6220BFD920365A980034F3A7 /* HeatMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapViewController.swift; sourceTree = "<group>"; };
 		624CFF85203BDEE900B39C9E /* PolyLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyLineView.swift; sourceTree = "<group>"; };
 		624CFF88203E3AB800B39C9E /* GMSPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSPath+Extensions.swift"; sourceTree = "<group>"; };
+		6270AFA720411A1900D8B771 /* WeatherInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInteractor.swift; sourceTree = "<group>"; };
+		6270AFA920411A7100D8B771 /* WeatherStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStation.swift; sourceTree = "<group>"; };
+		6270AFAB204123D300D8B771 /* StationInventory.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = StationInventory.json; sourceTree = "<group>"; };
 		6290D5C02028F2F9004BC242 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		6290D5C32028FB7E004BC242 /* APICredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredentials.swift; sourceTree = "<group>"; };
 		6290D5C62028FBC0004BC242 /* credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = credentials.json; sourceTree = "<group>"; };
@@ -170,6 +176,7 @@
 		626553D920193B13003E543A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6270AFAB204123D300D8B771 /* StationInventory.json */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -196,6 +203,7 @@
 				629973552026AB2400729434 /* ServiceLocator.swift */,
 				6299735B2027E18C00729434 /* FSInteractor.swift */,
 				6220BFD3203633EB0034F3A7 /* BundleInteractor.swift */,
+				6270AFA720411A1900D8B771 /* WeatherInteractor.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -208,6 +216,7 @@
 				6290D5C02028F2F9004BC242 /* Activity.swift */,
 				6290D5C32028FB7E004BC242 /* APICredentials.swift */,
 				6220BFD7203649790034F3A7 /* Stream.swift */,
+				6270AFA920411A7100D8B771 /* WeatherStation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -385,6 +394,7 @@
 			files = (
 				62F3FD27200FFD45009C2803 /* LaunchScreen.storyboard in Resources */,
 				62F3FD24200FFD45009C2803 /* Assets.xcassets in Resources */,
+				6270AFAC204123D300D8B771 /* StationInventory.json in Resources */,
 				6290D5C72028FBC0004BC242 /* credentials.json in Resources */,
 				62F3FD22200FFD44009C2803 /* Main.storyboard in Resources */,
 			);
@@ -487,6 +497,7 @@
 				62F3FD1F200FFD44009C2803 /* ViewController.swift in Sources */,
 				62F3FD4D201018FB009C2803 /* StravaInteractor.swift in Sources */,
 				624CFF86203BDEE900B39C9E /* PolyLineView.swift in Sources */,
+				6270AFAA20411A7100D8B771 /* WeatherStation.swift in Sources */,
 				62DE1B4B202280E80094BEC7 /* Athlete.swift in Sources */,
 				624CFF89203E3AB800B39C9E /* GMSPath+Extensions.swift in Sources */,
 				6290D5C12028F2FA004BC242 /* Activity.swift in Sources */,
@@ -494,6 +505,7 @@
 				62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */,
 				6220BFD4203633EB0034F3A7 /* BundleInteractor.swift in Sources */,
 				6220BFB02036263B0034F3A7 /* ActivityDetailViewController.swift in Sources */,
+				6270AFA820411A1900D8B771 /* WeatherInteractor.swift in Sources */,
 				6220BFAE2036146E0034F3A7 /* ActivityCell.swift in Sources */,
 				62F8C7DB20350C7800B06968 /* AthleteViewController.swift in Sources */,
 			);
