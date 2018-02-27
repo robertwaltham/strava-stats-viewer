@@ -44,7 +44,7 @@ class HeatMapViewController: UIViewController {
         
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async {
-            try? StravaInteractor.getActivityList(200) { [unowned self] activities in
+            try? StravaInteractor.getActivityList(20) { [unowned self] activities in
                 let group = DispatchGroup()
                 
                 for activity in activities {

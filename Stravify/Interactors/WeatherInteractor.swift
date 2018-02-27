@@ -73,10 +73,10 @@ class WeatherInteractor {
         return first!
     }
     
-    // ID_Year_Month; api doesn't care about date so it's ignored
+    // STNID_YEAR_MONTH_DAY_HOUR
     private static func idForSaving(date: Date, station: WeatherStation) -> String {
-        let components = Calendar.current.dateComponents([.year, .month], from: date)
-        return "\(station.StationID)_\(components.year!)_\(components.month!)"
+        let components = Calendar.current.dateComponents([.year, .month, .day, .hour], from: date)
+        return "\(station.StationID)_\(components.year!)_\(components.month!)_\(components.day!)_\(components.hour!)"
     }
     
     private static func match(a: Date, b: Date) -> Bool {
@@ -92,20 +92,21 @@ class WeatherInteractor {
         let station = try WeatherInteractor.weatherStation(activity: activity)
         let key = idForSaving(date: activity.startDate, station: station)
 
-        let cachedWeather = try? FSInteractor.load(type: [HourlyWeather].self, id: key)
+        let cachedWeather = try? FSInteractor.load(type: HourlyWeather.self, id: key)
         
         if let cachedWeather = cachedWeather {
-            // find the first where the date matches
-            // TODO: handle DST
-            let matched = cachedWeather.first { record in
-                return match(a: activity.startDate, b: record.date)
-            }
-            
-            done(matched)
+            done(cachedWeather)
         } else {
             try loadWeather(activity: activity, station: station) { loadedWeather in
-                // save to disk
-                try? FSInteractor.save(loadedWeather, id: key)
+                
+                let queue: DispatchQueue = ServiceLocator.shared.getService()
+             
+                // save each individually
+                for weather in loadedWeather {
+                    queue.async {
+                         try? FSInteractor.save(weather, id: idForSaving(date: weather.date, station: station))
+                    }
+                }
                 
                 // match
                 let matched = loadedWeather.first { record in
