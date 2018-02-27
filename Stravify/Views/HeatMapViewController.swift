@@ -16,7 +16,6 @@ class HeatMapViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loadButton: UIButton!
     
-    private let queue = DispatchQueue(label: "com.blockoftext.heatmap")
     private var locations: [GMUWeightedLatLng] = []
     private var bounds = GMSCoordinateBounds()
     private var heatMapLayer: GMUHeatmapTileLayer!
@@ -43,6 +42,7 @@ class HeatMapViewController: UIViewController {
         locations = []
         bounds = GMSCoordinateBounds()
         
+        let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async {
             try? StravaInteractor.getActivityList(200) { [unowned self] activities in
                 let group = DispatchGroup()

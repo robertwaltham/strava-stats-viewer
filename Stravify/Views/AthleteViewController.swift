@@ -45,7 +45,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
             }
         }
         
-        try? loadTableData()
+        loadTableData()
         
         // load zones
         if athlete.zones == nil {
@@ -64,11 +64,20 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    func loadTableData() throws {
-        activityList = try FSInteractor.list(type: Activity.self).reversed()
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.activityTable.reloadData()
+    // Load activity data from disk
+    func loadTableData() {
+        let queue: DispatchQueue = ServiceLocator.shared.getService()
+        queue.async { [weak self] in
+            do {
+                self?.activityList = try FSInteractor.list(type: Activity.self).reversed()
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.activityTable.reloadData()
+                }
+            } catch {
+                print("No activities found")
+                print(error)
+            }
         }
     }
     
@@ -79,7 +88,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
                     let activityID = activity.id.description
                     try FSInteractor.save(activity, id: activityID)
                 }
-                try self?.loadTableData()
+                self?.loadTableData()
             } catch {
                 print("error occurred while loading activities: \(error)")
             }
@@ -94,17 +103,29 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: activityCellIdentifier)!
-        
+        let activityID = activityList[indexPath.row]
+
         if let activityCell = cell as? ActivityCell {
-            let activityID = activityList[indexPath.row]
-            guard let activity = try? FSInteractor.load(type: Activity.self, id: activityID) else {
-                return cell
+            let queue: DispatchQueue = ServiceLocator.shared.getService()
+            queue.async {
+                guard let activity = try? FSInteractor.load(type: Activity.self, id: activityID) else {
+                    print("Activity not found for ID: \(activityID)")
+                    return
+                }
+                
+                let image = activity.map.path.imageRepresentation(boundingSize: 200)
+                DispatchQueue.main.async {
+                    activityCell.activityName.text = activity.name
+                    activityCell.activityID = activityID
+                    activityCell.previewImage.image = image
+                }
+                activityCell.loadWeather(activity: activity)
             }
-            activityCell.activityName.text = activity.name 
-            activityCell.activityID = activityID
-            activityCell.previewImage.image = activity.map.path.imageRepresentation(boundingSize: 200)
-            activityCell.loadWeather(activity: activity)
             
+            activityCell.activityName.text = nil
+            activityCell.activityID = nil
+            activityCell.previewImage.image = nil
+            activityCell.weatherLabel.text = nil
         }
         
         return cell

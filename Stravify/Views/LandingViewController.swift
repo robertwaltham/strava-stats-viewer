@@ -10,7 +10,7 @@ import UIKit
 
 import ReactiveSwift
 
-class ViewController: UIViewController {
+class LandingViewController: UIViewController {
     
     @IBOutlet weak var background: UIImageView?
     
@@ -58,15 +58,15 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // start bg transition
-        let startTime =  Date().addingTimeInterval(ViewController.transitionTime)
-        let interval = DispatchTimeInterval.seconds(Int(ViewController.transitionTime))
+        let startTime =  Date().addingTimeInterval(LandingViewController.transitionTime)
+        let interval = DispatchTimeInterval.seconds(Int(LandingViewController.transitionTime))
         imageTransition = scheduler.schedule(after: startTime, interval: interval){ [unowned self] in
             guard let background = self.background else {
                 print("wtf image view not found")
                 return
             }
-            self.imageIndex = (self.imageIndex + 1) % ViewController.bgimages.count
-            let newImage = UIImage(named: ViewController.bgimages[self.imageIndex])
+            self.imageIndex = (self.imageIndex + 1) % LandingViewController.bgimages.count
+            let newImage = UIImage(named: LandingViewController.bgimages[self.imageIndex])
             UIView.transition(with: background,
                               duration:0.5,
                               options: .transitionCrossDissolve,

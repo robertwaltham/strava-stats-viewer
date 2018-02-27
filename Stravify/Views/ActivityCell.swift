@@ -17,7 +17,6 @@ class ActivityCell: UITableViewCell {
     @IBOutlet weak var weatherLabel: UILabel!
     
     func loadWeather(activity: Activity) {
-        weatherLabel.text = ""
         try? WeatherInteractor.weather(activity: activity) { [weak self] hourlyWeather in
             DispatchQueue.main.async {
                 if let hourlyWeather = hourlyWeather {

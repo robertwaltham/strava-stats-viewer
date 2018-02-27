@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        // load credentials and api keys
         do {
             let credentials = try BundleInteractor.loadCredentialsFromBundle()
             ServiceLocator.shared.registerService(service: credentials)
@@ -23,7 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             GMSServices.provideAPIKey(credentials.GMAPS_API)
         } catch {
             print("failed to load credentials.json from bundle")
+            exit(0)
         }
+        
+        // create shared queue
+        let queue = DispatchQueue(label: "com.blockoftext.stravify")
+        ServiceLocator.shared.registerService(service: queue)
         
         // load filtered weather stations
         let cachedStations = try? FSInteractor.load(type: [WeatherStation].self, id: "filtered_stations")
