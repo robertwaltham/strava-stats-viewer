@@ -262,11 +262,12 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SdJ-xf-aIL">
-                                <rect key="frame" x="87" y="79" width="239" height="29"/>
+                                <rect key="frame" x="47" y="79" width="319" height="29"/>
                                 <segments>
                                     <segment title="None"/>
                                     <segment title="Heart Rate"/>
                                     <segment title="Speed"/>
+                                    <segment title="Elevation"/>
                                 </segments>
                             </segmentedControl>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="dWq-UI-sgM">
