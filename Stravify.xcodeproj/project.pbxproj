@@ -31,6 +31,8 @@
 		6270AFAA20411A7100D8B771 /* WeatherStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6270AFA920411A7100D8B771 /* WeatherStation.swift */; };
 		6270AFAC204123D300D8B771 /* StationInventory.json in Resources */ = {isa = PBXBuildFile; fileRef = 6270AFAB204123D300D8B771 /* StationInventory.json */; };
 		627EBB6E20414633001E6C8E /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627EBB6D20414633001E6C8E /* Weather.swift */; };
+		627EBB70204A48EE001E6C8E /* CoreDataInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627EBB6F204A48EE001E6C8E /* CoreDataInteractor.swift */; };
+		627EBB73204A4BC9001E6C8E /* Stravify.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 627EBB71204A4BC9001E6C8E /* Stravify.xcdatamodeld */; };
 		6290D5C12028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C22028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
 		6290D5C42028FB7E004BC242 /* APICredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* APICredentials.swift */; };
@@ -99,6 +101,8 @@
 		6270AFA920411A7100D8B771 /* WeatherStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStation.swift; sourceTree = "<group>"; };
 		6270AFAB204123D300D8B771 /* StationInventory.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = StationInventory.json; sourceTree = "<group>"; };
 		627EBB6D20414633001E6C8E /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		627EBB6F204A48EE001E6C8E /* CoreDataInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataInteractor.swift; sourceTree = "<group>"; };
+		627EBB72204A4BC9001E6C8E /* Stravify.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Stravify.xcdatamodel; sourceTree = "<group>"; };
 		6290D5C02028F2F9004BC242 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		6290D5C32028FB7E004BC242 /* APICredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredentials.swift; sourceTree = "<group>"; };
 		6290D5C62028FBC0004BC242 /* credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = credentials.json; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 				6299735B2027E18C00729434 /* FSInteractor.swift */,
 				6220BFD3203633EB0034F3A7 /* BundleInteractor.swift */,
 				6270AFA720411A1900D8B771 /* WeatherInteractor.swift */,
+				627EBB6F204A48EE001E6C8E /* CoreDataInteractor.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 				62F3FD28200FFD45009C2803 /* Info.plist */,
 				6220BFD5203637B50034F3A7 /* GoogleMaps.bundle */,
 				62AE072620366A170095EE49 /* Stravify-Bridging-Header.h */,
+				627EBB71204A4BC9001E6C8E /* Stravify.xcdatamodeld */,
 			);
 			path = Stravify;
 			sourceTree = "<group>";
@@ -497,12 +503,14 @@
 				62F3FD1F200FFD44009C2803 /* LandingViewController.swift in Sources */,
 				62F3FD4D201018FB009C2803 /* StravaInteractor.swift in Sources */,
 				6270AFAA20411A7100D8B771 /* WeatherStation.swift in Sources */,
+				627EBB73204A4BC9001E6C8E /* Stravify.xcdatamodeld in Sources */,
 				62DE1B4B202280E80094BEC7 /* Athlete.swift in Sources */,
 				624CFF89203E3AB800B39C9E /* GMSPath+Extensions.swift in Sources */,
 				6290D5C12028F2FA004BC242 /* Activity.swift in Sources */,
 				627EBB6E20414633001E6C8E /* Weather.swift in Sources */,
 				62F3FD48201017E4009C2803 /* AuthViewController.swift in Sources */,
 				62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */,
+				627EBB70204A48EE001E6C8E /* CoreDataInteractor.swift in Sources */,
 				6220BFD4203633EB0034F3A7 /* BundleInteractor.swift in Sources */,
 				6220BFB02036263B0034F3A7 /* ActivityDetailViewController.swift in Sources */,
 				6270AFA820411A1900D8B771 /* WeatherInteractor.swift in Sources */,
@@ -773,6 +781,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		627EBB71204A4BC9001E6C8E /* Stravify.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				627EBB72204A4BC9001E6C8E /* Stravify.xcdatamodel */,
+			);
+			currentVersion = 627EBB72204A4BC9001E6C8E /* Stravify.xcdatamodel */;
+			path = Stravify.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 62F3FD11200FFD44009C2803 /* Project object */;
 }

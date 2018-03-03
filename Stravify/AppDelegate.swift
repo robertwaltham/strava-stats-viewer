@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,8 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             GMSServices.provideAPIKey(credentials.GMAPS_API)
         } catch {
-            print("failed to load credentials.json from bundle")
-            exit(0)
+            fatalError("failed to load credentials.json from bundle")
         }
         
         // create shared queue
@@ -45,6 +45,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(error)
             }
         }
+        
+        // load stores for core data
+        
+        let store = CoreDataInteractor.createAndLoadStores(name: "stravify")
+        ServiceLocator.shared.registerService(service: store)
 
         return true
     }
@@ -69,6 +74,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        let container: NSPersistentContainer = ServiceLocator.shared.getService()
+        CoreDataInteractor.saveContext(container: container)
     }
 
 
