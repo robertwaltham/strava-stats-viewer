@@ -35,7 +35,7 @@ class ActivityDetailViewController: UIViewController {
     ]
     
     var activityID: String?
-    private var activity: Activity?
+    private var activity: StravaActivity?
     private var polyline: GMSPolyline?
     
     override func viewDidLoad() {
@@ -49,7 +49,7 @@ class ActivityDetailViewController: UIViewController {
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         
         queue.async { [unowned self] in
-            self.activity = try? FSInteractor.load(type: Activity.self, id: activityID)
+            self.activity = try? FSInteractor.load(type: StravaActivity.self, id: activityID)
             
             guard let activity = self.activity else {
                 print("no activity loaded")
@@ -99,11 +99,11 @@ class ActivityDetailViewController: UIViewController {
     }
     
     // Attempts to load stream from disk, else loads from API
-    private func loadStream(activity: Activity, type: StreamType, resolution: StreamResolution, done: @escaping (Stream) -> Void) {
+    private func loadStream(activity: StravaActivity, type: StreamType, resolution: StreamResolution, done: @escaping (StravaStream) -> Void) {
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async {
-            let key = Stream.idForSaving(activity, type, resolution)
-            let cachedStream = try? FSInteractor.load(type: Stream.self, id: key)
+            let key = StravaStream.idForSaving(activity, type, resolution)
+            let cachedStream = try? FSInteractor.load(type: StravaStream.self, id: key)
             if let cachedStream = cachedStream {
                 DispatchQueue.main.async {
                     done(cachedStream)
@@ -170,7 +170,7 @@ class ActivityDetailViewController: UIViewController {
     }
     
     // compute polyline styles for heart rate zones
-    private func computeStylesForZones(stream: Stream, zones: [Int]) -> [GMSStyleSpan] {
+    private func computeStylesForZones(stream: StravaStream, zones: [Int]) -> [GMSStyleSpan] {
         return stream.data.map { value in
             var color = hrColors.first
             for (i, zone) in zones.enumerated() {
@@ -184,7 +184,7 @@ class ActivityDetailViewController: UIViewController {
     }
     
     // compoute polyline styles for relative speed and elevation
-    private func computeStyles(stream: Stream) -> [GMSStyleSpan] {
+    private func computeStyles(stream: StravaStream) -> [GMSStyleSpan] {
         
         var max: Double = 0
         var min: Double = Double.greatestFiniteMagnitude

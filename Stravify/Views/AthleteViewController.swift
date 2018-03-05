@@ -60,7 +60,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async { [weak self] in
             do {
-                self?.activityList = try FSInteractor.list(type: Activity.self).reversed()
+                self?.activityList = try FSInteractor.list(type: StravaActivity.self).reversed()
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.activityTable.reloadData()
@@ -99,7 +99,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         if let activityCell = cell as? ActivityCell {
             let queue: DispatchQueue = ServiceLocator.shared.getService()
             queue.async {
-                guard let activity = try? FSInteractor.load(type: Activity.self, id: activityID) else {
+                guard let activity = try? FSInteractor.load(type: StravaActivity.self, id: activityID) else {
                     print("Activity not found for ID: \(activityID)")
                     return
                 }

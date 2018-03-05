@@ -25,7 +25,7 @@
 		6220BFD0203632F20034F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFCF203632F20034F3A7 /* SystemConfiguration.framework */; };
 		6220BFD2203632F70034F3A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFD1203632F70034F3A7 /* UIKit.framework */; };
 		6220BFD4203633EB0034F3A7 /* BundleInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD3203633EB0034F3A7 /* BundleInteractor.swift */; };
-		6220BFD8203649790034F3A7 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD7203649790034F3A7 /* Stream.swift */; };
+		6220BFD8203649790034F3A7 /* StravaStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD7203649790034F3A7 /* StravaStream.swift */; };
 		6220BFDA20365A980034F3A7 /* HeatMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFD920365A980034F3A7 /* HeatMapViewController.swift */; };
 		624CFF89203E3AB800B39C9E /* GMSPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624CFF88203E3AB800B39C9E /* GMSPath+Extensions.swift */; };
 		6270AFA820411A1900D8B771 /* WeatherInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6270AFA720411A1900D8B771 /* WeatherInteractor.swift */; };
@@ -34,8 +34,8 @@
 		627EBB6E20414633001E6C8E /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627EBB6D20414633001E6C8E /* Weather.swift */; };
 		627EBB70204A48EE001E6C8E /* CoreDataInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627EBB6F204A48EE001E6C8E /* CoreDataInteractor.swift */; };
 		627EBB73204A4BC9001E6C8E /* Stravify.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 627EBB71204A4BC9001E6C8E /* Stravify.xcdatamodeld */; };
-		6290D5C12028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
-		6290D5C22028F2FA004BC242 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* Activity.swift */; };
+		6290D5C12028F2FA004BC242 /* StravaActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* StravaActivity.swift */; };
+		6290D5C22028F2FA004BC242 /* StravaActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C02028F2F9004BC242 /* StravaActivity.swift */; };
 		6290D5C42028FB7E004BC242 /* APICredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* APICredentials.swift */; };
 		6290D5C52028FB7E004BC242 /* APICredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6290D5C32028FB7E004BC242 /* APICredentials.swift */; };
 		6290D5C72028FBC0004BC242 /* credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 6290D5C62028FBC0004BC242 /* credentials.json */; };
@@ -96,7 +96,7 @@
 		6220BFD1203632F70034F3A7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6220BFD3203633EB0034F3A7 /* BundleInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleInteractor.swift; sourceTree = "<group>"; };
 		6220BFD5203637B50034F3A7 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
-		6220BFD7203649790034F3A7 /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
+		6220BFD7203649790034F3A7 /* StravaStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaStream.swift; sourceTree = "<group>"; };
 		6220BFD920365A980034F3A7 /* HeatMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapViewController.swift; sourceTree = "<group>"; };
 		624CFF88203E3AB800B39C9E /* GMSPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GMSPath+Extensions.swift"; sourceTree = "<group>"; };
 		6270AFA720411A1900D8B771 /* WeatherInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInteractor.swift; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		627EBB6D20414633001E6C8E /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		627EBB6F204A48EE001E6C8E /* CoreDataInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataInteractor.swift; sourceTree = "<group>"; };
 		627EBB72204A4BC9001E6C8E /* Stravify.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Stravify.xcdatamodel; sourceTree = "<group>"; };
-		6290D5C02028F2F9004BC242 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		6290D5C02028F2F9004BC242 /* StravaActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaActivity.swift; sourceTree = "<group>"; };
 		6290D5C32028FB7E004BC242 /* APICredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredentials.swift; sourceTree = "<group>"; };
 		6290D5C62028FBC0004BC242 /* credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = credentials.json; sourceTree = "<group>"; };
 		629973552026AB2400729434 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
@@ -222,9 +222,9 @@
 			children = (
 				62DE1B4A202280E80094BEC7 /* StravaAthlete.swift */,
 				629973582027D1FC00729434 /* StravaUser.swift */,
-				6290D5C02028F2F9004BC242 /* Activity.swift */,
+				6290D5C02028F2F9004BC242 /* StravaActivity.swift */,
+				6220BFD7203649790034F3A7 /* StravaStream.swift */,
 				6290D5C32028FB7E004BC242 /* APICredentials.swift */,
-				6220BFD7203649790034F3A7 /* Stream.swift */,
 				6270AFA920411A7100D8B771 /* WeatherStation.swift */,
 				627EBB6D20414633001E6C8E /* Weather.swift */,
 			);
@@ -502,7 +502,7 @@
 				629973592027D1FC00729434 /* StravaUser.swift in Sources */,
 				620212C5204DF10400E38438 /* CodingUserInfoKey+Extensions.swift in Sources */,
 				6290D5C42028FB7E004BC242 /* APICredentials.swift in Sources */,
-				6220BFD8203649790034F3A7 /* Stream.swift in Sources */,
+				6220BFD8203649790034F3A7 /* StravaStream.swift in Sources */,
 				6220BFDA20365A980034F3A7 /* HeatMapViewController.swift in Sources */,
 				62F3FD1F200FFD44009C2803 /* LandingViewController.swift in Sources */,
 				62F3FD4D201018FB009C2803 /* StravaInteractor.swift in Sources */,
@@ -510,7 +510,7 @@
 				627EBB73204A4BC9001E6C8E /* Stravify.xcdatamodeld in Sources */,
 				62DE1B4B202280E80094BEC7 /* StravaAthlete.swift in Sources */,
 				624CFF89203E3AB800B39C9E /* GMSPath+Extensions.swift in Sources */,
-				6290D5C12028F2FA004BC242 /* Activity.swift in Sources */,
+				6290D5C12028F2FA004BC242 /* StravaActivity.swift in Sources */,
 				627EBB6E20414633001E6C8E /* Weather.swift in Sources */,
 				62F3FD48201017E4009C2803 /* AuthViewController.swift in Sources */,
 				62F3FD1D200FFD44009C2803 /* AppDelegate.swift in Sources */,
@@ -534,7 +534,7 @@
 				62F3FD32200FFD45009C2803 /* StravifyTests.swift in Sources */,
 				62DE1B4C202280E80094BEC7 /* StravaAthlete.swift in Sources */,
 				62F8C7DC20350C7800B06968 /* AthleteViewController.swift in Sources */,
-				6290D5C22028F2FA004BC242 /* Activity.swift in Sources */,
+				6290D5C22028F2FA004BC242 /* StravaActivity.swift in Sources */,
 				6290D5C52028FB7E004BC242 /* APICredentials.swift in Sources */,
 				6299735A2027D1FC00729434 /* StravaUser.swift in Sources */,
 			);

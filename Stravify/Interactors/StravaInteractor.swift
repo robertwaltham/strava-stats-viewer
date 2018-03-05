@@ -155,7 +155,7 @@ class StravaInteractor {
     }
     
     // gets last X activities by logged in user
-    static func getActivityList(_ count: Int = 10, _ done: @escaping ([Activity]) -> Void)  throws {
+    static func getActivityList(_ count: Int = 10, _ done: @escaping ([StravaActivity]) -> Void)  throws {
         
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
@@ -179,7 +179,7 @@ class StravaInteractor {
             }
             
             do {
-                let activities = try JSONDecoder().decode([Activity].self, from: data)
+                let activities = try JSONDecoder().decode([StravaActivity].self, from: data)
                 done(activities)
             } catch let err {
                 print("an error ocurred: \(err) \n\(String(data: data, encoding: .utf8)!)")
@@ -189,7 +189,7 @@ class StravaInteractor {
         task.resume()
     }
     
-    static func getStream(activity: Activity, type: StreamType, resolution: StreamResolution, done: @escaping ([Stream]) -> Void ) throws {
+    static func getStream(activity: StravaActivity, type: StreamType, resolution: StreamResolution, done: @escaping ([StravaStream]) -> Void ) throws {
 
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
@@ -213,7 +213,7 @@ class StravaInteractor {
                 return
             }
             do {
-                let streams = try JSONDecoder().decode([Stream].self, from: data)
+                let streams = try JSONDecoder().decode([StravaStream].self, from: data)
                 done(streams)
             } catch let err {
                 print("an error ocurred: \(err)")

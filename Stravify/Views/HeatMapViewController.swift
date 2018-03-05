@@ -51,7 +51,7 @@ class HeatMapViewController: UIViewController {
                     group.enter()
                     
                     // load saved stream
-                    let savedStream = try? FSInteractor.load(type: Stream.self, id: Stream.idForSaving(activity, .latlng, .low))
+                    let savedStream = try? FSInteractor.load(type: StravaStream.self, id: StravaStream.idForSaving(activity, .latlng, .low))
                     if let stream = savedStream {
                         for coordinate in stream.locationList {
                             self.bounds = self.bounds.includingCoordinate(coordinate)
@@ -75,7 +75,7 @@ class HeatMapViewController: UIViewController {
                                 self.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
                             }
                             
-                            try? FSInteractor.save(latlng, id: Stream.idForSaving(activity, .latlng, .low))
+                            try? FSInteractor.save(latlng, id: StravaStream.idForSaving(activity, .latlng, .low))
                         }
                     }
                 }

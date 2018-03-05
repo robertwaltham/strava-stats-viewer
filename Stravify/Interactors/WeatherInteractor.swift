@@ -45,7 +45,7 @@ class WeatherInteractor {
     }
     
     // returns the closest weather station that has a daily record for the activity start date
-    static func weatherStation(activity: Activity) throws -> WeatherStation {
+    static func weatherStation(activity: StravaActivity) throws -> WeatherStation {
         guard let stations: [WeatherStation] = ServiceLocator.shared.tryGetService() else {
             print("no stations loaded")
             throw WeatherInteractorError.stationsNotLoaded
@@ -88,7 +88,7 @@ class WeatherInteractor {
     }
     
     // load weather from cache or api 
-    static func weather(activity: Activity, done: @escaping (HourlyWeather?) -> Void) throws {
+    static func weather(activity: StravaActivity, done: @escaping (HourlyWeather?) -> Void) throws {
         let station = try WeatherInteractor.weatherStation(activity: activity)
         let key = idForSaving(date: activity.startDate, station: station)
 
@@ -120,7 +120,7 @@ class WeatherInteractor {
     
     // see ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/Readme.txt
     //http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=1706&Year=${year}&Month=${month}&Day=14&timeframe=1&submit= Download+Data
-    private static func loadWeather(activity: Activity, station: WeatherStation, done: @escaping ([HourlyWeather]) -> Void) throws {
+    private static func loadWeather(activity: StravaActivity, station: WeatherStation, done: @escaping ([HourlyWeather]) -> Void) throws {
         
         let date = activity.startDate
         let year = Calendar.current.component(.year, from: date)

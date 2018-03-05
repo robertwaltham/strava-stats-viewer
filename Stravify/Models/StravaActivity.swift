@@ -78,7 +78,7 @@ import GoogleMaps
  
  */
 
-struct Activity: Codable, CustomDebugStringConvertible {
+struct StravaActivity: Codable, CustomDebugStringConvertible {
     let id: Int
     let resource_state: Int
     let external_id: String?

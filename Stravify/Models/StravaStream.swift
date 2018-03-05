@@ -29,7 +29,7 @@ enum StreamResolution : String, Codable {
     case high
 }
 
-class Stream : Codable, CustomDebugStringConvertible {
+class StravaStream : Codable, CustomDebugStringConvertible {
     var debugDescription: String {
         get {
             return "<Stream: \(type.rawValue) \(resolution.rawValue) \(original_size):\(data.count > 0 ? data.count : location_data.count)>"
@@ -88,7 +88,7 @@ class Stream : Codable, CustomDebugStringConvertible {
         }
     }
     
-    static func idForSaving(_ activity: Activity, _ type: StreamType, _ resolution: StreamResolution) -> String {
+    static func idForSaving(_ activity: StravaActivity, _ type: StreamType, _ resolution: StreamResolution) -> String {
         return "\(activity.id)_\(type.rawValue)_\(resolution.rawValue)"
     }
 }
