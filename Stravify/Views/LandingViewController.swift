@@ -38,7 +38,7 @@ class LandingViewController: UIViewController {
         
         NotificationCenter.default.addObserver(forName: .didLogIn, object: nil, queue: OperationQueue.main) { note in
             
-            guard let user = note.object as? StravaUser else {
+            guard let user = note.object as? StravaToken else {
                 print("invalid object sent as user notification")
                 return
             }
@@ -46,7 +46,7 @@ class LandingViewController: UIViewController {
             // TODO: refactor authentication into an interactor
             ServiceLocator.shared.registerService(service: user)
             try! FSInteractor.save(user, id: "user")
-            print("logged in as: \(user.athlete.firstname)")
+            print("logged in as: \(user.athlete_id)")
             
             DispatchQueue.main.async { [unowned self] in
                 self.performSegue(withIdentifier: "LandingToNav", sender: self)
@@ -88,13 +88,13 @@ class LandingViewController: UIViewController {
     }
     
     @IBAction func loadSavedCredentials(sender: UIButton) {
-        if let user = ServiceLocator.shared.tryGetService() as StravaUser? {
-            print("already logged in as: \(user.athlete.firstname)")
+        if let user = ServiceLocator.shared.tryGetService() as StravaToken? {
+            print("already logged in as: \(user.athlete_id)")
         } else {
             do {
-                let user = try FSInteractor.load(type: StravaUser.self, id: "user")
+                let user = try FSInteractor.load(type: StravaToken.self, id: "user")
                 ServiceLocator.shared.registerService(service: user)
-                print("logged in as: \(user.athlete.firstname)")
+                print("logged in as: \(user.athlete_id)")
                 performSegue(withIdentifier: "LandingToNav", sender: self)
             } catch {
                 print("no user found: \(error.localizedDescription)")

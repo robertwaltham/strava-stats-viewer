@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 /*
  {
@@ -35,8 +36,27 @@ import Foundation
  }
  */
 
-class StravaUser: Codable {
-    let athlete: Athlete
+// decodable struct for decoding payload
+struct StravaUser: Decodable {
+    let athlete: StravaAthlete
     let access_token: String
     let token_type: String
+}
+
+// struct for saving token/id
+struct StravaToken: Codable {
+    let access_token: String
+    let token_type: String
+    let athlete_id: Int
+    
+    func loadAthlete() throws -> StravaAthlete? {
+        let context: NSManagedObjectContext = ServiceLocator.shared.getService()
+
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "StravaAthlete")
+        fetch.predicate = NSPredicate(format: "id = %d", athlete_id)
+        fetch.returnsObjectsAsFaults = false
+        let result = try context.fetch(fetch)
+        
+        return result.first as? StravaAthlete
+    }
 }

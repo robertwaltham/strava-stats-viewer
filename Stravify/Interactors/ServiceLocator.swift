@@ -9,6 +9,15 @@
 import Foundation
 
 /*
+ Registered Services
+ 
+* APICredentials - stored strava/gmaps keys
+* DispatchQueue - shared queue for callbacks
+* [WeatherStation] - list loaded JSON filtered cached stations
+* StravaToken - logged in user credentials
+* NSPersistentContainer - Core data container
+* NSManagedObjectContext - Core data object context
+ 
     basic service locator that looks up services by class
  */
 class ServiceLocator {

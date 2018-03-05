@@ -12,8 +12,6 @@ import UIKit
 
 class AthleteViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var athlete: Athlete?
-    
     let activityCellIdentifier = "ActivityCell"
     
     var activityList: [String] = []
@@ -26,20 +24,13 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if athlete == nil {
-            let user: StravaUser? = ServiceLocator.shared.tryGetService()
-            athlete = user?.athlete
-        }
+        let user: StravaToken = ServiceLocator.shared.getService()
+        let athlete = try! user.loadAthlete()
         
-        guard let athlete = athlete else {
-            print("no athlete found")
-            return
-        }
+        userNameLabel?.text = athlete?.fullName
+        locationLabel?.text = athlete?.location
         
-        userNameLabel?.text = athlete.fullName
-        locationLabel?.text = athlete.location
-        
-        athlete.getProfileImage { image in
+        athlete?.getProfileImage { image in
             DispatchQueue.main.async { [weak self] in
                 self?.profileImage?.image = image
             }
@@ -48,9 +39,9 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         loadTableData()
         
         // load zones
-        if athlete.zones == nil {
+        if athlete?.zones == nil {
             try? StravaInteractor.getZones() { zones in
-                athlete.zones = zones
+                athlete?.zones = zones
             }
         }
     }

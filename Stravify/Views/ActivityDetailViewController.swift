@@ -131,6 +131,8 @@ class ActivityDetailViewController: UIViewController {
             print("why is there no activity?")
             return
         }
+        let user: StravaToken = ServiceLocator.shared.getService()
+        let athlete = try! user.loadAthlete()
         
         if type == .none {
             polyline?.spans = nil
@@ -154,8 +156,7 @@ class ActivityDetailViewController: UIViewController {
                 if type == .speed {
                     self.polyline?.spans = self.computeStyles(stream: stream)
                 } else if type == .heartRate {
-                    let user: StravaUser? = ServiceLocator.shared.tryGetService()
-                    let zones = user?.athlete.computedZones ?? [500]
+                    let zones = athlete?.computedZones ?? [500]
                     self.polyline?.spans = self.computeStylesForZones(stream: stream, zones: zones)
                 }  else {
                     self.polyline?.spans = self.computeStyles(stream: stream)

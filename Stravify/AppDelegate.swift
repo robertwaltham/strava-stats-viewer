@@ -47,9 +47,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // load stores for core data
-        
-        let store = CoreDataInteractor.createAndLoadStores(name: "stravify")
+        let store = CoreDataInteractor.createAndLoadStores(name: "Stravify")
         ServiceLocator.shared.registerService(service: store)
+        let context = store.newBackgroundContext()
+        ServiceLocator.shared.registerService(service: context)
 
         return true
     }

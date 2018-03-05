@@ -11,10 +11,11 @@ import CoreData
 
 class CoreDataInteractor {
     
+    // Creates an NSPersistentContainer for the app session
     static func createAndLoadStores(name: String) -> NSPersistentContainer {
         let container = NSPersistentContainer(name: name)
         container.loadPersistentStores() { storeDescription, error in
-            guard error != nil else {
+            guard error == nil else {
                 let nserror = error! as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 
@@ -23,6 +24,7 @@ class CoreDataInteractor {
         return container
     }
     
+    // Saves all contexts for container
     static func saveContext(container: NSPersistentContainer) {
         let context = container.viewContext
         if context.hasChanges {
@@ -33,6 +35,16 @@ class CoreDataInteractor {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    // convenience function to return a JSONDecoder with a new background context passed in
+    static func JSONDecoderWithContext() -> JSONDecoder {
+        let context: NSManagedObjectContext = ServiceLocator.shared.getService()
+
+        let decoder = JSONDecoder()
+        decoder.userInfo = [CodingUserInfoKey.context! : context]
+
+        return decoder
     }
     
 }

@@ -91,7 +91,7 @@ class StravaInteractor {
     
     // do code exchange for auth token and profile info
     // TODO: error handling
-    static func getAuthenitcationTokenFromCode(redirectURL: URL, done: @escaping (StravaUser) -> Void) {
+    static func getAuthenitcationTokenFromCode(redirectURL: URL, done: @escaping (StravaToken) -> Void) {
         let redirectComponents = URLComponents(url: redirectURL, resolvingAgainstBaseURL: true)
         
         guard redirectComponents != nil, redirectComponents?.queryItems != nil else {
@@ -139,12 +139,13 @@ class StravaInteractor {
             
             // TODO: HTTP Status code check
             do {
-                let user = try JSONDecoder().decode(StravaUser.self, from: data)
-                done(user)
+                let decoder = CoreDataInteractor.JSONDecoderWithContext()
+                let user = try decoder.decode(StravaUser.self, from: data)
+                print("Logging in as: \(user.athlete.fullName)")
+                let token = StravaToken(access_token: user.access_token, token_type: user.token_type, athlete_id: user.athlete.id)
+                done(token)
             } catch DecodingError.keyNotFound(let key, let context) {
                 print("key not found: \(key); context: \(context.debugDescription)")
-                let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                print("\(String(describing: json))")
             } catch let err {
                 print("an error ocurred: \(err.localizedDescription)")
             }
@@ -222,7 +223,7 @@ class StravaInteractor {
         task.resume()
     }
     
-    static func getZones(_ done: @escaping (Athlete.Zones?) -> Void) throws {
+    static func getZones(_ done: @escaping (StravaAthlete.Zones?) -> Void) throws {
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
         requestComponents.scheme = AUTH_SCHEME
@@ -241,7 +242,7 @@ class StravaInteractor {
             }
             
             do {
-                let zones = try JSONDecoder().decode([String: Athlete.Zones].self, from: data)
+                let zones = try JSONDecoder().decode([String: StravaAthlete.Zones].self, from: data)
                 done(zones["heart_rate"])
             } catch let err {
                 print("an error ocurred: \(err)")
@@ -253,7 +254,7 @@ class StravaInteractor {
     
     private static func addAuthField(request: inout URLRequest) throws {
         // TODO: should this be passed in?
-        guard let user = ServiceLocator.shared.tryGetService() as StravaUser? else {
+        guard let user = ServiceLocator.shared.tryGetService() as StravaToken? else {
             throw StravaInteratorError.notAuthenticated
         }
         
