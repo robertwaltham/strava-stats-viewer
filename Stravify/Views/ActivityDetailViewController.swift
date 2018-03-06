@@ -119,23 +119,20 @@ class ActivityDetailViewController: UIViewController {
     private func loadStream(activity: StravaActivity, type: StreamType, resolution: StreamResolution, done: @escaping (StravaStream) -> Void) {
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async {
-            let key = StravaStream.idForSaving(activity, type, resolution)
-            let cachedStream = try? FSInteractor.load(type: StravaStream.self, id: key)
+            let cachedStream = activity.streams?.first(where: { $0.streamType == type })
             if let cachedStream = cachedStream {
                 DispatchQueue.main.async {
                     done(cachedStream)
                 }
             } else {
                 try? StravaInteractor.getStream(activity: activity, type: type, resolution: .high) { streams in
-                    guard let stream = streams.first(where: { $0.type == type }) else {
+                    guard let stream = streams.first(where: { $0.streamType == type }) else {
                         print("why is there no \(type.rawValue) stream for \(activity.id)?")
                         return
                     }
                     DispatchQueue.main.async {
                         done(stream)
                     }
-                    // save to disk
-                    try? FSInteractor.save(stream, id: key)
                 }
             }
         }

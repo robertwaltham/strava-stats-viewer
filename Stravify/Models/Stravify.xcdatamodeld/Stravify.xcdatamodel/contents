@@ -46,6 +46,7 @@
         <attribute name="upload_id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="utc_offset" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="workout_type" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="streams" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StravaStream" inverseName="activity" inverseEntity="StravaStream" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -74,8 +75,18 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="StravaStream" representedClassName=".StravaStream" syncable="YES">
+        <attribute name="data" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="location_data" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="original_size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="resolution" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="series_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StravaActivity" inverseName="streams" inverseEntity="StravaActivity" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="StravaActivity" positionX="-54" positionY="108" width="128" height="720"/>
+        <element name="StravaActivity" positionX="-54" positionY="108" width="128" height="735"/>
         <element name="StravaAthlete" positionX="-63" positionY="-18" width="128" height="270"/>
+        <element name="StravaStream" positionX="-54" positionY="135" width="128" height="150"/>
     </elements>
 </model>

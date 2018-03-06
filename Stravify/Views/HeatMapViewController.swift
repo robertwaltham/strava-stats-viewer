@@ -69,7 +69,7 @@ class HeatMapViewController: UIViewController {
                 group.enter()
                 
                 // load saved stream
-                let savedStream = try? FSInteractor.load(type: StravaStream.self, id: StravaStream.idForSaving(activity, .latlng, .low))
+                let savedStream = activity.streams?.first(where: { $0.streamType == .latlng })
                 if let stream = savedStream {
                     for coordinate in stream.locationList {
                         self.bounds = self.bounds.includingCoordinate(coordinate)
@@ -82,18 +82,17 @@ class HeatMapViewController: UIViewController {
                         defer {
                             group.leave()
                         }
-                        
-                        guard let latlng = streams.first(where: { $0.type == .latlng }) else {
+
+                        guard let latlng = streams.first(where: { $0.streamType == .latlng }) else {
                             print("why is there no latlong stream for \(activity.id)?")
                             return
                         }
-                        
+
                         for coordinate in latlng.locationList {
                             self.bounds = self.bounds.includingCoordinate(coordinate)
                             self.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
                         }
-                        
-                        try? FSInteractor.save(latlng, id: StravaStream.idForSaving(activity, .latlng, .low))
+
                     }
                 }
             }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 /**
  Interactor for accessing information from Strava's RESTful API
@@ -260,7 +261,15 @@ class StravaInteractor {
                 return
             }
             do {
-                let streams = try JSONDecoder().decode([StravaStream].self, from: data)
+                let decoder = CoreDataInteractor.JSONDecoderWithContext()
+                let streams = try decoder.decode([StravaStream].self, from: data)
+                
+                for stream in streams {
+                    stream.activity = activity
+                }
+                
+                let context: NSManagedObjectContext = ServiceLocator.shared.getService()
+                try context.save() 
                 done(streams)
             } catch let err {
                 print("an error ocurred: \(err)")

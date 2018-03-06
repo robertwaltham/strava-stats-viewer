@@ -220,6 +220,7 @@
 		62DE1B49202280CB0094BEC7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				627EBB71204A4BC9001E6C8E /* Stravify.xcdatamodeld */,
 				62DE1B4A202280E80094BEC7 /* StravaAthlete.swift */,
 				629973582027D1FC00729434 /* StravaUser.swift */,
 				6290D5C02028F2F9004BC242 /* StravaActivity.swift */,
@@ -265,7 +266,6 @@
 				62F3FD28200FFD45009C2803 /* Info.plist */,
 				6220BFD5203637B50034F3A7 /* GoogleMaps.bundle */,
 				62AE072620366A170095EE49 /* Stravify-Bridging-Header.h */,
-				627EBB71204A4BC9001E6C8E /* Stravify.xcdatamodeld */,
 			);
 			path = Stravify;
 			sourceTree = "<group>";

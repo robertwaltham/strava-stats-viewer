@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import CoreData
 
 enum StreamType : String, Codable {
     case time               //     integer seconds
@@ -29,23 +30,37 @@ enum StreamResolution : String, Codable {
     case high       // 10000 + points 
 }
 
-class StravaStream : Codable, CustomDebugStringConvertible {
-    var debugDescription: String {
+class StravaStream : NSManagedObject, Decodable {
+    override var debugDescription: String {
         get {
-            return "<Stream: \(type.rawValue) \(resolution.rawValue) \(original_size):\(data.count > 0 ? data.count : location_data.count)>"
+            return "<Stream: \(type) \(resolution) \(original_size):\(data.count > 0 ? data.count : location_data.count)>"
         }
     }
     
-    let type: StreamType
-    let series_type: String
-    let original_size: Int
-    let resolution: StreamResolution
-    let data: [Double]
-    let location_data: [[Double]]
+    @NSManaged var type: String
+    @NSManaged var series_type: String
+    @NSManaged var original_size: Int
+    @NSManaged var resolution: String
+    @NSManaged var data: [Double]
+    @NSManaged var location_data: [[Double]]
+    
+    @NSManaged var activity: StravaActivity?
     
     var locationList: [CLLocationCoordinate2D] {
         get {
             return location_data.map { CLLocationCoordinate2DMake(CLLocationDegrees($0[0]), CLLocationDegrees($0[1]))}
+        }
+    }
+    
+    var streamType: StreamType {
+        get {
+            return StreamType(rawValue: type)!
+        }
+    }
+    
+    var streamResolution: StreamResolution {
+        get {
+            return StreamResolution(rawValue: resolution)!
         }
     }
     
@@ -58,38 +73,31 @@ class StravaStream : Codable, CustomDebugStringConvertible {
         case location_data
     }
     
-    required init(from decoder: Decoder) throws {
+    required convenience init(from decoder: Decoder) throws {
+        let key = CodingUserInfoKey.context!
+        // get NSManagedObjectContext that has been passed in to the decoder
+        guard let context = decoder.userInfo[key] as? NSManagedObjectContext else {
+            fatalError()
+        }
+        guard let entity = NSEntityDescription.entity(forEntityName: "StravaStream", in: context) else {
+            fatalError()
+        }
+        
+        self.init(entity: entity, insertInto: context)
+        
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        type = try values.decode(StreamType.self, forKey: .type)
+        type = try values.decode(String.self, forKey: .type)
         series_type = try values.decode(String.self, forKey: .series_type)
         original_size = try values.decode(Int.self, forKey: .original_size)
-        resolution = try values.decode(StreamResolution.self, forKey: .resolution)
+        resolution = try values.decode(String.self, forKey: .resolution)
         
-        if type == .latlng {
+        if streamType == .latlng {
             location_data = try values.decode([[Double]].self, forKey: .data)
             data = []
         } else {
             data = try values.decode([Double].self, forKey: .data)
             location_data = []
         }
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(type, forKey: .type)
-        try container.encode(series_type, forKey: .series_type)
-        try container.encode(original_size, forKey: .original_size)
-        try container.encode(resolution, forKey: .resolution)
-        
-        if type == .latlng {
-            try container.encode(location_data, forKey: .data)
-        } else {
-            try container.encode(data, forKey: .data)
-        }
-    }
-    
-    static func idForSaving(_ activity: StravaActivity, _ type: StreamType, _ resolution: StreamResolution) -> String {
-        return "\(activity.id)_\(type.rawValue)_\(resolution.rawValue)"
     }
 }
 

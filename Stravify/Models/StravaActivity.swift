@@ -128,6 +128,8 @@ class StravaActivity: NSManagedObject, Decodable {
     @NSManaged var workout_type: Int
     @NSManaged var summary_polyline: String?
     
+    @NSManaged var streams: Set<StravaStream>?
+    
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case map = "map"
