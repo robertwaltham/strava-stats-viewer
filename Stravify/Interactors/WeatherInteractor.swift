@@ -63,7 +63,7 @@ class WeatherInteractor {
             }
             return hourlyFirst <= activityYear && hourlyLast >= activityYear
             // uncomment this to guarantee a vancouver weather station that has conditions listed
-            // return station.TCID == "YVR"
+//             return station.TCID == "YVR"
         }
         
         guard first != nil else {

@@ -8,13 +8,13 @@
 
 import Foundation
 import UIKit
-
+import CoreData
 
 class AthleteViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let activityCellIdentifier = "ActivityCell"
     
-    var activityList: [String] = []
+    var activityList: [StravaActivity] = []
     
     @IBOutlet weak var profileImage: UIImageView?
     @IBOutlet weak var userNameLabel: UILabel?
@@ -60,7 +60,11 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async { [weak self] in
             do {
-                self?.activityList = try FSInteractor.list(type: StravaActivity.self).reversed()
+                let context: NSManagedObjectContext = ServiceLocator.shared.getService()
+                
+                let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "StravaActivity")
+                fetch.returnsObjectsAsFaults = false
+                self?.activityList = try context.fetch(fetch) as! [StravaActivity]
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.activityTable.reloadData()
@@ -74,15 +78,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     @IBAction func loadActivities(_ sender: UIButton) {
         try? StravaInteractor.getActivityList(20) { [weak self] activities in
-            do {
-                for activity in activities {
-                    let activityID = activity.id.description
-                    try FSInteractor.save(activity, id: activityID)
-                }
-                self?.loadTableData()
-            } catch {
-                print("error occurred while loading activities: \(error)")
-            }
+            self?.loadTableData()
         }
     }
     
@@ -94,29 +90,23 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: activityCellIdentifier)!
-        let activityID = activityList[indexPath.row]
-
+        let activity = activityList[indexPath.row]
         if let activityCell = cell as? ActivityCell {
+
+            activityCell.activityName.text = activity.name
+            activityCell.activityID = activity.id
+
+            activityCell.weatherLabel.text = nil
+            activityCell.loadWeather(activity: activity)
+
+            activityCell.previewImage.image = nil
             let queue: DispatchQueue = ServiceLocator.shared.getService()
             queue.async {
-                guard let activity = try? FSInteractor.load(type: StravaActivity.self, id: activityID) else {
-                    print("Activity not found for ID: \(activityID)")
-                    return
-                }
-                
-                let image = activity.map.path.imageRepresentation(boundingSize: 200)
+                let image = activity.path.imageRepresentation(boundingSize: 200)
                 DispatchQueue.main.async {
-                    activityCell.activityName.text = activity.name
-                    activityCell.activityID = activityID
                     activityCell.previewImage.image = image
                 }
-                activityCell.loadWeather(activity: activity)
             }
-            
-            activityCell.activityName.text = nil
-            activityCell.activityID = nil
-            activityCell.previewImage.image = nil
-            activityCell.weatherLabel.text = nil
         }
         
         return cell
@@ -129,6 +119,6 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     // UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("tapped on: \(activityList[indexPath.row])")
+        print("tapped on: \(activityList[indexPath.row].name)")
     }
 }

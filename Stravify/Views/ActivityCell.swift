@@ -11,7 +11,7 @@ import UIKit
 
 class ActivityCell: UITableViewCell {
     
-    var activityID: String? 
+    var activityID: Int?
     @IBOutlet weak var activityName: UILabel!
     @IBOutlet weak var previewImage: UIImageView!
     @IBOutlet weak var weatherLabel: UILabel!

@@ -11,6 +11,7 @@ import UIKit
 import GoogleMaps
 import ReactiveCocoa
 import ReactiveSwift
+import CoreData
 
 class ActivityDetailViewController: UIViewController {
     
@@ -34,7 +35,7 @@ class ActivityDetailViewController: UIViewController {
         UIColor.red
     ]
     
-    var activityID: String?
+    var activityID: Int?
     private var activity: StravaActivity?
     private var polyline: GMSPolyline?
     
@@ -48,50 +49,55 @@ class ActivityDetailViewController: UIViewController {
         
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         
-        queue.async { [unowned self] in
-            self.activity = try? FSInteractor.load(type: StravaActivity.self, id: activityID)
+        queue.async { [weak self] in
+            let context: NSManagedObjectContext = ServiceLocator.shared.getService()
             
-            guard let activity = self.activity else {
+            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "StravaActivity")
+            fetch.predicate = NSPredicate(format: "id = %d", activityID)
+            fetch.returnsObjectsAsFaults = false
+            self?.activity = try? context.fetch(fetch).first as! StravaActivity
+            
+            guard let activity = self?.activity else {
                 print("no activity loaded")
                 return
             }
             
             // Set up bounds and start/finish marker
-            DispatchQueue.main.async { [unowned self] in
-                self.navigationItem.title = activity.name
+            DispatchQueue.main.async { [weak self] in
+                self?.navigationItem.title = activity.name
                 
                 // set up camera
-                let path = activity.map.path
+                let path = activity.path
                 let bounds = GMSCoordinateBounds(path: path)
                 let update = GMSCameraUpdate.fit(bounds, withPadding: 20)
-                self.mapView.moveCamera(update)
+                self?.mapView.moveCamera(update)
                 
                 // start marker
                 let start = GMSMarker(position: activity.startLocation)
                 start.title = "Start"
                 start.icon = GMSMarker.markerImage(with: .green)
-                start.map = self.mapView
+                start.map = self?.mapView
                 
                 // end marker
                 let end = GMSMarker(position: activity.endLocation)
                 end.title = "End"
                 end.icon = GMSMarker.markerImage(with: .red)
-                end.map = self.mapView
+                end.map = self?.mapView
             }
 
             // load high res stream
-            self.loadStream(activity: activity, type: .latlng, resolution: .high) { [unowned self] stream in
+            self?.loadStream(activity: activity, type: .latlng, resolution: .high) { [weak self] stream in
                 let path = GMSMutablePath()
                 for point in stream.locationList {
                     path.add(point)
                 }
                 
                 // create polyline
-                self.polyline = GMSPolyline(path: path)
-                self.polyline?.map = self.mapView
+                self?.polyline = GMSPolyline(path: path)
+                self?.polyline?.map = self?.mapView
                 
                 // event for control change
-                self.viewSelector.reactive.controlEvents(.valueChanged).observeValues { [weak self] control in
+                self?.viewSelector.reactive.controlEvents(.valueChanged).observeValues { [weak self] control in
                     self?.updateMapDisplay(type: ActivityDisplayType(rawValue: control.selectedSegmentIndex) ?? .none)
                 }
             }

@@ -179,7 +179,8 @@ class StravaInteractor {
             }
             
             do {
-                let activities = try JSONDecoder().decode([StravaActivity].self, from: data)
+                let decoder = CoreDataInteractor.JSONDecoderWithContext()
+                let activities = try decoder.decode([StravaActivity].self, from: data)
                 done(activities)
             } catch let err {
                 print("an error ocurred: \(err) \n\(String(data: data, encoding: .utf8)!)")
