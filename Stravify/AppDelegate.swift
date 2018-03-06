@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let store = CoreDataInteractor.createAndLoadStores(name: "Stravify")
         ServiceLocator.shared.registerService(service: store)
         let context = store.newBackgroundContext()
-        // new data will overwrite old data by default 
+        // new data will overwrite old data by default
         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         ServiceLocator.shared.registerService(service: context)
 
