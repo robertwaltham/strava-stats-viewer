@@ -1,5 +1,15 @@
-# strava-stats-viewer
-iOS strava data viewer
+# Strava Stats Viewer
+A small demonstration app that displays and maps Strava activities. 
+
+**Technologies**
+
+* Core Data
+* [Reactive Cocoa](https://github.com/ReactiveCocoa/ReactiveCocoa)
+* Accesses Strava's [RESTFul API](https://developers.strava.com/docs/reference/)
+* Authentication via [oAuth](https://developers.strava.com/docs/authentication/) 
+* Displays data using Google Maps [iOS SDK](https://developers.google.com/maps/documentation/ios-sdk/)
+
+# Features and Screenshots
 
 **HeatMaps**
 
@@ -13,7 +23,9 @@ Downloads historical weather data from the [Environment Canada](http://climate.w
 
 <p align="center"><img width="50%" vspace="20" src="https://raw.githubusercontent.com/robertwaltham/strava-stats-viewer/master/Screenshots/weather_1.png"></p>
 
-Building:
+# Building And Running
+
+**Building the Project**
 
 1) Add file "credentials.json" to the Stravify target with the credentials for your Strava application
 
@@ -30,6 +42,6 @@ Building:
 3) install carthage dependencies 
 4) open Stravify.xcworkspace and build Stravify target 
 
-Running:
+**Running the App**
 
 Only logging in with email will work due to restrictions on oAuth. (TODO: fix oAuth login)
