@@ -11,6 +11,8 @@ import Foundation
 /**
  A basic implementation of a service locator in Swift.
  
+ Adapted from https://gist.github.com/AlexeyDemedetskiy/6b72a7805034ba69effc
+ 
  Each Type can only have one registered service. Service Type is inferred from the context.
  
  Services are basically a singleton, but can be overridden in a subclass to provide a testable interface

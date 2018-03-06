@@ -123,18 +123,17 @@ class WeatherInteractor {
         } else {
             try loadWeather(activity: activity, station: station) { loadedWeather in
                 
-                let queue: DispatchQueue = ServiceLocator.shared.getService()
-             
-                // save each individually
-                for weather in loadedWeather {
-                    queue.async {
-                         try? FSInteractor.save(weather, id: idForSaving(date: weather.date, station: station))
-                    }
-                }
-                
                 // match
                 let matched = loadedWeather.first { record in
                     return match(a: activity.startDate, b: record.date)
+                }
+                
+                // save cache
+                if let matched = matched {
+                    let queue: DispatchQueue = ServiceLocator.shared.getService()
+                    queue.async {
+                        try? FSInteractor.save(matched, id: idForSaving(date: matched.date, station: station))
+                    }
                 }
                 
                 done(matched)
