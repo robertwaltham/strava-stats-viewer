@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import GoogleMaps
+import CoreData
 
 /**
  Displays a heat map of recent activities
@@ -38,6 +39,10 @@ class HeatMapViewController: UIViewController {
     }
     
     @IBAction func load(_ sender: UIButton) {
+        loadHeatMap()
+    }
+    
+    private func loadHeatMap() {
         activityIndicator.startAnimating()
         loadButton.isEnabled = false
         
@@ -46,57 +51,64 @@ class HeatMapViewController: UIViewController {
         
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async {
-            // TODO: load activities from core data instead
-            try? StravaInteractor.getActivityList(20) { [unowned self] activities in
-                let group = DispatchGroup()
+            let context: NSManagedObjectContext = ServiceLocator.shared.getService()
+            
+            let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "StravaActivity")
+            fetch.returnsObjectsAsFaults = false
+            let activities: [StravaActivity]
+            do {
+                activities = try context.fetch(fetch) as! [StravaActivity]
+            } catch {
+                print("Activity load failed: \(error)")
+                activities = []
+            }
+            
+            let group = DispatchGroup()
+            
+            for activity in activities {
+                group.enter()
                 
-                for activity in activities {
-                    group.enter()
-                    
-                    // load saved stream
-                    let savedStream = try? FSInteractor.load(type: StravaStream.self, id: StravaStream.idForSaving(activity, .latlng, .low))
-                    if let stream = savedStream {
-                        for coordinate in stream.locationList {
+                // load saved stream
+                let savedStream = try? FSInteractor.load(type: StravaStream.self, id: StravaStream.idForSaving(activity, .latlng, .low))
+                if let stream = savedStream {
+                    for coordinate in stream.locationList {
+                        self.bounds = self.bounds.includingCoordinate(coordinate)
+                        self.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
+                    }
+                    group.leave()
+                    // else grab from API
+                } else {
+                    try? StravaInteractor.getStream(activity: activity, type: .latlng, resolution: .low) { streams in
+                        defer {
+                            group.leave()
+                        }
+                        
+                        guard let latlng = streams.first(where: { $0.type == .latlng }) else {
+                            print("why is there no latlong stream for \(activity.id)?")
+                            return
+                        }
+                        
+                        for coordinate in latlng.locationList {
                             self.bounds = self.bounds.includingCoordinate(coordinate)
                             self.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
                         }
-                        group.leave()
-                    // else grab from API
-                    } else {
-                        try? StravaInteractor.getStream(activity: activity, type: .latlng, resolution: .low) { streams in
-                            defer {
-                                group.leave()
-                            }
-                            
-                            guard let latlng = streams.first(where: { $0.type == .latlng }) else {
-                                print("why is there no latlong stream for \(activity.id)?")
-                                return
-                            }
-                            
-                            for coordinate in latlng.locationList {
-                                self.bounds = self.bounds.includingCoordinate(coordinate)
-                                self.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
-                            }
-                            
-                            try? FSInteractor.save(latlng, id: StravaStream.idForSaving(activity, .latlng, .low))
-                        }
+                        
+                        try? FSInteractor.save(latlng, id: StravaStream.idForSaving(activity, .latlng, .low))
                     }
                 }
+            }
+            
+            group.notify(queue: .main) {
+                self.activityIndicator.stopAnimating()
+                self.loadButton.isEnabled = true
                 
-                group.notify(queue: .main) {
-                    self.activityIndicator.stopAnimating()
-                    self.loadButton.isEnabled = true
-                    
-                    print("done: loc count: \(self.locations.count) bounds: \(self.bounds.northEast);\(self.bounds.southWest)")
-                    self.heatMapLayer.weightedData = self.locations
-                    self.heatMapLayer.clearTileCache()
-                    self.heatMapLayer.map = self.mapView
-                    self.mapView.animate(with: GMSCameraUpdate.fit(self.bounds, withPadding: 15))
-                }
-                
+                print("done: loc count: \(self.locations.count) bounds: \(self.bounds.northEast);\(self.bounds.southWest)")
+                self.heatMapLayer.weightedData = self.locations
+                self.heatMapLayer.clearTileCache()
+                self.heatMapLayer.map = self.mapView
+                self.mapView.animate(with: GMSCameraUpdate.fit(self.bounds, withPadding: 15))
             }
         }
     }
-    
     
 }
