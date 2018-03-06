@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		620212C5204DF10400E38438 /* CodingUserInfoKey+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620212C4204DF10400E38438 /* CodingUserInfoKey+Extensions.swift */; };
-		6220BFAE2036146E0034F3A7 /* ActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFAD2036146E0034F3A7 /* ActivityCell.swift */; };
 		6220BFB02036263B0034F3A7 /* ActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6220BFAF2036263B0034F3A7 /* ActivityDetailViewController.swift */; };
 		6220BFB8203632A40034F3A7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFB7203632A40034F3A7 /* Accelerate.framework */; };
 		6220BFBF203632B70034F3A7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6220BFB9203632B60034F3A7 /* CoreGraphics.framework */; };
@@ -78,7 +77,6 @@
 
 /* Begin PBXFileReference section */
 		620212C4204DF10400E38438 /* CodingUserInfoKey+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodingUserInfoKey+Extensions.swift"; sourceTree = "<group>"; };
-		6220BFAD2036146E0034F3A7 /* ActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCell.swift; sourceTree = "<group>"; };
 		6220BFAF2036263B0034F3A7 /* ActivityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailViewController.swift; sourceTree = "<group>"; };
 		6220BFB7203632A40034F3A7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		6220BFB9203632B60034F3A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -197,7 +195,6 @@
 				62F3FD45201006C1009C2803 /* AuthViewController.swift */,
 				62F3FD1E200FFD44009C2803 /* LandingViewController.swift */,
 				62F8C7DA20350C7800B06968 /* AthleteViewController.swift */,
-				6220BFAD2036146E0034F3A7 /* ActivityCell.swift */,
 				6220BFAF2036263B0034F3A7 /* ActivityDetailViewController.swift */,
 				6220BFD920365A980034F3A7 /* HeatMapViewController.swift */,
 			);
@@ -518,7 +515,6 @@
 				6220BFD4203633EB0034F3A7 /* BundleInteractor.swift in Sources */,
 				6220BFB02036263B0034F3A7 /* ActivityDetailViewController.swift in Sources */,
 				6270AFA820411A1900D8B771 /* WeatherInteractor.swift in Sources */,
-				6220BFAE2036146E0034F3A7 /* ActivityCell.swift in Sources */,
 				62F8C7DB20350C7800B06968 /* AthleteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

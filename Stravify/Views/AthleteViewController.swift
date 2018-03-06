@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import CoreData
 
+import ReactiveCocoa
+import ReactiveSwift
+
+
 /**
  User profile view. Displays athlete information and a list of activities
  */
@@ -18,6 +22,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     let activityCellIdentifier = "ActivityCell"
     
     var activityList: [StravaActivity] = []
+    var viewModelList: [Int: ActivityViewModel] = [:]
     
     @IBOutlet weak var profileImage: UIImageView?
     @IBOutlet weak var userNameLabel: UILabel?
@@ -81,7 +86,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     // Load activities from Strava API
     @IBAction func loadActivities(_ sender: UIButton) {
-        try? StravaInteractor.getActivityList(20) { [weak self] activities in
+        try? StravaInteractor.getActivityList(40) { [weak self] activities in
             self?.loadTableData()
         }
     }
@@ -96,21 +101,15 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: activityCellIdentifier)!
         let activity = activityList[indexPath.row]
         if let activityCell = cell as? ActivityCell {
-
-            activityCell.activityName.text = activity.name
-            activityCell.activityID = activity.id
-
-            activityCell.weatherLabel.text = nil
-            activityCell.loadWeather(activity: activity)
-
-            activityCell.previewImage.image = nil
-            let queue: DispatchQueue = ServiceLocator.shared.getService()
-            queue.async {
-                let image = activity.path.imageRepresentation(boundingSize: 200)
-                DispatchQueue.main.async {
-                    activityCell.previewImage.image = image
-                }
+            let viewModel: ActivityViewModel
+            if viewModelList.keys.contains(activity.id) {
+                viewModel = viewModelList[activity.id]!
+            } else {
+                viewModel = ActivityViewModel(activity: activity)
+                viewModelList[activity.id] = viewModel
             }
+            
+            activityCell.viewModel = viewModel
         }
         
         return cell
@@ -124,5 +123,114 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("tapped on: \(activityList[indexPath.row].name)")
+    }
+}
+
+/**
+ Table Cell to display activity information and weather
+ */
+class ActivityCell: UITableViewCell {
+    
+    @IBOutlet weak var activityName: UILabel!
+    @IBOutlet weak var previewImage: UIImageView!
+    @IBOutlet weak var weatherLabel: UILabel!
+
+    var viewModel: ActivityViewModel? {
+        didSet {
+            configureFromViewModel()
+        }
+    }
+    
+    var activityID : Int? {
+        get {
+            return viewModel?.activity.id
+        }
+    }
+    
+    private func configureFromViewModel() {
+        activityName.text = viewModel?.name
+        
+        viewModel?
+            .imageSignal()
+            .take(until: reactive.prepareForReuse)
+            .startWithResult { result in
+                self.previewImage.image = result.value
+        }
+        
+        viewModel?
+            .weatherSignal()
+            .take(until: reactive.prepareForReuse)
+            .startWithResult { result in
+                self.weatherLabel.text = result.value
+        }
+    }
+}
+
+/**
+ View model for activity cell. Provides async loading of weather and images.
+ */
+class ActivityViewModel {
+    let activity: StravaActivity
+    private var image: UIImage? = nil
+    private var weather: String? = nil
+    
+    init(activity: StravaActivity) {
+        self.activity = activity
+    }
+    
+    var name: String {
+        get {
+            return activity.name
+        }
+    }
+    
+    /**
+     Generates the image preview for the cell
+    */
+    func imageSignal() -> SignalProducer<UIImage, NSError> {
+        return SignalProducer { observer, disposable in
+            if let image = self.image {
+                observer.send(value: image)
+            } else {
+                let queue: DispatchQueue = ServiceLocator.shared.getService()
+                queue.async {
+                    let image = self.activity.path.imageRepresentation(boundingSize: 200)
+                    DispatchQueue.main.async {
+                        observer.send(value: image)
+                    }
+                    self.image = image
+                }
+            }
+        }
+    }
+    
+    /**
+     Loads hourly weather data for the activity
+     */
+    func weatherSignal() -> SignalProducer<String, NSError> {
+        return SignalProducer { observer, disposable in
+            if let weather = self.weather {
+                observer.send(value: weather)
+            } else {
+                do {
+                    try WeatherInteractor.weather(activity: self.activity) { hourlyWeather in
+                        DispatchQueue.main.async {
+                            if let hourlyWeather = hourlyWeather {
+                                if hourlyWeather.weather == "NA" {
+                                    self.weather = "\(hourlyWeather.temp) ºC"
+                                } else {
+                                    self.weather = "\(hourlyWeather.temp) ºC - \(hourlyWeather.weather)"
+                                }
+                            } else {
+                                self.weather = ""
+                            }
+                            observer.send(value: self.weather!)
+                        }
+                    }
+                } catch {
+                    observer.send(error: error as NSError)
+                }
+            }
+        }
     }
 }
