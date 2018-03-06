@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import CoreData
 
+/**
+ User profile view. Displays athlete information and a list of activities
+ */
 class AthleteViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let activityCellIdentifier = "ActivityCell"
@@ -55,7 +58,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    // Load activity data from disk
+    // Load activity data from CoreData
     func loadTableData() {
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async { [weak self] in
@@ -76,13 +79,14 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    // Load activities from Strava API
     @IBAction func loadActivities(_ sender: UIButton) {
         try? StravaInteractor.getActivityList(20) { [weak self] activities in
             self?.loadTableData()
         }
     }
     
-    // UITableViewDataSource
+    // MARK: UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activityList.count
@@ -116,7 +120,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         return 200
     }
     
-    // UITableViewDelegate
+    // MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("tapped on: \(activityList[indexPath.row].name)")

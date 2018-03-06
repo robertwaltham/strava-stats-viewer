@@ -24,9 +24,9 @@ enum StreamType : String, Codable {
 }
 
 enum StreamResolution : String, Codable {
-    case low
-    case medium
-    case high
+    case low        // 100 points
+    case medium     // 1000 points
+    case high       // 10000 + points 
 }
 
 class StravaStream : Codable, CustomDebugStringConvertible {

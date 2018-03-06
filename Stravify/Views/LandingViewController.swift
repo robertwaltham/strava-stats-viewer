@@ -10,6 +10,9 @@ import UIKit
 
 import ReactiveSwift
 
+/**
+ Landing view for the app. Displays a carousel of motivational images.
+ */
 class LandingViewController: UIViewController {
     
     @IBOutlet weak var background: UIImageView?
@@ -17,6 +20,7 @@ class LandingViewController: UIViewController {
     let scheduler: QueueScheduler
     var imageTransition: Disposable? = nil
     
+    // Images contained in "Assets" asset bundle
     static let bgimages = ["bg_1", "bg_2", "bg_3"]
     static let transitionTime: Double = 5
     
@@ -36,6 +40,7 @@ class LandingViewController: UIViewController {
         super.viewDidLoad()
         title = "Welcome"
         
+        // Observer for login notification
         NotificationCenter.default.addObserver(forName: .didLogIn, object: nil, queue: OperationQueue.main) { note in
             
             guard let user = note.object as? StravaToken else {
@@ -46,8 +51,8 @@ class LandingViewController: UIViewController {
             // TODO: refactor authentication into an interactor
             ServiceLocator.shared.registerService(service: user)
             try! FSInteractor.save(user, id: "user")
-            print("logged in as: \(user.athlete_id)")
             
+            // Display Tab View
             DispatchQueue.main.async { [unowned self] in
                 self.performSegue(withIdentifier: "LandingToNav", sender: self)
             }
@@ -57,13 +62,12 @@ class LandingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // start bg transition
+        // Start carousel image transition
         let startTime =  Date().addingTimeInterval(LandingViewController.transitionTime)
         let interval = DispatchTimeInterval.seconds(Int(LandingViewController.transitionTime))
         imageTransition = scheduler.schedule(after: startTime, interval: interval){ [unowned self] in
             guard let background = self.background else {
-                print("wtf image view not found")
-                return
+                fatalError("wtf background image view not found")
             }
             self.imageIndex = (self.imageIndex + 1) % LandingViewController.bgimages.count
             let newImage = UIImage(named: LandingViewController.bgimages[self.imageIndex])
@@ -88,6 +92,7 @@ class LandingViewController: UIViewController {
     }
     
     @IBAction func loadSavedCredentials(sender: UIButton) {
+        // This shouldn't happen - means user has already logged in
         if let user = ServiceLocator.shared.tryGetService() as StravaToken? {
             print("already logged in as: \(user.athlete_id)")
         } else {
@@ -97,6 +102,7 @@ class LandingViewController: UIViewController {
                 print("logged in as: \(user.athlete_id)")
                 performSegue(withIdentifier: "LandingToNav", sender: self)
             } catch {
+                // TODO: present alert to user, and/or hide button when file doesn't exist
                 print("no user found: \(error.localizedDescription)")
             }
         }

@@ -9,6 +9,9 @@
 import Foundation
 import CoreData
 
+/**
+ Handles interactions with the Core Data stack (but not loading or saving individual objects) 
+ */
 class CoreDataInteractor {
     
     // Creates an NSPersistentContainer for the app session

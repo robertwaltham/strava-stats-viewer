@@ -13,6 +13,9 @@ extension Notification.Name {
     static let didLogIn = Notification.Name("didLogIn")
 }
 
+/**
+    View Controller for displaying the oAuth web page for Strava
+ */
 class AuthViewController: UIViewController, UIWebViewDelegate {
 
     override func viewDidLoad() {
@@ -22,15 +25,8 @@ class AuthViewController: UIViewController, UIWebViewDelegate {
             view.delegate = self
             view.loadRequest(try! StravaInteractor.createAuthenticationURLRequest())
         } else {
-            print("why isn't this a UIWebView?")
+            fatalError("why isn't \(view) a UIWebView?")
         }
-        
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func cancel (sender: UIButton) {
@@ -38,9 +34,14 @@ class AuthViewController: UIViewController, UIWebViewDelegate {
     }
     
     
-    // UIWebViewDelegate
+    // MARK: UIWebViewDelegate
     
-    // TODO: Handle when the user presses decline 
+    /**
+     When the web view tries to load a request, check that it's the callback url for successful authentication and intercept
+     Instead of loading the callback, post notification that login is successful 
+     
+     TODO: Handle when the user presses decline
+     */
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if let url = request.url, StravaInteractor.isCallbackURL(url) {
             StravaInteractor.getAuthenitcationTokenFromCode(redirectURL: url, done: {
@@ -54,8 +55,5 @@ class AuthViewController: UIViewController, UIWebViewDelegate {
         }
         return true
     }
-  
-
-  
 }
 

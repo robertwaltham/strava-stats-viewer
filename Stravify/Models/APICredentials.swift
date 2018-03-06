@@ -9,8 +9,8 @@
 import Foundation
 
 struct APICredentials : Codable {
-    let CLIENT_SECRET: String // strava client secret
-    let ACCESS_TOKEN: String // strava access token
-    let CLIENT_ID: String // strava client id
-    let GMAPS_API: String // google maps API key
+    let CLIENT_SECRET: String   // strava client secret
+    let ACCESS_TOKEN: String    // strava access token
+    let CLIENT_ID: String       // strava client id
+    let GMAPS_API: String       // google maps API key
 }

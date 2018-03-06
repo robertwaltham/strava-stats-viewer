@@ -193,9 +193,9 @@
 		62DE1B47202280710094BEC7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				62F3FD20200FFD44009C2803 /* Main.storyboard */,
 				62F3FD45201006C1009C2803 /* AuthViewController.swift */,
 				62F3FD1E200FFD44009C2803 /* LandingViewController.swift */,
-				62F3FD20200FFD44009C2803 /* Main.storyboard */,
 				62F8C7DA20350C7800B06968 /* AthleteViewController.swift */,
 				6220BFAD2036146E0034F3A7 /* ActivityCell.swift */,
 				6220BFAF2036263B0034F3A7 /* ActivityDetailViewController.swift */,

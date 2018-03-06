@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+/**
+ Table Cell to display activity information and weather
+ */
 class ActivityCell: UITableViewCell {
     
     var activityID: Int?
@@ -16,6 +19,13 @@ class ActivityCell: UITableViewCell {
     @IBOutlet weak var previewImage: UIImageView!
     @IBOutlet weak var weatherLabel: UILabel!
     
+    /**
+     Loads hourly weather data for the activity
+     
+     TODO: Delegating this to a view model to fix data race when scrolling table
+     
+     - parameter activity: The activity to load weather for. Must have associated GPS data.
+    */
     func loadWeather(activity: StravaActivity) {
         try? WeatherInteractor.weather(activity: activity) { [weak self] hourlyWeather in
             DispatchQueue.main.async {

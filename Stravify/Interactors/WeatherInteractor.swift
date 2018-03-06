@@ -5,14 +5,18 @@
 //  Created by Robert Waltham on 2018-02-23.
 //  Copyright © 2018 Robert Waltham. All rights reserved.
 //
-//  ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/
 
 import UIKit
 
+/**
+ An interactor that interfaces with `climate.weather.gc.ca` to download bulk historical weather data
+ 
+ - See:
+  ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/
+ */
 class WeatherInteractor {
     
     enum WeatherInteractorError: Error{
-        case csvStationNotFound
         case stationsNotLoaded
     }
     
@@ -21,22 +25,13 @@ class WeatherInteractor {
         case daily = "2"
         case monthly = "3"
     }
-
-    // loads all stations from bundle file
-    static func readStationInventory() throws -> [WeatherStation] {
-        guard let filePath = Bundle.main.path(forResource: "StationInventory", ofType: "json") else {
-            print("No station csv found, wtf?")
-            throw WeatherInteractorError.csvStationNotFound
-        }
-        
-        // load
-        let fileURL = URL(fileURLWithPath: filePath)
-        let csvData = try Data(contentsOf: fileURL)
-      
-        return try JSONDecoder().decode([WeatherStation].self, from: csvData)
-    }
     
-    // filters bundle stations to stations active 2015-present
+    /**
+     Filters list of weather stations and keeps only those that have been active for a relevant time
+     
+     For now this will be:
+        * stations active 2015-present
+    */
     static func filterStationInventory(stations: [WeatherStation]) -> [WeatherStation] {
         let minYear = 2015 // TODO: formalize this constant
         return stations.filter { station in
@@ -44,26 +39,42 @@ class WeatherInteractor {
         }
     }
     
-    // returns the closest weather station that has a daily record for the activity start date
+    /**
+     Look up the closest weather station for a given activity.
+     
+     Assumes the activity has GPS data.
+     
+     Sorts all loaded weather stations by distance from the activity start location, and then filters for the first
+     station that has been active for hourly data.
+     
+     TODO: Many weather stations don't record condition data for historical weather; just temperature. In the case where the
+     closest station does not have conditions data use only the temperature from that station and find another nearby station that
+     has conditions data. This will probably require external data on the stations for which ones have condition data.
+    
+    */
     static func weatherStation(activity: StravaActivity) throws -> WeatherStation {
         guard let stations: [WeatherStation] = ServiceLocator.shared.tryGetService() else {
             print("no stations loaded")
             throw WeatherInteractorError.stationsNotLoaded
         }
         
+        // Sort by distance from the activity start
         let activityLocation = CLLocation(latitude: activity.startLocation.latitude, longitude: activity.startLocation.longitude)
         let sortedStation = stations.sorted { a, b in
             return a.location.distance(from: activityLocation) < b.location.distance(from: activityLocation)
         }
         
+        // first station that had hourly stats in the correct year
         let activityYear = Calendar.current.component(.year, from: activity.startDate)
         let first = sortedStation.first { station in
             guard let hourlyFirst = station.HLYFirstYear, let hourlyLast = station.HLYLastYear else {
                 return false
             }
-            return hourlyFirst <= activityYear && hourlyLast >= activityYear
+            
             // uncomment this to guarantee a vancouver weather station that has conditions listed
-//             return station.TCID == "YVR"
+            // return station.TCID == "YVR"
+            
+            return hourlyFirst <= activityYear && hourlyLast >= activityYear
         }
         
         guard first != nil else {
@@ -73,12 +84,18 @@ class WeatherInteractor {
         return first!
     }
     
-    // STNID_YEAR_MONTH_DAY_HOUR
+    // File system ID for saving hourly data. Format: STNID_YEAR_MONTH_DAY_HOUR
     private static func idForSaving(date: Date, station: WeatherStation) -> String {
         let components = Calendar.current.dateComponents([.year, .month, .day, .hour], from: date)
         return "\(station.StationID)_\(components.year!)_\(components.month!)_\(components.day!)_\(components.hour!)"
     }
     
+    
+    /**
+     Helper function to match station record date with activity date
+     
+     The dates are a match if the day and hour are the same. It is assumed the dates have the same month and year.
+    */
     private static func match(a: Date, b: Date) -> Bool {
         let cal = Calendar.current
         let compA = cal.dateComponents([.day, .hour], from: a)
@@ -87,11 +104,18 @@ class WeatherInteractor {
         return compA.day == compB.day && compA.hour == compB.hour
     }
     
-    // load weather from cache or api 
+    /**
+     Loads the hourly weather for an activity.
+     
+     First checks filesystem cache then loads from the weather API.
+     
+     - see `ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/Readme.txt`
+    */
     static func weather(activity: StravaActivity, done: @escaping (HourlyWeather?) -> Void) throws {
         let station = try WeatherInteractor.weatherStation(activity: activity)
         let key = idForSaving(date: activity.startDate, station: station)
 
+        // Weather records are cached by station and date
         let cachedWeather = try? FSInteractor.load(type: HourlyWeather.self, id: key)
         
         if let cachedWeather = cachedWeather {
@@ -118,8 +142,16 @@ class WeatherInteractor {
         }
     }
     
-    // see ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/Readme.txt
-    //http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=1706&Year=${year}&Month=${month}&Day=14&timeframe=1&submit= Download+Data
+    /**
+     Loads hourly weather for the given `StravaActivity` and `WeatherStation` from the weather API
+     
+     The API is pretty simple and will always give you the climate records for the entire month in CSV form,
+     even if you only asked for a single day.
+     
+     URL for downloading:
+     
+     `http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=1706&Year=${year}&Month=${month}&Day=14&timeframe=1&submit= Download+Data`
+    */
     private static func loadWeather(activity: StravaActivity, station: WeatherStation, done: @escaping ([HourlyWeather]) -> Void) throws {
         
         let date = activity.startDate
@@ -156,13 +188,25 @@ class WeatherInteractor {
                 print("no string data found for weather request")
                 return
             }
+            
+            // Parse returned Weather records
             let weatherRecords = parseWeather(string: parsedString, stationID: station.StationID)
+            
             done(weatherRecords)
         }
         task.resume()
     }
     
-    // parse returned CSV rows
+    /**
+     Parse returned CSV rows from the API
+     
+     Note:
+        The standard response has 17 lines of informational content before the data begins
+        Dates and times in the future for the date range still will have a row but no data
+     
+     - Parameter string: String representing a CSV file
+     - Parameter stationID: Weather needs a reference to it's parent station
+    */
     static private func parseWeather(string: String, stationID: Int) -> [HourlyWeather] {
         var result: [HourlyWeather] = []
         let weatherRows = string.split(separator: "\n").suffix(from: 17) // 17 lines of information
@@ -171,7 +215,7 @@ class WeatherInteractor {
                 return String(split).replacingOccurrences(of: "\"", with: "")
             }
         
-            // some rows will not have all the data
+            // some rows will have a date but no data (usually because it's in the future)
             guard elements.count == HourlyWeatherCSVKeys.weather.rawValue + 1 else {
                 continue
             }

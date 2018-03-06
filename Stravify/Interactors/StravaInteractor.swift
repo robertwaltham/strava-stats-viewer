@@ -8,6 +8,12 @@
 
 import Foundation
 
+/**
+ Interactor for accessing information from Strava's RESTful API
+ 
+ - See:
+    https://developers.strava.com/docs/reference/
+ */
 class StravaInteractor {
     
     enum StravaInteratorError: Error {
@@ -16,38 +22,43 @@ class StravaInteractor {
         case invalidCredentials
     }
     
-    enum RedirectURL: String {
+    private enum RedirectURL: String {
         case dev = "localhost" // localhost is whitelisted, or so they claim
         case prod = "http://blockoftext.com/strava" // this doesn't exist yet but will if this ever gets deployed
     }
     
-    static let AUTH_LOGIN_PATH = "/oauth/authorize"
-    static let AUTH_EXCHANGE_PATH = "/oauth/token"
-    static let AUTH_HOST = "www.strava.com"
-    static let AUTH_SCHEME = "https"
+    private static let AUTH_LOGIN_PATH = "/oauth/authorize"
+    private static let AUTH_EXCHANGE_PATH = "/oauth/token"
+    private static let AUTH_HOST = "www.strava.com"
+    private static let AUTH_SCHEME = "https"
     
-    static let AUTH_RESPONSE_TYPE = "code" // required
-    static let AUTH_SCOPE = "view_private" // comma delimited, could also have "write"
+    private static let AUTH_RESPONSE_TYPE = "code" // required
+    private static let AUTH_SCOPE = "view_private" // comma delimited, could also have "write"
     
-    static let AUTH_HEADER_NAME = "Authorization"
+    private static let AUTH_HEADER_NAME = "Authorization"
     
     // TODO: clean up and refactor
-    static let API_BASE_PATH = "/api/v3/"
+    private static let API_BASE_PATH = "/api/v3/"
     
-    static let API_ACTIVITY_LIST_PATH = "athlete/activities"
-    static let API_ATHLETE_ZONES = "athlete/zones"
-    static let API_ACTIVITY_PATH = "activities/"
-    static let API_STREAM_PATH = "streams/"
+    private static let API_ACTIVITY_LIST_PATH = "athlete/activities"
+    private static let API_ATHLETE_ZONES = "athlete/zones"
+    private static let API_ACTIVITY_PATH = "activities/"
+    private static let API_STREAM_PATH = "streams/"
     
-    /*
-     Example:
-         https://www.strava.com/oauth/authorize?
+    /**
+     Creates a URLRequest with the correct path/parameters for accessing the oAuth login for Strava
+     
+     - Example:
+     
+         `https://www.strava.com/oauth/authorize?
          client_id=9
          &response_type=code
          &redirect_uri=http://testapp.com/token_exchange
          &scope=write
          &state=mystate
-         &approval_prompt=force
+         &approval_prompt=force`
+     
+     - Throws: StravaInteratorError.invalidURL in case of invalid configuration
     */
     static func createAuthenticationURLRequest() throws -> URLRequest {
         
@@ -82,15 +93,28 @@ class StravaInteractor {
         return URLRequest(url: components.url!)
     }
     
-    // this will catch the redirect load but not the accept_application request to strava or the inital load
+    /**
+     This will test for the redirect url (to signify the login was correct) but won't catch
+     the initial load or a failed login
+     
+     - Parameter url: The url to test
+     */
     static func isCallbackURL(_ url: URL) -> Bool {
         return url.absoluteString.contains(RedirectURL.prod.rawValue) &&
             !url.absoluteString.contains(AUTH_LOGIN_PATH) &&
             !url.absoluteString.contains("error=access_denied")
     }
     
-    // do code exchange for auth token and profile info
-    // TODO: error handling
+
+    /**
+     Once the redirect URL has been captured, the "code" parameter must be extracted and then be exchanged with Strava for a proper
+     access token.
+     
+     - See: https://developers.strava.com/docs/authentication/
+     
+     - Parameter redirectURL: URL to extract "?code=<code>" from
+     - Parameter done: callback
+    */
     static func getAuthenitcationTokenFromCode(redirectURL: URL, done: @escaping (StravaToken) -> Void) {
         let redirectComponents = URLComponents(url: redirectURL, resolvingAgainstBaseURL: true)
         
@@ -105,8 +129,7 @@ class StravaInteractor {
         }?.value
         
         guard token != nil else {
-            print("auth token not found")
-            return
+            fatalError("auth token not found")
         }
         
         // build token exchange request
@@ -137,24 +160,36 @@ class StravaInteractor {
                 return
             }
             
-            // TODO: HTTP Status code check
+            // TODO: HTTP Status code check, check for rate limit exceeded
             do {
+                // Decode with StravaUser, which will create the Athlete managed object
                 let decoder = CoreDataInteractor.JSONDecoderWithContext()
                 let user = try decoder.decode(StravaUser.self, from: data)
                 print("Logging in as: \(user.athlete.fullName)")
+                
+                // Save token, which has the access_token and a reference to the logged in Athlete
                 let token = StravaToken(access_token: user.access_token, token_type: user.token_type, athlete_id: user.athlete.id)
+                
+                // callback
                 done(token)
             } catch DecodingError.keyNotFound(let key, let context) {
                 print("key not found: \(key); context: \(context.debugDescription)")
             } catch let err {
                 print("an error ocurred: \(err.localizedDescription)")
             }
-            
+            // TODO: what happens in case of an error decoding the athlete?
         }
         task.resume()
     }
     
-    // gets last X activities by logged in user
+    /**
+     Gets the most recent X activities from the Strava API for the logged in user
+     
+     - See: https://developers.strava.com/docs/reference/#api-Activities-getActivityById
+     
+     - Parameter count: # of activities to get, default 10. API rejects requests with count > 200
+     - Parameter done: callback
+    */
     static func getActivityList(_ count: Int = 10, _ done: @escaping ([StravaActivity]) -> Void)  throws {
         
         // build request
@@ -172,6 +207,7 @@ class StravaInteractor {
         try addAuthField(request: &request)
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            // TODO: HTTP status code handling
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
                 done([])
@@ -190,6 +226,16 @@ class StravaInteractor {
         task.resume()
     }
     
+    /**
+     Gets a Stream associated with an Activity. By default the API will return 2, the relative distance and the requested stream.
+     
+     - See: https://developers.strava.com/docs/reference/#api-Streams
+     
+     - Parameter activity: Parent activity of the stream
+     - Parameter type: Type of the stream to request.
+     - Parameter resolution: The level of detail (sampling) in which this stream was returned
+     - Parameter done: callback
+     */
     static func getStream(activity: StravaActivity, type: StreamType, resolution: StreamResolution, done: @escaping ([StravaStream]) -> Void ) throws {
 
         // build request
@@ -224,6 +270,13 @@ class StravaInteractor {
         task.resume()
     }
     
+    /**
+     Gets the athlete's heart rate zones (power zones are ignored. cyclists need not apply).
+     Setting custom zones is a premium feature, but Strava 'guesses' for athletes that recored HR data. 
+     
+     - See: https://developers.strava.com/docs/reference/#api-Athletes-getLoggedInAthleteZones
+ 
+     */
     static func getZones(_ done: @escaping (StravaAthlete.Zones?) -> Void) throws {
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
@@ -253,6 +306,11 @@ class StravaInteractor {
         task.resume()
     }
     
+    /**
+     Adds the correct information for an Authenticated request to the Strava API
+     
+     - See: https://developers.strava.com/docs/authentication/
+     */
     private static func addAuthField(request: inout URLRequest) throws {
         // TODO: should this be passed in?
         guard let user = ServiceLocator.shared.tryGetService() as StravaToken? else {

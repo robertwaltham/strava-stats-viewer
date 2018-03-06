@@ -13,6 +13,9 @@ import ReactiveCocoa
 import ReactiveSwift
 import CoreData
 
+/**
+ Map View for displaying the details of an activity. Asumes activity has GPS information.
+ */
 class ActivityDetailViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
@@ -49,6 +52,7 @@ class ActivityDetailViewController: UIViewController {
         
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         
+        // Load Activity and Streams
         queue.async { [weak self] in
             let context: NSManagedObjectContext = ServiceLocator.shared.getService()
             
@@ -104,7 +108,14 @@ class ActivityDetailViewController: UIViewController {
         }
     }
     
-    // Attempts to load stream from disk, else loads from API
+    /**
+     Attempts to load stream from disk, else loads from API
+     
+     - parameter activity: Parent activity of the stream
+     - parameter type: StreamType to load
+     - parameter resolution: StreamResolution to load
+     - parameter done: Callback when the load finishes
+    */
     private func loadStream(activity: StravaActivity, type: StreamType, resolution: StreamResolution, done: @escaping (StravaStream) -> Void) {
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async {
@@ -131,7 +142,14 @@ class ActivityDetailViewController: UIViewController {
 
     }
 
-    // Updates the polyline styling based on stream type
+    /**
+     Updates map display for the given ActivityDisplayType. Will load the stream type for the activity that corresponds with
+     the display type and update the styling of the drawn polyline accordingly
+     
+     TODO: handle activities that don't have HR data
+     
+     - parameter type: Type of display to view 
+    */
     private func updateMapDisplay(type: ActivityDisplayType) {
         guard let activity = activity else {
             print("why is there no activity?")

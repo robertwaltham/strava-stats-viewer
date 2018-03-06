@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ServiceLocator.shared.registerService(service: cachedStations)
         } else {
             do {
-                let stations = try WeatherInteractor.readStationInventory()
+                let stations = try BundleInteractor.readStationInventory()
                 let filteredStations = WeatherInteractor.filterStationInventory(stations: stations)
                 try FSInteractor.save(filteredStations, id: "filtered_stations")
                 ServiceLocator.shared.registerService(service: filteredStations)

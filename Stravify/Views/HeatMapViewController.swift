@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import GoogleMaps
 
+/**
+ Displays a heat map of recent activities
+ */
 class HeatMapViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
@@ -23,7 +26,6 @@ class HeatMapViewController: UIViewController {
     private var gradientColors = [UIColor.green, UIColor.yellow, UIColor.red]
     private var gradientStartPoints = [0.000001, 0.02, 0.2] as [NSNumber]
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         heatMapLayer = GMUHeatmapTileLayer()
@@ -44,6 +46,7 @@ class HeatMapViewController: UIViewController {
         
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         queue.async {
+            // TODO: load activities from core data instead
             try? StravaInteractor.getActivityList(20) { [unowned self] activities in
                 let group = DispatchGroup()
                 

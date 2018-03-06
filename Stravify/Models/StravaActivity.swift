@@ -95,7 +95,7 @@ class StravaActivity: NSManagedObject, Decodable {
     @NSManaged var start_date_local: String
     @NSManaged var timezone: String
     @NSManaged var utc_offset: Float
-    var start_latlng: [Float]?
+    var start_latlng: [Float]? // TODO: Decoding start/end
     var end_latlng: [Float]?
     @NSManaged var location_city: String?
     @NSManaged var location_state: String?
@@ -271,6 +271,8 @@ class StravaActivity: NSManagedObject, Decodable {
         
         try context.save()
     }
+    
+    // MARK: Computed Properties
     
     var path: GMSPath {
         get {
