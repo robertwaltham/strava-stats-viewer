@@ -292,9 +292,11 @@
                         <outlet property="activityIndicator" destination="dWq-UI-sgM" id="UbW-aC-4Hh"/>
                         <outlet property="mapView" destination="Xsf-7B-2Fi" id="CxE-VD-bKK"/>
                         <outlet property="viewSelector" destination="SdJ-xf-aIL" id="k9q-Ns-Vdn"/>
+                        <segue destination="CLJ-ah-kCI" kind="unwind" identifier="logout" unwindAction="unwindToLandingWithSegue:" id="T7L-sf-sZl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mao-NJ-TWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="CLJ-ah-kCI" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2394.202898550725" y="822.554347826087"/>
         </scene>

@@ -271,7 +271,6 @@ class StravaActivity: NSManagedObject, Decodable {
         let athleteContainer = try container.nestedContainer(keyedBy: CodingKeysAthlete.self, forKey: .athlete)
         athlete_id = try athleteContainer.decode(Int.self, forKey: .id)
         
-        try context.save()
     }
     
     // MARK: Computed Properties

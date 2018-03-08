@@ -78,14 +78,18 @@ class HeatMapViewController: UIViewController {
                     group.leave()
                     // else grab from API
                 } else {
-                    try? StravaInteractor.getStream(activity: activity, type: .latlng, resolution: .low) { streams in
+                    try? StravaInteractor.getStream(activity: activity, type: .latlng, resolution: .low) { streams, fault in
                         defer {
                             group.leave()
                         }
 
-                        guard let latlng = streams.first(where: { $0.streamType == .latlng }) else {
+                        guard let streams = streams, let latlng = streams.first(where: { $0.streamType == .latlng }) else {
                             print("why is there no latlong stream for \(activity.id)?")
                             return
+                        }
+                        
+                        for stream in streams {
+                            activity.streams?.insert(stream)
                         }
 
                         for coordinate in latlng.locationList {

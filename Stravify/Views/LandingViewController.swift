@@ -91,10 +91,15 @@ class LandingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func unwindToLanding(segue: UIStoryboardSegue) {
+        print("unwound")
+    }
+    
     @IBAction func loadSavedCredentials(sender: UIButton) {
         // This shouldn't happen - means user has already logged in
         if let user = ServiceLocator.shared.tryGetService() as StravaToken? {
             print("already logged in as: \(user.athlete_id)")
+            performSegue(withIdentifier: "LandingToNav", sender: self)
         } else {
             do {
                 let user = try FSInteractor.load(type: StravaToken.self, id: "user")

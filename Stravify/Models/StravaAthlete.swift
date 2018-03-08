@@ -72,9 +72,7 @@ class StravaAthlete : NSManagedObject, Codable {
         sex = try container.decode(String.self, forKey: .sex)
         email = try container.decode(String.self, forKey: .email)
         created_at = try container.decode(String.self, forKey: .created_at)
-        badge_type_id = try container.decode(Int.self, forKey: .badge_type_id)
-        
-        try context.save()
+        badge_type_id = try container.decode(Int.self, forKey: .badge_type_id)        
     }
     
     enum CodingKeys: String, CodingKey {

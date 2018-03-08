@@ -48,8 +48,10 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         
         // load zones
         if athlete?.zones == nil {
-            try? StravaInteractor.getZones() { zones in
-                athlete?.zones = zones
+            try? StravaInteractor.getZones() { zones, fault in
+                if let zones = zones {
+                    athlete?.zones = zones["heart_rate"]
+                }
             }
         }
     }
@@ -86,7 +88,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     // Load activities from Strava API
     @IBAction func loadActivities(_ sender: UIButton) {
-        try? StravaInteractor.getActivityList(40) { [weak self] activities in
+        try? StravaInteractor.getActivityList(40) { [weak self] activities, fault in
             self?.loadTableData()
         }
     }

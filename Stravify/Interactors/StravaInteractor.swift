@@ -47,6 +47,36 @@ class StravaInteractor {
     private static let API_STREAM_PATH = "streams/"
     
     /**
+     Container for API errors and messages
+     
+     - See: `https://developers.strava.com/docs/reference/#api-models-Fault`
+     
+     Example:
+     `{"message":"Authorization Error","errors":[{"resource":"Athlete","field":"access_token","code":"invalid"}]}`
+     */
+    class StravaFault: Decodable {
+        let message: String
+        let errors: [StravaError]
+        
+        var type : FaultType? {
+            get {
+                return FaultType(rawValue: message)
+            }
+        }
+        
+        enum FaultType: String {
+            case authorization = "Authorization Error"
+            case rateLimit = "Rate Limit Exceeded"
+        }
+        
+        class StravaError: Decodable {
+            let resource: String
+            let field: String
+            let code: String
+        }
+    }
+    
+    /**
      Creates a URLRequest with the correct path/parameters for accessing the oAuth login for Strava
      
      - Example:
@@ -184,14 +214,14 @@ class StravaInteractor {
     }
     
     /**
-     Gets the most recent X activities from the Strava API for the logged in user
+     Gets the most recent X activities (in summary form) from the Strava API for the logged in user
      
      - See: https://developers.strava.com/docs/reference/#api-Activities-getActivityById
      
      - Parameter count: # of activities to get, default 10. API rejects requests with count > 200
      - Parameter done: callback
     */
-    static func getActivityList(_ count: Int = 10, _ done: @escaping ([StravaActivity]) -> Void)  throws {
+    static func getActivityList(_ count: Int = 10, _ done: @escaping ([StravaActivity]?, StravaFault?) -> Void)  throws {
         
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
@@ -208,21 +238,31 @@ class StravaInteractor {
         try addAuthField(request: &request)
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            // TODO: HTTP status code handling
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                done([])
-                return
-            }
-            
-            do {
-                let decoder = CoreDataInteractor.JSONDecoderWithContext()
-                let activities = try decoder.decode([StravaActivity].self, from: data)
-                done(activities)
-            } catch let err {
-                print("an error ocurred: \(err) \n\(String(data: data, encoding: .utf8)!)")
-                done([])
-            }
+            callbackHandler(type: [StravaActivity].self, data: data, response: response, error: error, done: done)
+        }
+        task.resume()
+    }
+    
+    /**
+     Gets detailed activity info
+    */
+    static func getActivity(id: Int, done: @escaping (StravaActivity?, StravaFault?) -> Void) throws {
+        // build request
+        var requestComponents = URLComponents(string: "")! // this shouldn't fail
+        requestComponents.scheme = AUTH_SCHEME
+        requestComponents.host = AUTH_HOST
+        requestComponents.path = API_BASE_PATH + API_ACTIVITY_PATH + "/\(id)"
+        
+        var queryItems: [URLQueryItem] = []
+        queryItems.append(URLQueryItem(name: "include_all_efforts", value: "true"))
+        requestComponents.queryItems = queryItems
+        
+        var request = URLRequest(url: requestComponents.url!)
+        request.httpMethod = "GET"
+        try addAuthField(request: &request)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            callbackHandler(type: StravaActivity.self, data: data, response: response, error: error, done: done)
         }
         task.resume()
     }
@@ -237,7 +277,7 @@ class StravaInteractor {
      - Parameter resolution: The level of detail (sampling) in which this stream was returned
      - Parameter done: callback
      */
-    static func getStream(activity: StravaActivity, type: StreamType, resolution: StreamResolution, done: @escaping ([StravaStream]) -> Void ) throws {
+    static func getStream(activity: StravaActivity, type: StreamType, resolution: StreamResolution, done: @escaping ([StravaStream]?, StravaFault?) -> Void ) throws {
 
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
@@ -255,26 +295,7 @@ class StravaInteractor {
         try addAuthField(request: &request)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                done([])
-                return
-            }
-            do {
-                let decoder = CoreDataInteractor.JSONDecoderWithContext()
-                let streams = try decoder.decode([StravaStream].self, from: data)
-                
-                for stream in streams {
-                    stream.activity = activity
-                }
-                
-                let context: NSManagedObjectContext = ServiceLocator.shared.getService()
-                try context.save() 
-                done(streams)
-            } catch let err {
-                print("an error ocurred: \(err)")
-                done([])
-            }
+            callbackHandler(type: [StravaStream].self, data: data, response: response, error: error, done: done)
         }
         task.resume()
     }
@@ -286,7 +307,7 @@ class StravaInteractor {
      - See: https://developers.strava.com/docs/reference/#api-Athletes-getLoggedInAthleteZones
  
      */
-    static func getZones(_ done: @escaping (StravaAthlete.Zones?) -> Void) throws {
+    static func getZones(_ done: @escaping ([String: StravaAthlete.Zones]?, StravaFault?) -> Void) throws {
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
         requestComponents.scheme = AUTH_SCHEME
@@ -298,21 +319,50 @@ class StravaInteractor {
         try addAuthField(request: &request)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                done(nil)
-                return
-            }
-            
-            do {
-                let zones = try JSONDecoder().decode([String: StravaAthlete.Zones].self, from: data)
-                done(zones["heart_rate"])
-            } catch let err {
-                print("an error ocurred: \(err)")
-                done(nil)
-            }
+            callbackHandler(type: [String: StravaAthlete.Zones].self, data: data, response: response, error: error, done: done)
         }
         task.resume()
+    }
+    
+    /**
+     A generic handler for decoding API responses
+     
+     NOTE: Saves NSManagedObjectContext as a side effect
+    */
+    private static func callbackHandler <T: Decodable> (type: T.Type, data: Data?, response: URLResponse?, error: Error?, done: (T?, StravaFault?) -> Void) {
+        // Save managed object context
+        defer {
+            let context: NSManagedObjectContext = ServiceLocator.shared.getService()
+            try? context.save()
+        }
+        
+        // check for network errors
+        guard let response = response as? HTTPURLResponse, let data = data, error == nil else {
+            print(error?.localizedDescription ?? "No data")
+            done(nil, nil)
+            return
+        }
+        
+        // check for api errors
+        guard response.statusCode == 200 else {
+            do {
+                let fault = try JSONDecoder().decode(StravaFault.self, from: data)
+                done(nil, fault)
+            } catch {
+                print("an error ocurred: \(error) \n\(String(data: data, encoding: .utf8)!)")
+            }
+            return
+        }
+        
+        // Decode
+        do {
+            let decoder = CoreDataInteractor.JSONDecoderWithContext()
+            let entities = try decoder.decode(T.self, from: data)
+            done(entities, nil)
+        } catch {
+            print("Error parsing \(String(describing: T.self)): \(error) \n\(String(data: data, encoding: .utf8)!)")
+            done(nil, nil)
+        }
     }
     
     /**

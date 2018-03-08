@@ -50,6 +50,23 @@ class ActivityDetailViewController: UIViewController {
             return
         }
         
+        try? StravaInteractor.getActivity(id: activityID) { [weak self] detailedActivity, fault in
+            guard fault == nil else {
+
+                let alert = UIAlertController(title: "Fault", message: fault?.message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .`default`) { alert in
+                    if fault?.type == .authorization {
+                        self?.performSegue(withIdentifier: "logout", sender: self)
+                    }
+                })
+                self?.present(alert, animated: true)
+                return
+            }
+            
+            print(detailedActivity?.id)
+            
+        }
+        
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         
         // Load Activity and Streams
@@ -125,11 +142,16 @@ class ActivityDetailViewController: UIViewController {
                     done(cachedStream)
                 }
             } else {
-                try? StravaInteractor.getStream(activity: activity, type: type, resolution: .high) { streams in
-                    guard let stream = streams.first(where: { $0.streamType == type }) else {
+                try? StravaInteractor.getStream(activity: activity, type: type, resolution: .high) { streams, fault in
+                    guard let streams = streams, let stream = streams.first(where: { $0.streamType == type }) else {
                         print("why is there no \(type.rawValue) stream for \(activity.id)?")
                         return
                     }
+                    
+                    for stream in streams {
+                        activity.streams?.insert(stream)
+                    }
+                    
                     DispatchQueue.main.async {
                         done(stream)
                     }
@@ -182,7 +204,7 @@ class ActivityDetailViewController: UIViewController {
                 }  else {
                     self.polyline?.spans = self.computeStyles(stream: stream)
                 }
-                self.polyline?.strokeWidth = 5
+                self.polyline?.strokeWidth = 10
                 
                 self.viewSelector.isEnabled = true
                 self.activityIndicator.stopAnimating()
@@ -221,8 +243,16 @@ class ActivityDetailViewController: UIViewController {
         }
         
         return stream.data.map { value in
-            let color = UIColor(hue: 0.3, saturation: CGFloat((value - min) / max), brightness: 1, alpha: 1)
+            let intensity = CGFloat((value - min) / max)
+            let color = self.color(intensity: intensity)
             return GMSStyleSpan(color: color)
         }
+    }
+    
+    /**
+     Generates a relative color for intensity ∈ [0, 1]
+    */
+    private func color(intensity: CGFloat) -> UIColor {
+        return UIColor(hue: 0.1, saturation:(intensity * 0.9) + 0.1 , brightness: (intensity * 0.3) + 0.7 , alpha: 1)
     }
 }
