@@ -50,23 +50,6 @@ class ActivityDetailViewController: UIViewController {
             return
         }
         
-        try? StravaInteractor.getActivity(id: activityID) { [weak self] detailedActivity, fault in
-            guard fault == nil else {
-
-                let alert = UIAlertController(title: "Fault", message: fault?.message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .`default`) { alert in
-                    if fault?.type == .authorization {
-                        self?.performSegue(withIdentifier: "logout", sender: self)
-                    }
-                })
-                self?.present(alert, animated: true)
-                return
-            }
-            
-            print(detailedActivity?.id)
-            
-        }
-        
         let queue: DispatchQueue = ServiceLocator.shared.getService()
         
         // Load Activity and Streams
@@ -135,7 +118,7 @@ class ActivityDetailViewController: UIViewController {
     */
     private func loadStream(activity: StravaActivity, type: StreamType, resolution: StreamResolution, done: @escaping (StravaStream) -> Void) {
         let queue: DispatchQueue = ServiceLocator.shared.getService()
-        queue.async {
+        queue.async { [weak self] in
             let cachedStream = activity.streams?.first(where: { $0.streamType == type })
             if let cachedStream = cachedStream {
                 DispatchQueue.main.async {
@@ -145,6 +128,10 @@ class ActivityDetailViewController: UIViewController {
                 try? StravaInteractor.getStream(activity: activity, type: type, resolution: .high) { streams, fault in
                     guard let streams = streams, let stream = streams.first(where: { $0.streamType == type }) else {
                         print("why is there no \(type.rawValue) stream for \(activity.id)?")
+                        
+                        if let fault = fault {
+                            self?.handleFault(fault)
+                        }
                         return
                     }
                     
@@ -195,19 +182,19 @@ class ActivityDetailViewController: UIViewController {
             case .speed:
                 streamType = .moving
             }
-            loadStream(activity: activity, type: streamType, resolution: .high) { [unowned self] stream in
+            loadStream(activity: activity, type: streamType, resolution: .high) { [weak self] stream in
                 if type == .speed {
-                    self.polyline?.spans = self.computeStyles(stream: stream)
+                    self?.polyline?.spans = self?.computeStyles(stream: stream)
                 } else if type == .heartRate {
                     let zones = athlete?.computedZones ?? [500]
-                    self.polyline?.spans = self.computeStylesForZones(stream: stream, zones: zones)
+                    self?.polyline?.spans = self?.computeStylesForZones(stream: stream, zones: zones)
                 }  else {
-                    self.polyline?.spans = self.computeStyles(stream: stream)
+                    self?.polyline?.spans = self?.computeStyles(stream: stream)
                 }
-                self.polyline?.strokeWidth = 10
+                self?.polyline?.strokeWidth = 10
                 
-                self.viewSelector.isEnabled = true
-                self.activityIndicator.stopAnimating()
+                self?.viewSelector.isEnabled = true
+                self?.activityIndicator.stopAnimating()
             }
         }
     }

@@ -89,6 +89,10 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     // Load activities from Strava API
     @IBAction func loadActivities(_ sender: UIButton) {
         try? StravaInteractor.getActivityList(40) { [weak self] activities, fault in
+            guard fault == nil else {
+                self?.handleFault(fault!)
+                return 
+            }
             self?.loadTableData()
         }
     }

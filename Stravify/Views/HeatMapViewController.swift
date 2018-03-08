@@ -50,7 +50,11 @@ class HeatMapViewController: UIViewController {
         bounds = GMSCoordinateBounds()
         
         let queue: DispatchQueue = ServiceLocator.shared.getService()
-        queue.async {
+        queue.async { [weak self] in
+            guard let weakself = self else {
+                return
+            }
+            
             let context: NSManagedObjectContext = ServiceLocator.shared.getService()
             
             let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "StravaActivity")
@@ -72,8 +76,8 @@ class HeatMapViewController: UIViewController {
                 let savedStream = activity.streams?.first(where: { $0.streamType == .latlng })
                 if let stream = savedStream {
                     for coordinate in stream.locationList {
-                        self.bounds = self.bounds.includingCoordinate(coordinate)
-                        self.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
+                        weakself.bounds = weakself.bounds.includingCoordinate(coordinate)
+                        weakself.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
                     }
                     group.leave()
                     // else grab from API
@@ -81,6 +85,11 @@ class HeatMapViewController: UIViewController {
                     try? StravaInteractor.getStream(activity: activity, type: .latlng, resolution: .low) { streams, fault in
                         defer {
                             group.leave()
+                        }
+                        
+                        guard fault == nil else {
+                            weakself.handleFault(fault!)
+                            return
                         }
 
                         guard let streams = streams, let latlng = streams.first(where: { $0.streamType == .latlng }) else {
@@ -93,8 +102,8 @@ class HeatMapViewController: UIViewController {
                         }
 
                         for coordinate in latlng.locationList {
-                            self.bounds = self.bounds.includingCoordinate(coordinate)
-                            self.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
+                            weakself.bounds = weakself.bounds.includingCoordinate(coordinate)
+                            weakself.locations.append(GMUWeightedLatLng(coordinate: coordinate, intensity: 1))
                         }
 
                     }
@@ -102,14 +111,14 @@ class HeatMapViewController: UIViewController {
             }
             
             group.notify(queue: .main) {
-                self.activityIndicator.stopAnimating()
-                self.loadButton.isEnabled = true
+                weakself.activityIndicator.stopAnimating()
+                weakself.loadButton.isEnabled = true
                 
-                print("done: loc count: \(self.locations.count) bounds: \(self.bounds.northEast);\(self.bounds.southWest)")
-                self.heatMapLayer.weightedData = self.locations
-                self.heatMapLayer.clearTileCache()
-                self.heatMapLayer.map = self.mapView
-                self.mapView.animate(with: GMSCameraUpdate.fit(self.bounds, withPadding: 15))
+                print("done: loc count: \(weakself.locations.count) bounds: \(weakself.bounds.northEast);\(weakself.bounds.southWest)")
+                weakself.heatMapLayer.weightedData = weakself.locations
+                weakself.heatMapLayer.clearTileCache()
+                weakself.heatMapLayer.map = weakself.mapView
+                weakself.mapView.animate(with: GMSCameraUpdate.fit(weakself.bounds, withPadding: 15))
             }
         }
     }
