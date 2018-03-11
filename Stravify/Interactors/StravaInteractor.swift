@@ -223,7 +223,7 @@ class StravaInteractor {
      - Parameter count: # of activities to get, default 10. API rejects requests with count > 200
      - Parameter done: callback
     */
-    static func getActivityList(_ count: Int = 10, _ done: @escaping ([StravaActivity]?, StravaFault?) -> Void)  throws {
+    static func getActivityList(_ count: Int = 10, _ page: Int = 1, _ done: @escaping ([StravaActivity]?, StravaFault?) -> Void)  throws {
         
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
@@ -233,6 +233,7 @@ class StravaInteractor {
         
         var queryItems: [URLQueryItem] = []
         queryItems.append(URLQueryItem(name: "per_page", value: "\(count)"))
+        queryItems.append(URLQueryItem(name: "page", value: "\(page)"))
         requestComponents.queryItems = queryItems
 
         var request = URLRequest(url: requestComponents.url!)

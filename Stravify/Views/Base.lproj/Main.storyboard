@@ -144,7 +144,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="136" height="155"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="b72-vB-nnK">
-                                        <rect key="frame" x="146" y="0.0" width="268" height="98"/>
+                                        <rect key="frame" x="146" y="0.0" width="268" height="88.333333333333329"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FirstName LastName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xta-h4-17g">
                                                 <rect key="frame" x="0.0" y="0.0" width="226.66666666666666" height="30"/>
@@ -158,13 +158,12 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d3D-w2-6Gj">
-                                                <rect key="frame" x="0.0" y="68" width="100" height="30"/>
-                                                <state key="normal" title="Load Activities"/>
-                                                <connections>
-                                                    <action selector="loadActivities:" destination="JwM-2e-Yd6" eventType="touchUpInside" id="P6p-cZ-jLj"/>
-                                                </connections>
-                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ativities: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ya-Jq-YYe">
+                                                <rect key="frame" x="0.0" y="68" width="79.666666666666671" height="20.333333333333329"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -239,6 +238,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="LHf-tk-2bF"/>
                     <connections>
+                        <outlet property="activityCountLabel" destination="8ya-Jq-YYe" id="K9J-tP-z02"/>
                         <outlet property="activityTable" destination="2N1-fe-i3C" id="SrN-ur-Wr6"/>
                         <outlet property="locationLabel" destination="vrF-Ua-Jgc" id="s8l-g7-LD2"/>
                         <outlet property="profileImage" destination="66l-3a-XfY" id="Jh1-jl-rBV"/>

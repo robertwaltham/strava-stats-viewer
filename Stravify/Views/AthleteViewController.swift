@@ -21,52 +21,70 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     let activityCellIdentifier = "ActivityCell"
     
-    var activityList: [StravaActivity] = []
     var viewModelList: [Int: ActivityViewModel] = [:]
+    
+    var activityCount: Int = 0
+    var loadedPages: [Int] = []
+    let PAGE_SIZE = 10
     
     @IBOutlet weak var profileImage: UIImageView?
     @IBOutlet weak var userNameLabel: UILabel?
     @IBOutlet weak var locationLabel: UILabel?
     @IBOutlet weak var activityTable: UITableView!
     
+    @IBOutlet weak var activityCountLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let user: StravaToken = ServiceLocator.shared.getService()
-        let athlete = try! user.loadAthlete()
+        guard let athlete = try! user.loadAthlete() else {
+            print("no athlete found")
+            return
+        }
         
-        userNameLabel?.text = athlete?.fullName
-        locationLabel?.text = athlete?.location
+        userNameLabel?.text = athlete.fullName
+        locationLabel?.text = athlete.location
         
-        athlete?.getProfileImage { image in
+        athlete.getProfileImage { image in
             DispatchQueue.main.async { [weak self] in
                 self?.profileImage?.image = image
             }
         }
         
-        loadTableData()
-        
         // load zones
-        if athlete?.zones == nil {
+        if athlete.zones == nil {
             try? StravaInteractor.getZones() { zones, fault in
                 if let zones = zones {
-                    athlete?.zones = zones["heart_rate"]
+                    athlete.zones = zones["heart_rate"]
                 }
             }
         }
         
         // load stats 
-        try? StravaInteractor.getStats(id: athlete!.id) { [weak self] stats, fault in
+        try? StravaInteractor.getStats(id: athlete.id) { [weak self] stats, fault in
             guard fault == nil else {
                 self?.handleFault(fault!)
                 return
             }
             
             if let stats = stats {
-                athlete?.stats = stats
+                athlete.stats = stats
+                self?.activityCount = stats.all_run_totals.count
+                
+                try? StravaInteractor.getActivityList(self?.PAGE_SIZE ?? 10) { [weak self] activities, fault in
+                    guard fault == nil else {
+                        self?.handleFault(fault!)
+                        return
+                    }
+                    
+                    self?.loadedPages.append(1)
+                    DispatchQueue.main.async { [weak self] in
+                        CoreDataInteractor.saveContext(container: ServiceLocator.shared.getService())
+                        self?.activityTable.reloadData()
+                    }
+                }
             }
-            
-            CoreDataInteractor.saveContext(container: ServiceLocator.shared.getService())
         }
     }
     
@@ -79,57 +97,69 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    // Load activity data from CoreData
-    func loadTableData() {
-        let queue: DispatchQueue = ServiceLocator.shared.getService()
-        queue.async { [weak self] in
-            do {
-                let context: NSManagedObjectContext = ServiceLocator.shared.getService()
-                
-                let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "StravaActivity")
-                fetch.returnsObjectsAsFaults = false
-                self?.activityList = try context.fetch(fetch) as! [StravaActivity]
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.activityTable.reloadData()
-                }
-            } catch {
-                print("No activities found")
-                print(error)
-            }
-        }
-    }
-    
-    // Load activities from Strava API
-    @IBAction func loadActivities(_ sender: UIButton) {
-        try? StravaInteractor.getActivityList(40) { [weak self] activities, fault in
-            guard fault == nil else {
-                self?.handleFault(fault!)
-                return 
-            }
-            self?.loadTableData()
-        }
-    }
-    
     // MARK: UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activityList.count
+        return activityCount
+    }
+    
+    
+    /**
+     Loads StravaActivity for the given IndexPath, based on ID order
+     
+     Also precaches the next page, if it hasn't been loaded yet 
+    */
+    private func loadActivity(indexPath: IndexPath) -> StravaActivity? {
+        
+        // precache next page
+        let nextPage = (indexPath.row / PAGE_SIZE) + 2 // starts at 1
+        
+        if !loadedPages.contains(nextPage) {
+            self.loadedPages.append(nextPage)
+            try? StravaInteractor.getActivityList(PAGE_SIZE, nextPage) { [weak self] activities, fault in
+                guard fault == nil else {
+                    self?.handleFault(fault!)
+                    return
+                }
+                CoreDataInteractor.saveContext(container: ServiceLocator.shared.getService())
+            }
+        }
+        
+        // load activity
+        let context: NSManagedObjectContext = ServiceLocator.shared.getService()
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "StravaActivity")
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetch.sortDescriptors = [sort]
+        fetch.fetchOffset = indexPath.row
+        fetch.fetchLimit = 1
+        
+        guard let results = try? context.fetch(fetch) as! [StravaActivity], results.count > 0 else {
+            print("no activity found for \(indexPath.row)")
+            return nil
+        }
+        
+        return results[0]
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: activityCellIdentifier)!
-        let activity = activityList[indexPath.row]
         if let activityCell = cell as? ActivityCell {
-            let viewModel: ActivityViewModel
-            if viewModelList.keys.contains(activity.id) {
-                viewModel = viewModelList[activity.id]!
+            if let activity = loadActivity(indexPath: indexPath) {
+                
+                let viewModel: ActivityViewModel
+                if viewModelList.keys.contains(activity.id) {
+                    viewModel = viewModelList[activity.id]!
+                } else {
+                    viewModel = ActivityViewModel(activity: activity)
+                    viewModelList[activity.id] = viewModel
+                }
+                
+                activityCell.viewModel = viewModel
             } else {
-                viewModel = ActivityViewModel(activity: activity)
-                viewModelList[activity.id] = viewModel
+                activityCell.activityName.text = ""
+                activityCell.previewImage.image = nil
+                activityCell.weatherLabel.text = ""
             }
-            
-            activityCell.viewModel = viewModel
         }
         
         return cell
@@ -142,7 +172,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     // MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("tapped on: \(activityList[indexPath.row].name)")
+//        print("tapped on: \(activityList[indexPath.row].name)")
     }
 }
 

@@ -213,7 +213,7 @@ class StravaActivity: NSManagedObject, Decodable {
         id = try container.decode(Int.self, forKey: .id)
 
         resource_state = try container.decode(Int.self, forKey: .resource_state)
-        external_id = try container.decode(String.self, forKey: .external_id)
+        external_id = try container.decodeIfPresent(String.self, forKey: .external_id)
         upload_id = try container.decodeIfPresent(Int.self, forKey: .upload_id) ?? 0
         name = try container.decode(String.self, forKey: .name)
         distance = try container.decode(Float.self, forKey: .distance)
@@ -245,8 +245,8 @@ class StravaActivity: NSManagedObject, Decodable {
         commute = try container.decode(Bool.self, forKey: .commute)
         manual = try container.decode(Bool.self, forKey: .manual)
         flagged = try container.decode(Bool.self, forKey: .flagged)
-        gear_id = try container.decode(String.self, forKey: .gear_id)
-        from_accepted_tag = try container.decode(Bool.self, forKey: .from_accepted_tag)
+        gear_id = try container.decodeIfPresent(String.self, forKey: .gear_id)
+        from_accepted_tag = try container.decodeIfPresent(Bool.self, forKey: .from_accepted_tag) ?? false
         
         average_speed = try container.decodeIfPresent(Float.self, forKey: .average_speed) ?? 0
         max_speed = try container.decodeIfPresent(Float.self, forKey: .max_speed) ?? 0
@@ -266,7 +266,7 @@ class StravaActivity: NSManagedObject, Decodable {
         workout_type = try container.decodeIfPresent(Int.self, forKey: .workout_type) ?? 0
         
         let mapContainer = try container.nestedContainer(keyedBy: CodingKeysMap.self, forKey: .map)
-        summary_polyline = try mapContainer.decode(String.self, forKey: .summary_polyline)
+        summary_polyline = try mapContainer.decodeIfPresent(String.self, forKey: .summary_polyline)
         
         let athleteContainer = try container.nestedContainer(keyedBy: CodingKeysAthlete.self, forKey: .athlete)
         athlete_id = try athleteContainer.decode(Int.self, forKey: .id)
