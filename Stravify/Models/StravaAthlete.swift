@@ -110,10 +110,23 @@ class StravaAthlete : NSManagedObject, Codable {
     @NSManaged var updated_at: String
     @NSManaged var badge_type_id: Int
     
+    
     // MARK: Loaded properties
+    
+    @NSManaged var stats_archive: Data // this is a codified StravaAthlete.Stats
+    
     var zones: Zones? // Loaded from the API
     
     // MARK: Computed properties
+    
+    var stats: Stats? {
+        get {
+            return try? JSONDecoder().decode(Stats.self, from: stats_archive)
+        }
+        set (stats) {
+            stats_archive = try! JSONEncoder().encode(stats)
+        }
+    }
     
     var fullName: String {
         get {
@@ -158,6 +171,68 @@ class StravaAthlete : NSManagedObject, Codable {
     class Zones : Codable {
         let custom_zones: Int
         let zones: [[String: Int]]
+    }
+    
+    /**
+     {
+         "biggest_ride_distance": 25539.8,
+         "biggest_climb_elevation_gain": 114.60000000000001,
+         "recent_ride_totals": {
+             "count": 0,
+             "distance": 0.0,
+             "moving_time": 0,
+             "elapsed_time": 0,
+             "elevation_gain": 0.0,
+             "achievement_count": 0
+         },
+         "recent_run_totals": {
+            ...
+         },
+         "recent_swim_totals": {
+            ...
+         },
+         "ytd_ride_totals": {
+            ...
+         },
+         "ytd_run_totals": {
+            ...
+         },
+         "ytd_swim_totals": {
+            ...
+         },
+         "all_ride_totals": {
+            ...
+         },
+         "all_run_totals": {
+            ...
+         },
+         "all_swim_totals": {
+            ...
+         }
+     }
+    */
+    class Stats: Codable {
+        
+        class Totals: Codable {
+            let count: Int
+            let distance: Double
+            let moving_time: Int
+            let elapsed_time: Int
+            let elevation_gain: Double
+            let achievement_count: Int?
+        }
+        
+        let biggest_ride_distance: Double
+        let biggest_climb_elevation_gain: Double
+        let recent_ride_totals: Totals
+        let recent_run_totals: Totals
+        let recent_swim_totals: Totals
+        let ytd_ride_totals: Totals
+        let ytd_run_totals: Totals
+        let ytd_swim_totals: Totals
+        let all_ride_totals: Totals
+        let all_run_totals: Totals
+        let all_swim_totals: Totals
     }
 }
 

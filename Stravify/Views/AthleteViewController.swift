@@ -54,6 +54,20 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
                 }
             }
         }
+        
+        // load stats 
+        try? StravaInteractor.getStats(id: athlete!.id) { [weak self] stats, fault in
+            guard fault == nil else {
+                self?.handleFault(fault!)
+                return
+            }
+            
+            if let stats = stats {
+                athlete?.stats = stats
+            }
+            
+            CoreDataInteractor.saveContext(container: ServiceLocator.shared.getService())
+        }
     }
     
     // Cell -> Activity Detail

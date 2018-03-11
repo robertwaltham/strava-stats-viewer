@@ -45,6 +45,8 @@ class StravaInteractor {
     private static let API_ATHLETE_ZONES = "athlete/zones"
     private static let API_ACTIVITY_PATH = "activities/"
     private static let API_STREAM_PATH = "streams/"
+    private static let API_ATHLETE_PATH = "athletes/"
+    private static let API_ATHLETE_STATS = "/stats"
     
     /**
      Container for API errors and messages
@@ -320,6 +322,27 @@ class StravaInteractor {
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             callbackHandler(type: [String: StravaAthlete.Zones].self, data: data, response: response, error: error, done: done)
+        }
+        task.resume()
+    }
+    
+    /**
+ 
+     - See: https://developers.strava.com/docs/reference/#api-Athletes-getStats
+    */
+    static func getStats(id: Int, done: @escaping (StravaAthlete.Stats?, StravaFault?) -> Void) throws {
+        // build request
+        var requestComponents = URLComponents(string: "")! // this shouldn't fail
+        requestComponents.scheme = AUTH_SCHEME
+        requestComponents.host = AUTH_HOST
+        requestComponents.path = API_BASE_PATH + API_ATHLETE_PATH + id.description + API_ATHLETE_STATS
+        
+        var request = URLRequest(url: requestComponents.url!)
+        request.httpMethod = "GET"
+        try addAuthField(request: &request)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            callbackHandler(type: StravaAthlete.Stats.self, data: data, response: response, error: error, done: done)
         }
         task.resume()
     }

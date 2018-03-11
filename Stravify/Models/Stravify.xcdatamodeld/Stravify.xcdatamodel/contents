@@ -68,6 +68,7 @@
         <attribute name="resource_state" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="sex" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stats_archive" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="updated_at" optional="YES" attributeType="String" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -86,7 +87,7 @@
     </entity>
     <elements>
         <element name="StravaActivity" positionX="-54" positionY="108" width="128" height="735"/>
-        <element name="StravaAthlete" positionX="-63" positionY="-18" width="128" height="270"/>
+        <element name="StravaAthlete" positionX="-63" positionY="-18" width="128" height="285"/>
         <element name="StravaStream" positionX="-54" positionY="135" width="128" height="150"/>
     </elements>
 </model>
