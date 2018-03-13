@@ -107,7 +107,7 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     /**
      Loads StravaActivity for the given IndexPath, based on ID order
      
-     Also precaches the next page, if it hasn't been loaded yet 
+     Also precaches the next page, if it hasn't been loaded yet
     */
     private func loadActivity(indexPath: IndexPath) -> StravaActivity? {
         

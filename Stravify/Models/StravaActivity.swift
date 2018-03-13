@@ -80,6 +80,10 @@ import CoreData
  */
 
 class StravaActivity: NSManagedObject, Decodable {
+    
+    // Variables provided by SummaryActivity
+    // See: https://developers.strava.com/docs/reference/#api-models-SummaryActivity
+    
     @NSManaged var id: Int
     @NSManaged var athlete_id: Int
     @NSManaged var resource_state: Int
@@ -128,6 +132,11 @@ class StravaActivity: NSManagedObject, Decodable {
     @NSManaged var workout_type: Int
     @NSManaged var summary_polyline: String?
     
+    // Variables provided as part of DetailedActivity
+    // See: https://developers.strava.com/docs/reference/#api-models-DetailedActivity
+    
+    
+    // Other variables loaded via API 
     @NSManaged var streams: Set<StravaStream>?
     
     enum CodingKeys: String, CodingKey {

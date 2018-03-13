@@ -248,6 +248,8 @@ class StravaInteractor {
     
     /**
      Gets detailed activity info
+     
+     - See: https://developers.strava.com/docs/reference/#api-Activities-getActivityById
     */
     static func getActivity(id: Int, done: @escaping (StravaActivity?, StravaFault?) -> Void) throws {
         // build request

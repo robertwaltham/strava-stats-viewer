@@ -53,6 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // new data will overwrite old data by default
         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         ServiceLocator.shared.registerService(service: context)
+        
+        // DEBUG: Core data notifications 
+        NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
 
         return true
     }
@@ -80,6 +83,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let container: NSPersistentContainer = ServiceLocator.shared.getService()
         CoreDataInteractor.saveContext(container: container)
     }
+    
+    /**
+     Debug observing of core data changes
+    */
+    @objc func managedObjectContextObjectsDidChange(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else { return }
+        
+        if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject> {
+            for object in inserts {
+                print("Inserted \(type(of: object))")
+            }
+        }
+        
+        if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject> {
+            for object in updates {
+                print("Updated \(type(of: object))")
+            }
+        }
+        
+        if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject> {
+            for object in deletes {
+                print("Deleted \(type(of: object))")
+            }
+        }
+    }
+
 
 
 }
