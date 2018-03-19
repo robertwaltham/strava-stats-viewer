@@ -297,7 +297,11 @@ class StravaActivity: NSManagedObject, Decodable {
         get {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-            return formatter.date(from: start_date_local)!
+            guard let date = formatter.date(from: start_date_local) else {
+                print("something went wrong formatting date for \(self)")
+                return Date()
+            }
+            return date 
         }
     }
     

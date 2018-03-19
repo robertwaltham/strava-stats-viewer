@@ -251,7 +251,7 @@ class StravaInteractor {
      
      - See: https://developers.strava.com/docs/reference/#api-Activities-getActivityById
     */
-    static func getActivity(id: Int, done: @escaping (StravaActivity?, StravaFault?) -> Void) throws {
+    static func getActivity(id: Int, done: @escaping (StravaActivity?, StravaFault?) -> Void) throws -> URLSessionDataTask {
         // build request
         var requestComponents = URLComponents(string: "")! // this shouldn't fail
         requestComponents.scheme = AUTH_SCHEME
@@ -266,10 +266,9 @@ class StravaInteractor {
         request.httpMethod = "GET"
         try addAuthField(request: &request)
         
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        return URLSession.shared.dataTask(with: request) { (data, response, error) in
             callbackHandler(type: StravaActivity.self, data: data, response: response, error: error, done: done)
         }
-        task.resume()
     }
     
     /**

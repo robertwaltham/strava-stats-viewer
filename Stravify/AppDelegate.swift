@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ServiceLocator.shared.registerService(service: context)
         
         // DEBUG: Core data notifications 
-        NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
+//        NotificationCenter.default.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context)
 
         return true
     }

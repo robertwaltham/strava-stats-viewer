@@ -72,9 +72,9 @@ class WeatherInteractor {
             }
             
             // uncomment this to guarantee a vancouver weather station that has conditions listed
-            // return station.TCID == "YVR"
+             return station.TCID == "YVR"
             
-            return hourlyFirst <= activityYear && hourlyLast >= activityYear
+//            return hourlyFirst <= activityYear && hourlyLast >= activityYear
         }
         
         guard first != nil else {
@@ -110,8 +110,13 @@ class WeatherInteractor {
      First checks filesystem cache then loads from the weather API.
      
      - see `ftp://ftp.tor.ec.gc.ca/Pub/Get_More_Data_Plus_de_donnees/Readme.txt`
+     
+     - Parameter activity: strava activity to look up weather for
+     - Parameter done: closure that takes the returned weather condition and whether it required a network load
+   
+     - Returns: URLSessionDataTask if the cached lookup fails 
     */
-    static func weather(activity: StravaActivity, done: @escaping (HourlyWeather?) -> Void) throws {
+    static func weather(activity: StravaActivity, done: @escaping (HourlyWeather?, Bool) -> Void) throws -> URLSessionDataTask? {
         let station = try WeatherInteractor.weatherStation(activity: activity)
         let key = idForSaving(date: activity.startDate, station: station)
 
@@ -119,9 +124,10 @@ class WeatherInteractor {
         let cachedWeather = try? FSInteractor.load(type: HourlyWeather.self, id: key)
         
         if let cachedWeather = cachedWeather {
-            done(cachedWeather)
+            print("Cached Weather for \(activity.name) - \(cachedWeather.weather) : \(cachedWeather.temp)")
+            done(cachedWeather, false)
         } else {
-            try loadWeather(activity: activity, station: station) { loadedWeather in
+            return try loadWeather(activity: activity, station: station) { loadedWeather in
                 
                 // match
                 let matched = loadedWeather.first { record in
@@ -134,11 +140,15 @@ class WeatherInteractor {
                     queue.async {
                         try? FSInteractor.save(matched, id: idForSaving(date: matched.date, station: station))
                     }
+                    print("Loaded Weather for \(activity.name) - \(matched.weather) : \(matched.temp)")
+                } else {
+                    print("Failed to load Weather for \(activity.name) ")
                 }
-                
-                done(matched)
+                done(matched, true)
             }
         }
+        
+        return nil
     }
     
     /**
@@ -151,7 +161,7 @@ class WeatherInteractor {
      
      `http://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=1706&Year=${year}&Month=${month}&Day=14&timeframe=1&submit= Download+Data`
     */
-    private static func loadWeather(activity: StravaActivity, station: WeatherStation, done: @escaping ([HourlyWeather]) -> Void) throws {
+    private static func loadWeather(activity: StravaActivity, station: WeatherStation, done: @escaping ([HourlyWeather]) -> Void) throws -> URLSessionDataTask {
         
         let date = activity.startDate
         let year = Calendar.current.component(.year, from: date)
@@ -178,7 +188,7 @@ class WeatherInteractor {
         var request = URLRequest(url: requestComponents.url!)
         request.httpMethod = "GET"
 
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        return URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
                 return
@@ -193,7 +203,6 @@ class WeatherInteractor {
             
             done(weatherRecords)
         }
-        task.resume()
     }
     
     /**

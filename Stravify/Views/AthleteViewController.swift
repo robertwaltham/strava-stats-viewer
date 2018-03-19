@@ -25,6 +25,14 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     
     var activityCount: Int = 0
     var loadedPages: [Int] = []
+    
+    // LIFO stack for loading remote data
+    // Currently used for weather loading - most recently queued should show up
+    // Only one task loads at a time 
+    var dataTasks: [String: URLSessionDataTask] = [:]
+    var taskOrder: [String] = []
+    var loadingTask: URLSessionDataTask? = nil
+    
     let PAGE_SIZE = 10
     
     @IBOutlet weak var profileImage: UIImageView?
@@ -144,13 +152,15 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: activityCellIdentifier)!
         if let activityCell = cell as? ActivityCell {
+            activityCell.weatherLabel.text = "" // clear weather
+
             if let activity = loadActivity(indexPath: indexPath) {
                 
                 let viewModel: ActivityViewModel
                 if viewModelList.keys.contains(activity.id) {
                     viewModel = viewModelList[activity.id]!
                 } else {
-                    viewModel = ActivityViewModel(activity: activity)
+                    viewModel = ActivityViewModel(activity: activity, parent: self)
                     viewModelList[activity.id] = viewModel
                 }
                 
@@ -158,7 +168,6 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
             } else {
                 activityCell.activityName.text = ""
                 activityCell.previewImage.image = nil
-                activityCell.weatherLabel.text = ""
             }
         }
         
@@ -172,7 +181,39 @@ class AthleteViewController : UIViewController, UITableViewDataSource, UITableVi
     // MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("tapped on: \(activityList[indexPath.row].name)")
+
+    }
+    
+    // MARK: Queue
+    
+    fileprivate func enqueue(task: URLSessionDataTask, key: String) {
+        if loadingTask == nil {
+            print("starting task \(key) ")
+            loadingTask = task
+            task.resume()
+        } else {
+            if !isQueued(key: key) {
+                dataTasks[key] = task
+                taskOrder.append(key)
+                print("queueing task \(key) (\(dataTasks.count))")
+            }
+        }
+    }
+    
+    fileprivate func isQueued(key: String) -> Bool {
+        return dataTasks.keys.contains(key)
+    }
+    
+    fileprivate func markDone() {
+        if dataTasks.count > 0 {
+            let nextKey = taskOrder.popLast() ?? ""
+            loadingTask = dataTasks.removeValue(forKey: nextKey)
+            loadingTask?.resume()
+            print("resuming task \(nextKey) (\(dataTasks.count))")
+        } else {
+            print("all tasks done")
+            loadingTask = nil
+        }
     }
 }
 
@@ -221,11 +262,13 @@ class ActivityCell: UITableViewCell {
  */
 class ActivityViewModel {
     let activity: StravaActivity
+    weak var parent: AthleteViewController?
     private var image: UIImage? = nil
     private var weather: String? = nil
     
-    init(activity: StravaActivity) {
+    init(activity: StravaActivity, parent: AthleteViewController) {
         self.activity = activity
+        self.parent = parent
     }
     
     var name: String {
@@ -263,7 +306,14 @@ class ActivityViewModel {
                 observer.send(value: weather)
             } else {
                 do {
-                    try WeatherInteractor.weather(activity: self.activity) { hourlyWeather in
+                    let key = self.activity.id.description
+                    
+                    // if there's a queued task then don't add another one
+                    guard let parent = self.parent, !parent.isQueued(key: key) else {
+                        return
+                    }
+                    
+                    let task = try WeatherInteractor.weather(activity: self.activity) { hourlyWeather, network in
                         DispatchQueue.main.async {
                             if let hourlyWeather = hourlyWeather {
                                 if hourlyWeather.weather == "NA" {
@@ -276,6 +326,16 @@ class ActivityViewModel {
                             }
                             observer.send(value: self.weather!)
                         }
+                        
+                        // if a network load was used, flag it as done
+                        if network {
+                            parent.markDone()
+                        }
+                    }
+                    
+                    // queue task for loading
+                    if let task = task {
+                        parent.enqueue(task: task, key: key)
                     }
                 } catch {
                     observer.send(error: error as NSError)
